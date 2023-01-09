@@ -1,0 +1,17 @@
+[
+{
+  "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
+  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -g -std=gnu++11 -o CMakeFiles\\cabeza.dir\\src\\main.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\main.cpp",
+  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/main.cpp"
+},
+{
+  "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
+  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -g -std=gnu++11 -o CMakeFiles\\cabeza.dir\\src\\graphics.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\graphics.cpp",
+  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics.cpp"
+},
+{
+  "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
+  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -g -std=gnu++11 -o CMakeFiles\\cabeza.dir\\src\\movements.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\movements.cpp",
+  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/movements.cpp"
+}
+]

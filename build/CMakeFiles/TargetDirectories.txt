@@ -1,0 +1,3 @@
+C:/Users/Bruno/Documents/Projects/Cabeza/build/CMakeFiles/cabeza.dir
+C:/Users/Bruno/Documents/Projects/Cabeza/build/CMakeFiles/edit_cache.dir
+C:/Users/Bruno/Documents/Projects/Cabeza/build/CMakeFiles/rebuild_cache.dir
