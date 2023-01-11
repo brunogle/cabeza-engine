@@ -7,13 +7,14 @@
 #include "movements.h"
 #include "graphics.h"
 
-#define DRAWING_WIDTH  41
-#define DRAWING_HEIGHT 25
-
 
 
 int main() {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	HWND hWndConsole = GetConsoleWindow();
+	SetWindowPos(hWndConsole, NULL, 0, 0, 900, 600, SWP_NOMOVE);
+
 
 	game_state state = initial_game_state();
 
