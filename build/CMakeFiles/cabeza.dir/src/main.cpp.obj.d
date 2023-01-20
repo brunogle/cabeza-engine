@@ -366,5 +366,7 @@ CMakeFiles/cabeza.dir/src/main.cpp.obj: \
  c:\portable\mingw64\include\c++\12.2.0\bits\ostream.tcc \
  c:\portable\mingw64\include\c++\12.2.0\istream \
  c:\portable\mingw64\include\c++\12.2.0\bits\istream.tcc \
- C:\Users\Bruno\Documents\Projects\Cabeza\src\movements.h \
- C:\Users\Bruno\Documents\Projects\Cabeza\src\graphics.h
+ c:\portable\mingw64\include\c++\12.2.0\bitset \
+ C:\Users\Bruno\Documents\Projects\Cabeza\src\graphics.h \
+ C:\Users\Bruno\Documents\Projects\Cabeza\src\positioning.h \
+ C:\Users\Bruno\Documents\Projects\Cabeza\src\performance.h

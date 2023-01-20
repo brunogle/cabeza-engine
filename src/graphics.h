@@ -1,22 +1,49 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include "movements.h"
-#include<windows.h>
+#include <windows.h>
+#include "positioning.h"
 
-#define IN_SQUARE_WIDTH  5
-#define IN_SQUARE_HEIGHT 2
+#define IN_SQUARE_WIDTH  6 //Width of a square on the board in characters
+#define IN_SQUARE_HEIGHT 3 //Height of a square on the board in characters
 
-const int drawing_width = IN_SQUARE_WIDTH*10 + 11;
-const int drawing_height = IN_SQUARE_HEIGHT*10 + 11;
+#define THIN_PIECE_CHAR L'▓' //Character to use when a single height piece is shown
+#define THICK_PIECE_CHAR L'█' //Character to use when a double height piece is shown
 
-const int graphic_array_size = drawing_height*drawing_width;
+#define RED_PLAYER_COLOR FOREGROUND_RED   //Colors for pieces
+#define BLUE_PLAYER_COLOR FOREGROUND_BLUE
+
+namespace graphics{
+
+    const int kDrawingWidth = IN_SQUARE_WIDTH*10 + 11;   //Calculate total size of the board image
+    const int kDrawingHeight = IN_SQUARE_HEIGHT*10 + 11;
+    const int kGraphicArraySize = kDrawingHeight*kDrawingWidth; //Size of the array needed to represent board image
+
+    /*
+    Struct used to pass secondary details onto the board drawing
+    */
+    struct board_graphic_details{
+        bool shade[10][10];
+    };
+
+    extern board_graphic_details no_detail_struct; //Default no aditional details structure. Defined in graphics.cpp
+
+    int init_graphics_console();
+    
+
+    /*
+    Generates CHAR_INFO array for use in WINAPI WriteConsoleOutptputW
+    Accetps a game_state and optionally a board_graphic_details to produce the array.
+    */
+    int generate_unicode_board(positioning::game_state state, CHAR_INFO drawing[kGraphicArraySize], board_graphic_details details = no_detail_struct);
 
 
-#define THIN_PIECE_CHAR L'▒'
-#define THICK_PIECE_CHAR L'█'
+    /*
+    Calls generate_unicode_board and draws it in console at specific coordinates
+    */
+    int draw_on_console(positioning::game_state state, board_graphic_details details=no_detail_struct);
 
-int generate_unicode_board(game_state state, CHAR_INFO drawing[graphic_array_size]);
-int draw_on_console(game_state state, HANDLE hConsole, int coord_x, int coord_y);
+}
+
 
 #endif

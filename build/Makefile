@@ -152,6 +152,30 @@ src/graphics.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/graphics.cpp.s
 .PHONY : src/graphics.cpp.s
 
+src/graphics_console.obj: src/graphics_console.cpp.obj
+.PHONY : src/graphics_console.obj
+
+# target to build an object file
+src/graphics_console.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj
+.PHONY : src/graphics_console.cpp.obj
+
+src/graphics_console.i: src/graphics_console.cpp.i
+.PHONY : src/graphics_console.i
+
+# target to preprocess a source file
+src/graphics_console.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/graphics_console.cpp.i
+.PHONY : src/graphics_console.cpp.i
+
+src/graphics_console.s: src/graphics_console.cpp.s
+.PHONY : src/graphics_console.s
+
+# target to generate assembly for a file
+src/graphics_console.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/graphics_console.cpp.s
+.PHONY : src/graphics_console.cpp.s
+
 src/main.obj: src/main.cpp.obj
 .PHONY : src/main.obj
 
@@ -176,29 +200,53 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-src/movements.obj: src/movements.cpp.obj
-.PHONY : src/movements.obj
+src/performance.obj: src/performance.cpp.obj
+.PHONY : src/performance.obj
 
 # target to build an object file
-src/movements.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/movements.cpp.obj
-.PHONY : src/movements.cpp.obj
+src/performance.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/performance.cpp.obj
+.PHONY : src/performance.cpp.obj
 
-src/movements.i: src/movements.cpp.i
-.PHONY : src/movements.i
+src/performance.i: src/performance.cpp.i
+.PHONY : src/performance.i
 
 # target to preprocess a source file
-src/movements.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/movements.cpp.i
-.PHONY : src/movements.cpp.i
+src/performance.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/performance.cpp.i
+.PHONY : src/performance.cpp.i
 
-src/movements.s: src/movements.cpp.s
-.PHONY : src/movements.s
+src/performance.s: src/performance.cpp.s
+.PHONY : src/performance.s
 
 # target to generate assembly for a file
-src/movements.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/movements.cpp.s
-.PHONY : src/movements.cpp.s
+src/performance.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/performance.cpp.s
+.PHONY : src/performance.cpp.s
+
+src/positioning.obj: src/positioning.cpp.obj
+.PHONY : src/positioning.obj
+
+# target to build an object file
+src/positioning.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/positioning.cpp.obj
+.PHONY : src/positioning.cpp.obj
+
+src/positioning.i: src/positioning.cpp.i
+.PHONY : src/positioning.i
+
+# target to preprocess a source file
+src/positioning.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/positioning.cpp.i
+.PHONY : src/positioning.cpp.i
+
+src/positioning.s: src/positioning.cpp.s
+.PHONY : src/positioning.s
+
+# target to generate assembly for a file
+src/positioning.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/positioning.cpp.s
+.PHONY : src/positioning.cpp.s
 
 # Help Target
 help:
@@ -212,12 +260,18 @@ help:
 	@echo ... src/graphics.obj
 	@echo ... src/graphics.i
 	@echo ... src/graphics.s
+	@echo ... src/graphics_console.obj
+	@echo ... src/graphics_console.i
+	@echo ... src/graphics_console.s
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s
-	@echo ... src/movements.obj
-	@echo ... src/movements.i
-	@echo ... src/movements.s
+	@echo ... src/performance.obj
+	@echo ... src/performance.i
+	@echo ... src/performance.s
+	@echo ... src/positioning.obj
+	@echo ... src/positioning.i
+	@echo ... src/positioning.s
 .PHONY : help
 
 
