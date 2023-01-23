@@ -128,6 +128,43 @@ cabeza/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/build
 .PHONY : cabeza/fast
 
+#=============================================================================
+# Target rules for targets named console_graphics_helper
+
+# Build rule for target.
+console_graphics_helper: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 console_graphics_helper
+.PHONY : console_graphics_helper
+
+# fast build rule for target.
+console_graphics_helper/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\console_graphics_helper.dir\build.make CMakeFiles/console_graphics_helper.dir/build
+.PHONY : console_graphics_helper/fast
+
+src/console_graphics_helper.obj: src/console_graphics_helper.cpp.obj
+.PHONY : src/console_graphics_helper.obj
+
+# target to build an object file
+src/console_graphics_helper.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\console_graphics_helper.dir\build.make CMakeFiles/console_graphics_helper.dir/src/console_graphics_helper.cpp.obj
+.PHONY : src/console_graphics_helper.cpp.obj
+
+src/console_graphics_helper.i: src/console_graphics_helper.cpp.i
+.PHONY : src/console_graphics_helper.i
+
+# target to preprocess a source file
+src/console_graphics_helper.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\console_graphics_helper.dir\build.make CMakeFiles/console_graphics_helper.dir/src/console_graphics_helper.cpp.i
+.PHONY : src/console_graphics_helper.cpp.i
+
+src/console_graphics_helper.s: src/console_graphics_helper.cpp.s
+.PHONY : src/console_graphics_helper.s
+
+# target to generate assembly for a file
+src/console_graphics_helper.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\console_graphics_helper.dir\build.make CMakeFiles/console_graphics_helper.dir/src/console_graphics_helper.cpp.s
+.PHONY : src/console_graphics_helper.cpp.s
+
 src/graphics.obj: src/graphics.cpp.obj
 .PHONY : src/graphics.obj
 
@@ -257,6 +294,10 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... cabeza
+	@echo ... console_graphics_helper
+	@echo ... src/console_graphics_helper.obj
+	@echo ... src/console_graphics_helper.i
+	@echo ... src/console_graphics_helper.s
 	@echo ... src/graphics.obj
 	@echo ... src/graphics.i
 	@echo ... src/graphics.s

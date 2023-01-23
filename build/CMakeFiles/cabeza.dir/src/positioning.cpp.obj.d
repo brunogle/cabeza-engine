@@ -135,4 +135,6 @@ CMakeFiles/cabeza.dir/src/positioning.cpp.obj: \
  c:\portable\mingw64\include\c++\12.2.0\bits\ostream.tcc \
  c:\portable\mingw64\include\c++\12.2.0\istream \
  c:\portable\mingw64\include\c++\12.2.0\bits\istream.tcc \
+ c:\portable\mingw64\include\c++\12.2.0\cmath \
+ c:\portable\mingw64\x86_64-w64-mingw32\include\math.h \
  C:\Users\Bruno\Documents\Projects\Cabeza\src\positioning.h

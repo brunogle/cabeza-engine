@@ -14,14 +14,64 @@
 #define PIECE_GORDO_MASK  0b00010000
 #define PIECE_PLAYER_MASK 0b10000000
 
-#define POSSIBLE_MOVEMENT_U    0x000001
-#define POSSIBLE_MOVEMENT_UU   0x000002
-#define POSSIBLE_MOVEMENT_UR   0x000004
-#define POSSIBLE_MOVEMENT_UUR  0x000008
-#define POSSIBLE_MOVEMENT_UURR 0x000010
-#define POSSIBLE_MOVEMENT_URR  0x000020
-#define POSSIBLE_MOVEMENT_R    0x000040
-#define POSSIBLE_MOVEMENT_RR   0x000080
+
+//Movement bits for cabeza
+#define POSSIBLE_MOVEMENT_C_U    0x000001
+#define POSSIBLE_MOVEMENT_C_UU   0x000002
+#define POSSIBLE_MOVEMENT_C_UR   0x000004
+#define POSSIBLE_MOVEMENT_C_UUR  0x000008
+#define POSSIBLE_MOVEMENT_C_UURR 0x000010
+#define POSSIBLE_MOVEMENT_C_URR  0x000020
+#define POSSIBLE_MOVEMENT_C_R    0x000040
+#define POSSIBLE_MOVEMENT_C_RR   0x000080
+#define POSSIBLE_MOVEMENT_C_RD   0x000100
+#define POSSIBLE_MOVEMENT_C_RRD  0x000200
+#define POSSIBLE_MOVEMENT_C_RRDD 0x000400
+#define POSSIBLE_MOVEMENT_C_RDD  0x000800
+#define POSSIBLE_MOVEMENT_C_D    0x001000
+#define POSSIBLE_MOVEMENT_C_DD   0x002000
+#define POSSIBLE_MOVEMENT_C_DL   0x004000
+#define POSSIBLE_MOVEMENT_C_DDL  0x008000
+#define POSSIBLE_MOVEMENT_C_DDLL 0x010000
+#define POSSIBLE_MOVEMENT_C_DLL  0x020000
+#define POSSIBLE_MOVEMENT_C_L    0x040000
+#define POSSIBLE_MOVEMENT_C_LL   0x080000
+#define POSSIBLE_MOVEMENT_C_LU   0x100000
+#define POSSIBLE_MOVEMENT_C_LLU  0x200000
+#define POSSIBLE_MOVEMENT_C_LLUU 0x400000
+#define POSSIBLE_MOVEMENT_C_LUU  0x800000
+
+//Movement bits for mini
+#define POSSIBLE_MOVEMENT_M_U  0x000001
+#define POSSIBLE_MOVEMENT_M_UU 0x000002
+#define POSSIBLE_MOVEMENT_M_UR 0x000004
+#define POSSIBLE_MOVEMENT_M_R  0x000008
+#define POSSIBLE_MOVEMENT_M_RR 0x000010
+#define POSSIBLE_MOVEMENT_M_RD 0x000020
+#define POSSIBLE_MOVEMENT_M_D  0x000040
+#define POSSIBLE_MOVEMENT_M_DD 0x000080
+#define POSSIBLE_MOVEMENT_M_DL 0x000100
+#define POSSIBLE_MOVEMENT_M_L  0x000200
+#define POSSIBLE_MOVEMENT_M_LL 0x000400
+#define POSSIBLE_MOVEMENT_M_LU 0x000800
+
+//Movement bts for flaco and chato
+#define POSSIBLE_MOVEMENT_FH_U  0x000001
+#define POSSIBLE_MOVEMENT_FH_UU 0x000002
+#define POSSIBLE_MOVEMENT_FH_UL 0x000004
+#define POSSIBLE_MOVEMENT_FH_UR 0x000008
+#define POSSIBLE_MOVEMENT_FH_R  0x000010
+#define POSSIBLE_MOVEMENT_FH_RR 0x000020
+#define POSSIBLE_MOVEMENT_FH_RU 0x000040
+#define POSSIBLE_MOVEMENT_FH_RD 0x000080
+#define POSSIBLE_MOVEMENT_FH_D  0x000100
+#define POSSIBLE_MOVEMENT_FH_DD 0x000200
+#define POSSIBLE_MOVEMENT_FH_DR 0x000400
+#define POSSIBLE_MOVEMENT_FH_DL 0x000800
+#define POSSIBLE_MOVEMENT_FH_L  0x001000
+#define POSSIBLE_MOVEMENT_FH_LL 0x002000
+#define POSSIBLE_MOVEMENT_FH_LD 0x004000
+#define POSSIBLE_MOVEMENT_FH_LU 0x008000
 
 namespace positioning{
 
@@ -31,14 +81,40 @@ namespace positioning{
     */
     typedef __uint128_t bitboard_t;
 
+    //TODO: TRY TO UNIFY MOVEMENT TPYES
+
+
     /*
-    Variable type that can encode all possible movements a piece can perform.
+    24 bit Variable type that can encode all possible movements for a CABEZA. (6 bit rotational symmetry)
     Encoded as:
-         1      0    0    0   1  1   1   1      0    0   0000000000000000
     MSB (LUU, LLUU, LLU, LU, LL, L, DLL, DDLL, DDL, DL, DD, D, RDD, RRDD, RRD, RD, RR, R, URR, UURR, UUR, UR, UU, U) LSB
-    This are all possible movements a piece can make. A cabeza that is alone can move in all 24 directions.
+    These are all possible movements a CABEZA can make. A cabeza that is alone can move in all 24 directions.
     */
-    typedef uint32_t possible_movements;
+
+    typedef uint32_t possible_movements_cabeza; //Used for Cabeza
+    const std::string kCabezaMovementBitName[] = {"U", "UU", "UR", "UUR", "UURR", "URR", "R", "RR", "RD", "RRD", "RRDD", "RDD", "D", "DD", "DL", "DDL", "DDLL", "DLL", "L", "LL", "LU", "LLU", "LLUU", "LUU"};
+
+
+    /*
+    12 bit Variable type that can encode all possible movements for a MINI. (3 bit rotational symmetry)
+    Encoded as:
+    MSB (LU, LL, L, DL, DD, D, RD, RR, R, UR, UU, U) LSB
+    These are all possible movements a MINI can make.
+    */
+    typedef uint32_t possible_movements_mini; //Used for Mini
+    const std::string kMiniMovementBitName[] = {"U", "UU", "UR", "R", "RR", "RD", "D", "DD", "DL", "L", "LL", "LU"};
+
+    /*
+    16 bit Variable type that can encode all possible movements for a FLACO. (4 bit rotational symmetry)
+    Encoded as:
+    MSB (LU, LD, LL, L, DL, DR, DD, D, RD, RU, RR, R, UR, UL, UU, U) LSB
+    These are all possible movements a FLACO or CHATO can make. Distiction is made between UR, RU moves, etc.
+    */
+    typedef uint32_t possible_movements_flaco; //Used for Flaco
+    const std::string kFlacoMovementBitName[] = {"U", "UU", "UL", "UR", "R", "RR", "RU", "RD", "D", "DD", "DR", "DL", "L", "LL", "LD", "LU"};
+
+    
+
 
     namespace{
         enum PieceType
@@ -103,30 +179,22 @@ namespace positioning{
                                 PieceType::blue_cabeza, PieceType::blue_mini, PieceType::blue_flaco, PieceType::blue_chato, PieceType::blue_gordo};
 
 
-    const std::string kMovementBitName[] = {"U", "UU", "UR", "UUR", "UURR", "URR", "R", "RR", "RD", "RRD", "RRDD", "RDD", "D", "DD", "DL", "DDL", "DDLL", "DLL", "L", "LL", "LU", "LLU", "LLUU", "LUU"};
+    /*
+    Drawings of zone masks arrays. 'P' Represents piece position. Non negative integers represent mask associated with that possition. '.' represents no mask.
+    '\n' for defining new row. Strings must be a square of characters.
+    Index represents rotation number.
+    */
 
+    const std::string zone_mask_drawing_cabeza[] = {"025136P47", "P10432765", "74P631520", "56723401P"};
+
+    const std::string zone_mask_drawing_mini[] = {".0.123.P.", ".1.P20.3.", ".P.321.0.", ".3.02P.1."};
+
+    const std::string zone_mask_drawing_flaco_flat[] = {".0..123.123..P..", ".11.P220.33.....", ".P..321.321..0..", ".33.022P.11....."};
 
     /*
-    Masks used to analyze each "zone" of each piece.
-    First index represents position as given by the lower left occupied square by the piece.
-    Second index reprensents the 4 symetties of the piece. Starting from (up-right), (right-down), (down-left) (left-up)
-    Third index represents the zone # being analyzed
+    Generates bitboard zone mask from string drawing for a given position, rotation and zone number
     */
-    extern bitboard_t zone_mask_cabeza[100][4][8];
-
-    //extern bitboard_t zone_mask_mini[100][4][5];
-
-    //extern bitboard_t zone_mask_flaco_f[100][4][7];
-    //extern bitboard_t zone_mask_flaco_v[100][4][6];
-    //extern bitboard_t zone_mask_flaco_h[100][4][6];
-
-    //extern bitboard_t zone_mask_chato_f[100][4][7];
-    //extern bitboard_t zone_mask_chato_v[100][4][6];
-    //extern bitboard_t zone_mask_chato_h[100][4][6];
-
-    //extern bitboard_t zone_mask_gordo[100][4][1];
-    
-    extern possible_movements movement_lookup_cabeza[256]; 
+    bitboard_t generate_zone_mask_from_string(std::string mask_drawing, int pos, int rot, int zone);
 
     /*
     Calculates and writes zone masks arrays. Must be called before using get_movments()
@@ -136,7 +204,7 @@ namespace positioning{
     /*
     Calculates and writes movement lookup arrays. Must be called before using get_movements()
     */
-    int generate_movement_lookup();
+    int generate_movement_lookups();
 
     /*
     Returns initial game state
@@ -166,8 +234,8 @@ namespace positioning{
 
     uint32_t get_movements(game_state state);
     
-    possible_movements get_cabeza_moves(game_state state, PieceIndex piece_idx);
-
-
+    possible_movements_cabeza get_cabeza_moves(game_state state, PieceIndex piece_idx);
+    possible_movements_mini get_mini_moves(game_state state, PieceIndex piece_idx);
+    possible_movements_flaco get_flaco_flat_moves(game_state state, PieceIndex piece_idx);
 }
 #endif

@@ -15,7 +15,8 @@
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -30,7 +31,8 @@
 					"name" : "cabeza",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -41,6 +43,13 @@
 					"id" : "cabeza::@6890427a1f51a3e7e1df",
 					"jsonFile" : "target-cabeza-Debug-07ba2e59e3d1602e6bb7.json",
 					"name" : "cabeza",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "console_graphics_helper::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-console_graphics_helper-Debug-247dc5f3944285393822.json",
+					"name" : "console_graphics_helper",
 					"projectIndex" : 0
 				}
 			]

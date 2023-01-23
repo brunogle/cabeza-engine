@@ -23,5 +23,10 @@
   "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
   "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -g -std=gnu++11 -o CMakeFiles\\cabeza.dir\\src\\graphics_console.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\graphics_console.cpp",
   "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics_console.cpp"
+},
+{
+  "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
+  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -g -std=gnu++11 -o CMakeFiles\\console_graphics_helper.dir\\src\\console_graphics_helper.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\console_graphics_helper.cpp",
+  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/console_graphics_helper.cpp"
 }
 ]

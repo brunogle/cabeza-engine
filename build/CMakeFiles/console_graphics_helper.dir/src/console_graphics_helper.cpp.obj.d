@@ -1,20 +1,15 @@
-CMakeFiles/cabeza.dir/src/main.cpp.obj: \
- C:\Users\Bruno\Documents\Projects\Cabeza\src\main.cpp \
- c:\portable\mingw64\x86_64-w64-mingw32\include\stdio.h \
- c:\portable\mingw64\x86_64-w64-mingw32\include\corecrt_stdio_config.h \
- c:\portable\mingw64\x86_64-w64-mingw32\include\corecrt.h \
+CMakeFiles/console_graphics_helper.dir/src/console_graphics_helper.cpp.obj: \
+ C:\Users\Bruno\Documents\Projects\Cabeza\src\console_graphics_helper.cpp \
+ c:\portable\mingw64\x86_64-w64-mingw32\include\windows.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\_mingw.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\_mingw_mac.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\_mingw_secapi.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\vadefs.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\sdks/_mingw_ddk.h \
- c:\portable\mingw64\x86_64-w64-mingw32\include\_mingw_off_t.h \
- c:\portable\mingw64\x86_64-w64-mingw32\include\swprintf.inl \
- c:\portable\mingw64\x86_64-w64-mingw32\include\sec_api\stdio_s.h \
- c:\portable\mingw64\x86_64-w64-mingw32\include\windows.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\sdkddkver.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\excpt.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\crtdefs.h \
+ c:\portable\mingw64\x86_64-w64-mingw32\include\corecrt.h \
  c:\portable\mingw64\lib\gcc\x86_64-w64-mingw32\12.2.0\include\stdarg.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\stdarg.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\_mingw_stdarg.h \
@@ -260,8 +255,6 @@ CMakeFiles/cabeza.dir/src/main.cpp.obj: \
  c:\portable\mingw64\x86_64-w64-mingw32\include\winsvc.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\mcx.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\imm.h \
- c:\portable\mingw64\x86_64-w64-mingw32\include\io.h \
- c:\portable\mingw64\x86_64-w64-mingw32\include\fcntl.h \
  c:\portable\mingw64\include\c++\12.2.0\iostream \
  c:\portable\mingw64\include\c++\12.2.0\ostream \
  c:\portable\mingw64\include\c++\12.2.0\ios \
@@ -271,7 +264,10 @@ CMakeFiles/cabeza.dir/src/main.cpp.obj: \
  c:\portable\mingw64\include\c++\12.2.0\bits\postypes.h \
  c:\portable\mingw64\include\c++\12.2.0\cwchar \
  c:\portable\mingw64\x86_64-w64-mingw32\include\wchar.h \
+ c:\portable\mingw64\x86_64-w64-mingw32\include\corecrt_stdio_config.h \
+ c:\portable\mingw64\x86_64-w64-mingw32\include\_mingw_off_t.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\_mingw_stat64.h \
+ c:\portable\mingw64\x86_64-w64-mingw32\include\swprintf.inl \
  c:\portable\mingw64\x86_64-w64-mingw32\include\sec_api\wchar_s.h \
  c:\portable\mingw64\include\c++\12.2.0\exception \
  c:\portable\mingw64\include\c++\12.2.0\bits\exception.h \
@@ -292,6 +288,8 @@ CMakeFiles/cabeza.dir/src/main.cpp.obj: \
  c:\portable\mingw64\include\c++\12.2.0\x86_64-w64-mingw32\bits\c++locale.h \
  c:\portable\mingw64\include\c++\12.2.0\clocale \
  c:\portable\mingw64\x86_64-w64-mingw32\include\locale.h \
+ c:\portable\mingw64\x86_64-w64-mingw32\include\stdio.h \
+ c:\portable\mingw64\x86_64-w64-mingw32\include\sec_api\stdio_s.h \
  c:\portable\mingw64\include\c++\12.2.0\cctype \
  c:\portable\mingw64\include\c++\12.2.0\bits\ios_base.h \
  c:\portable\mingw64\include\c++\12.2.0\ext\atomicity.h \
@@ -366,13 +364,5 @@ CMakeFiles/cabeza.dir/src/main.cpp.obj: \
  c:\portable\mingw64\include\c++\12.2.0\bits\ostream.tcc \
  c:\portable\mingw64\include\c++\12.2.0\istream \
  c:\portable\mingw64\include\c++\12.2.0\bits\istream.tcc \
- c:\portable\mingw64\include\c++\12.2.0\bitset \
- c:\portable\mingw64\include\c++\12.2.0\chrono \
- c:\portable\mingw64\include\c++\12.2.0\bits\chrono.h \
- c:\portable\mingw64\include\c++\12.2.0\ratio \
- c:\portable\mingw64\include\c++\12.2.0\limits \
- c:\portable\mingw64\include\c++\12.2.0\ctime \
- c:\portable\mingw64\include\c++\12.2.0\bits\parse_numbers.h \
- C:\Users\Bruno\Documents\Projects\Cabeza\src\graphics.h \
- C:\Users\Bruno\Documents\Projects\Cabeza\src\positioning.h \
- C:\Users\Bruno\Documents\Projects\Cabeza\src\performance.h
+ c:\portable\mingw64\x86_64-w64-mingw32\include\tchar.h \
+ c:\portable\mingw64\x86_64-w64-mingw32\include\sec_api\tchar_s.h

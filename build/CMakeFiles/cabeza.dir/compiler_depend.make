@@ -1061,6 +1061,12 @@ CMakeFiles/cabeza.dir/src/main.cpp.obj: C:/Users/Bruno/Documents/Projects/Cabeza
   C:/Portable/mingw64/include/c++/12.2.0/istream \
   C:/Portable/mingw64/include/c++/12.2.0/bits/istream.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/bitset \
+  C:/Portable/mingw64/include/c++/12.2.0/chrono \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/chrono.h \
+  C:/Portable/mingw64/include/c++/12.2.0/ratio \
+  C:/Portable/mingw64/include/c++/12.2.0/limits \
+  C:/Portable/mingw64/include/c++/12.2.0/ctime \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/parse_numbers.h \
   C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics.h \
   C:/Users/Bruno/Documents/Projects/Cabeza/src/positioning.h \
   C:/Users/Bruno/Documents/Projects/Cabeza/src/performance.h
@@ -1576,6 +1582,8 @@ CMakeFiles/cabeza.dir/src/positioning.cpp.obj: C:/Users/Bruno/Documents/Projects
   C:/Portable/mingw64/include/c++/12.2.0/bits/ostream.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/istream \
   C:/Portable/mingw64/include/c++/12.2.0/bits/istream.tcc \
+  C:/Portable/mingw64/include/c++/12.2.0/cmath \
+  C:/Portable/mingw64/x86_64-w64-mingw32/include/math.h \
   C:/Users/Bruno/Documents/Projects/Cabeza/src/positioning.h
 
 
@@ -1668,6 +1676,8 @@ C:/Portable/mingw64/x86_64-w64-mingw32/include/wctype.h:
 C:/Portable/mingw64/x86_64-w64-mingw32/include/corecrt_startup.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/mwaitxintrin.h:
+
+C:/Portable/mingw64/x86_64-w64-mingw32/include/math.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/sal.h:
 
@@ -2334,3 +2344,5 @@ C:/Portable/mingw64/include/c++/12.2.0/bitset:
 C:/Portable/mingw64/include/c++/12.2.0/ctime:
 
 C:/Users/Bruno/Documents/Projects/Cabeza/src/positioning.cpp:
+
+C:/Portable/mingw64/include/c++/12.2.0/cmath:

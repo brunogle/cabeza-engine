@@ -63,6 +63,7 @@ CMAKE_BINARY_DIR = C:\Users\Bruno\Documents\Projects\Cabeza\build
 
 # The main recursive "all" target.
 all: CMakeFiles/cabeza.dir/all
+all: CMakeFiles/console_graphics_helper.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -71,6 +72,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/cabeza.dir/clean
+clean: CMakeFiles/console_graphics_helper.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -98,6 +100,32 @@ cabeza: CMakeFiles/cabeza.dir/rule
 CMakeFiles/cabeza.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/clean
 .PHONY : CMakeFiles/cabeza.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/console_graphics_helper.dir
+
+# All Build rule for target.
+CMakeFiles/console_graphics_helper.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\console_graphics_helper.dir\build.make CMakeFiles/console_graphics_helper.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\console_graphics_helper.dir\build.make CMakeFiles/console_graphics_helper.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles --progress-num=7,8 "Built target console_graphics_helper"
+.PHONY : CMakeFiles/console_graphics_helper.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/console_graphics_helper.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/console_graphics_helper.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles 0
+.PHONY : CMakeFiles/console_graphics_helper.dir/rule
+
+# Convenience name for target.
+console_graphics_helper: CMakeFiles/console_graphics_helper.dir/rule
+.PHONY : console_graphics_helper
+
+# clean rule for target.
+CMakeFiles/console_graphics_helper.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\console_graphics_helper.dir\build.make CMakeFiles/console_graphics_helper.dir/clean
+.PHONY : CMakeFiles/console_graphics_helper.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
