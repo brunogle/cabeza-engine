@@ -7,16 +7,27 @@
 #define IN_SQUARE_WIDTH  6 //Width of a square on the board in characters
 #define IN_SQUARE_HEIGHT 3 //Height of a square on the board in characters
 
-#define THIN_PIECE_CHAR L'▓' //Character to use when a single height piece is shown
+#define THIN_PIECE_CHAR L'▒' //Character to use when a single height piece is shown
 #define THICK_PIECE_CHAR L'█' //Character to use when a double height piece is shown
 
-#define RED_PLAYER_COLOR FOREGROUND_RED   //Colors for pieces
-#define BLUE_PLAYER_COLOR FOREGROUND_BLUE
+#define RED_PLAYER_CABEZA_COLOR FOREGROUND_RED
+#define BLUE_PLAYER_CABEZA_COLOR FOREGROUND_BLUE
+#define RED_PLAYER_PIECE_COLOR FOREGROUND_RED
+#define BLUE_PLAYER_PIECE_COLOR FOREGROUND_BLUE
+
+#define BOARD_COLOR FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN
 
 namespace graphics{
 
-    const int kDrawingWidth = IN_SQUARE_WIDTH*10 + 11;   //Calculate total size of the board image
-    const int kDrawingHeight = IN_SQUARE_HEIGHT*10 + 11;
+    const int kBoardDrawingWidth = IN_SQUARE_WIDTH*10 + 11;   //Calculate total size of the board image
+    const int kBoardDrawingHeight = IN_SQUARE_HEIGHT*10 + 11;
+
+    const int kDrawingWidth = kBoardDrawingWidth + 5;
+    const int kDrawingHeight = kBoardDrawingHeight + 5;
+
+    const int kBoardMarginLower = kDrawingWidth - kBoardDrawingWidth;
+    const int kBoardMarginRight = kDrawingHeight - kBoardDrawingHeight;
+
     const int kGraphicArraySize = kDrawingHeight*kDrawingWidth; //Size of the array needed to represent board image
 
     /*

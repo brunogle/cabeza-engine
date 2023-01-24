@@ -7,9 +7,6 @@
 
 
 namespace positioning{
-
-
-
     /*
     Returns starting game state
     */
@@ -39,7 +36,7 @@ namespace positioning{
     game_state random_game_state(){
         game_state state;
 
-        state.turn = Team(rand()%2); //Generate random team
+        state.turn = Team(5*(rand()%2)); //Generate random team
 
 
 
@@ -197,10 +194,13 @@ namespace positioning{
     First index encodes the possible possitions, as obtained by ctz_u128()
     Second index encodes the four possible symmetries used in each case.
     Third index encodes the 1,5,6,7 or 8 zones used in analyzing a piece.
+    Fourth index represents orientation if applicable.
     */
     bitboard_t zone_mask_cabeza[100][4][8];
     bitboard_t zone_mask_mini[100][4][4];
-    bitboard_t zone_mask_flaco_flat[100][4][4];
+    bitboard_t zone_mask_flaco[100][4][4][3];
+    bitboard_t zone_mask_chato[100][4][4][3];
+    bitboard_t zone_mask_gordo[100][4];
 
     int generate_zone_masks(){
 
@@ -209,13 +209,25 @@ namespace positioning{
                 for(int zone = 0; zone < 8; zone++)
                     zone_mask_cabeza[pos][rot][zone] = generate_zone_mask_from_string(zone_mask_drawing_cabeza[rot], pos, rot, zone);
 
-                for(int zone = 0; zone < 4; zone++)
+                for(int zone = 0; zone < 4; zone++){
+                    
                     zone_mask_mini[pos][rot][zone] = generate_zone_mask_from_string(zone_mask_drawing_mini[rot], pos, rot, zone);
 
-                for(int zone = 0; zone < 4; zone++)
-                    zone_mask_flaco_flat[pos][rot][zone] = generate_zone_mask_from_string(zone_mask_drawing_flaco_flat[rot], pos, rot, zone);
+                    zone_mask_flaco[pos][rot][zone][0] = generate_zone_mask_from_string(zone_mask_drawing_flaco_flat[rot], pos, rot, zone);
 
+                    zone_mask_flaco[pos][rot][zone][1] = generate_zone_mask_from_string(zone_mask_drawing_flaco_horizontal[rot], pos, rot, zone);
 
+                    zone_mask_flaco[pos][rot][zone][2] = generate_zone_mask_from_string(zone_mask_drawing_flaco_vertical[rot], pos, rot, zone);
+
+                    zone_mask_chato[pos][rot][zone][0] = generate_zone_mask_from_string(zone_mask_drawing_chato_flat[rot], pos, rot, zone);
+
+                    zone_mask_chato[pos][rot][zone][1] = generate_zone_mask_from_string(zone_mask_drawing_chato_horizontal[rot], pos, rot, zone);
+
+                    zone_mask_chato[pos][rot][zone][2] = generate_zone_mask_from_string(zone_mask_drawing_chato_vertical[rot], pos, rot, zone);
+
+                }
+
+                zone_mask_gordo[pos][rot] =  generate_zone_mask_from_string(zone_mask_drawing_gordo[rot], pos, rot, 0);
             }
         }
 
@@ -262,9 +274,9 @@ namespace positioning{
 
     }
 
-    possible_movements_cabeza movement_lookup_cabeza[256]; 
-    possible_movements_mini movement_lookup_mini[16];
-    possible_movements_flaco movement_lookup_flaco[16];
+    possible_movements_c movement_lookup_c[256]; 
+    possible_movements_m movement_lookup_m[16];
+    possible_movements_fh movement_lookup_fh[16];
 
     int generate_movement_lookups(){
 
@@ -341,69 +353,84 @@ namespace positioning{
                 }
             }
 
-            possible_movements_cabeza possible_movements_ = 0;
+            possible_movements_c possible_movements_ = 0;
 
-            possible_movements_ |= (occupancy[0][1] == 'a') ? POSSIBLE_MOVEMENT_C_U : 0;
-            possible_movements_ |= (occupancy[0][2] == 'a') ? POSSIBLE_MOVEMENT_C_UU : 0;
-            possible_movements_ |= (occupancy[1][0] == 'a') ? POSSIBLE_MOVEMENT_C_R : 0;
-            possible_movements_ |= (occupancy[1][1] == 'a') ? POSSIBLE_MOVEMENT_C_UR : 0;
-            possible_movements_ |= (occupancy[1][2] == 'a') ? POSSIBLE_MOVEMENT_C_UUR : 0;
-            possible_movements_ |= (occupancy[2][0] == 'a') ? POSSIBLE_MOVEMENT_C_RR : 0;
-            possible_movements_ |= (occupancy[2][1] == 'a') ? POSSIBLE_MOVEMENT_C_URR : 0;
-            possible_movements_ |= (occupancy[2][2] == 'a') ? POSSIBLE_MOVEMENT_C_UURR : 0;
+            possible_movements_ |= (occupancy[0][1] == 'a') ? POSSIBLE_MOVEMENT_C_N : 0;
+            possible_movements_ |= (occupancy[0][2] == 'a') ? POSSIBLE_MOVEMENT_C_NN : 0;
+            possible_movements_ |= (occupancy[1][0] == 'a') ? POSSIBLE_MOVEMENT_C_E : 0;
+            possible_movements_ |= (occupancy[1][1] == 'a') ? POSSIBLE_MOVEMENT_C_NE : 0;
+            possible_movements_ |= (occupancy[1][2] == 'a') ? POSSIBLE_MOVEMENT_C_NNE : 0;
+            possible_movements_ |= (occupancy[2][0] == 'a') ? POSSIBLE_MOVEMENT_C_EE : 0;
+            possible_movements_ |= (occupancy[2][1] == 'a') ? POSSIBLE_MOVEMENT_C_NEE : 0;
+            possible_movements_ |= (occupancy[2][2] == 'a') ? POSSIBLE_MOVEMENT_C_NNEE : 0;
 
-            movement_lookup_cabeza[addr] = possible_movements_;
+            movement_lookup_c[addr] = possible_movements_;
 
         }
 
         //Generate mini movement lookups
 
-        movement_lookup_mini[0b0000] = POSSIBLE_MOVEMENT_M_U | POSSIBLE_MOVEMENT_M_UU | POSSIBLE_MOVEMENT_M_UR | POSSIBLE_MOVEMENT_M_LU;
-        movement_lookup_mini[0b0001] = POSSIBLE_MOVEMENT_M_U | POSSIBLE_MOVEMENT_M_UR | POSSIBLE_MOVEMENT_M_LU;
-        movement_lookup_mini[0b0010] = POSSIBLE_MOVEMENT_M_U | POSSIBLE_MOVEMENT_M_UU | POSSIBLE_MOVEMENT_M_UR;
-        movement_lookup_mini[0b0011] = POSSIBLE_MOVEMENT_M_U | POSSIBLE_MOVEMENT_M_UR;
-        movement_lookup_mini[0b0100] = (possible_movements_mini) 0;
-        movement_lookup_mini[0b0101] = (possible_movements_mini) 0;
-        movement_lookup_mini[0b0110] = (possible_movements_mini) 0;
-        movement_lookup_mini[0b0111] = (possible_movements_mini) 0;
-        movement_lookup_mini[0b1000] = POSSIBLE_MOVEMENT_M_U | POSSIBLE_MOVEMENT_M_UU | POSSIBLE_MOVEMENT_M_LU;
-        movement_lookup_mini[0b1001] = POSSIBLE_MOVEMENT_M_U | POSSIBLE_MOVEMENT_M_LU;
-        movement_lookup_mini[0b1010] = POSSIBLE_MOVEMENT_M_U | POSSIBLE_MOVEMENT_M_UU;
-        movement_lookup_mini[0b1011] = POSSIBLE_MOVEMENT_M_U;
-        movement_lookup_mini[0b1100] = (possible_movements_mini) 0;
-        movement_lookup_mini[0b1101] = (possible_movements_mini) 0;
-        movement_lookup_mini[0b1110] = (possible_movements_mini) 0;
-        movement_lookup_mini[0b1111] = (possible_movements_mini) 0;
+        movement_lookup_m[0b0000] = POSSIBLE_MOVEMENT_M_N | POSSIBLE_MOVEMENT_M_NN | POSSIBLE_MOVEMENT_M_NE | POSSIBLE_MOVEMENT_M_NW;
+        movement_lookup_m[0b0001] = POSSIBLE_MOVEMENT_M_N | POSSIBLE_MOVEMENT_M_NE | POSSIBLE_MOVEMENT_M_NW;
+        movement_lookup_m[0b0010] = POSSIBLE_MOVEMENT_M_N | POSSIBLE_MOVEMENT_M_NN | POSSIBLE_MOVEMENT_M_NE;
+        movement_lookup_m[0b0011] = POSSIBLE_MOVEMENT_M_N | POSSIBLE_MOVEMENT_M_NE;
+        movement_lookup_m[0b0100] = (possible_movements_m) 0;
+        movement_lookup_m[0b0101] = (possible_movements_m) 0;
+        movement_lookup_m[0b0110] = (possible_movements_m) 0;
+        movement_lookup_m[0b0111] = (possible_movements_m) 0;
+        movement_lookup_m[0b1000] = POSSIBLE_MOVEMENT_M_N | POSSIBLE_MOVEMENT_M_NN | POSSIBLE_MOVEMENT_M_NW;
+        movement_lookup_m[0b1001] = POSSIBLE_MOVEMENT_M_N | POSSIBLE_MOVEMENT_M_NW;
+        movement_lookup_m[0b1010] = POSSIBLE_MOVEMENT_M_N | POSSIBLE_MOVEMENT_M_NN;
+        movement_lookup_m[0b1011] = POSSIBLE_MOVEMENT_M_N;
+        movement_lookup_m[0b1100] = (possible_movements_m) 0;
+        movement_lookup_m[0b1101] = (possible_movements_m) 0;
+        movement_lookup_m[0b1110] = (possible_movements_m) 0;
+        movement_lookup_m[0b1111] = (possible_movements_m) 0;
 
         //Generate falco movement lookups
 
-        movement_lookup_flaco[0b0000] = POSSIBLE_MOVEMENT_FH_U | POSSIBLE_MOVEMENT_FH_UU | POSSIBLE_MOVEMENT_FH_UR | POSSIBLE_MOVEMENT_FH_UL;
-        movement_lookup_flaco[0b0001] = POSSIBLE_MOVEMENT_FH_U | POSSIBLE_MOVEMENT_FH_UR | POSSIBLE_MOVEMENT_FH_UL;
-        movement_lookup_flaco[0b0010] = POSSIBLE_MOVEMENT_FH_U | POSSIBLE_MOVEMENT_FH_UU | POSSIBLE_MOVEMENT_FH_UR;
-        movement_lookup_flaco[0b0011] = POSSIBLE_MOVEMENT_FH_U | POSSIBLE_MOVEMENT_FH_UR;
-        movement_lookup_flaco[0b0100] = (possible_movements_mini) 0;
-        movement_lookup_flaco[0b0101] = (possible_movements_mini) 0;
-        movement_lookup_flaco[0b0110] = (possible_movements_mini) 0;
-        movement_lookup_flaco[0b0111] = (possible_movements_mini) 0;
-        movement_lookup_flaco[0b1000] = POSSIBLE_MOVEMENT_FH_U | POSSIBLE_MOVEMENT_FH_UU | POSSIBLE_MOVEMENT_FH_UL;
-        movement_lookup_flaco[0b1001] = POSSIBLE_MOVEMENT_FH_U | POSSIBLE_MOVEMENT_FH_UL;
-        movement_lookup_flaco[0b1010] = POSSIBLE_MOVEMENT_FH_U | POSSIBLE_MOVEMENT_FH_UU;
-        movement_lookup_flaco[0b1011] = POSSIBLE_MOVEMENT_FH_U;
-        movement_lookup_flaco[0b1100] = (possible_movements_mini) 0;
-        movement_lookup_flaco[0b1101] = (possible_movements_mini) 0;
-        movement_lookup_flaco[0b1110] = (possible_movements_mini) 0;
-        movement_lookup_flaco[0b1111] = (possible_movements_mini) 0;
+        movement_lookup_fh[0b0000] = POSSIBLE_MOVEMENT_FH_N | POSSIBLE_MOVEMENT_FH_NN | POSSIBLE_MOVEMENT_FH_NE | POSSIBLE_MOVEMENT_FH_NW;
+        movement_lookup_fh[0b0001] = POSSIBLE_MOVEMENT_FH_N | POSSIBLE_MOVEMENT_FH_NE | POSSIBLE_MOVEMENT_FH_NW;
+        movement_lookup_fh[0b0010] = POSSIBLE_MOVEMENT_FH_N | POSSIBLE_MOVEMENT_FH_NN | POSSIBLE_MOVEMENT_FH_NE;
+        movement_lookup_fh[0b0011] = POSSIBLE_MOVEMENT_FH_N | POSSIBLE_MOVEMENT_FH_NE;
+        movement_lookup_fh[0b0100] = (possible_movements_m) 0;
+        movement_lookup_fh[0b0101] = (possible_movements_m) 0;
+        movement_lookup_fh[0b0110] = (possible_movements_m) 0;
+        movement_lookup_fh[0b0111] = (possible_movements_m) 0;
+        movement_lookup_fh[0b1000] = POSSIBLE_MOVEMENT_FH_N | POSSIBLE_MOVEMENT_FH_NN | POSSIBLE_MOVEMENT_FH_NW;
+        movement_lookup_fh[0b1001] = POSSIBLE_MOVEMENT_FH_N | POSSIBLE_MOVEMENT_FH_NW;
+        movement_lookup_fh[0b1010] = POSSIBLE_MOVEMENT_FH_N | POSSIBLE_MOVEMENT_FH_NN;
+        movement_lookup_fh[0b1011] = POSSIBLE_MOVEMENT_FH_N;
+        movement_lookup_fh[0b1100] = (possible_movements_m) 0;
+        movement_lookup_fh[0b1101] = (possible_movements_m) 0;
+        movement_lookup_fh[0b1110] = (possible_movements_m) 0;
+        movement_lookup_fh[0b1111] = (possible_movements_m) 0;
         
         return 0;
     }
 
-    possible_movements_cabeza get_cabeza_moves(game_state state, PieceIndex piece_idx){
+    
 
-        int pos = ctz_u128(state.pieces[piece_idx].bitboard);
+    possible_movements get_movements(game_state state){
+
+        possible_movements possible_movements_;
+
+        possible_movements_.cabeza = get_cabeza_moves(state);
+        possible_movements_.mini = get_mini_moves(state);
+        possible_movements_.flaco = get_flaco_moves(state);
+        possible_movements_.chato = get_chato_moves(state);
+        possible_movements_.gordo = get_gordo_moves(state);
+
+        return possible_movements_;
+    }
+
+    possible_movements_c get_cabeza_moves(game_state state){
+
+        int pos = ctz_u128(state.pieces[0 + (int)state.turn].bitboard);
 
         bitboard_t occupancy = get_occupancy(state, false);
 
-        possible_movements_cabeza moves = 0;
+        possible_movements_c moves = 0;
 
         uint8_t zone_occupancy = 0;
 
@@ -414,19 +441,19 @@ namespace positioning{
             for(int zone = 0; zone < 8; zone++){
                 zone_occupancy |= ((zone_mask_cabeza[pos][rot][zone] & occupancy) != 0) << zone;
             }
-            moves |= movement_lookup_cabeza[zone_occupancy] << rot*6;;
+            moves |= movement_lookup_c[zone_occupancy] << rot*6;;
         }
         moves |= moves >> 24; //Performs or operation to joing last rotation with first
         return moves;
     }
 
-    possible_movements_mini get_mini_moves(game_state state, PieceIndex piece_idx){
+    possible_movements_m get_mini_moves(game_state state){
 
-        int pos = ctz_u128(state.pieces[piece_idx].bitboard);
+        int pos = ctz_u128(state.pieces[1 + (int)state.turn].bitboard);
 
         bitboard_t occupancy = get_occupancy(state, true);
 
-        possible_movements_mini moves = 0;
+        possible_movements_m moves = 0;
 
         uint8_t zone_occupancy = 0;
 
@@ -437,19 +464,21 @@ namespace positioning{
             for(int zone = 0; zone < 4; zone++){
                 zone_occupancy |= ((zone_mask_mini[pos][rot][zone] & occupancy) != 0) << zone;
             }
-            moves |= movement_lookup_mini[zone_occupancy] << rot*3;;
+            moves |= movement_lookup_m[zone_occupancy] << rot*3;;
         }
         moves |= moves >> 12; //Performs or operation to joing last rotation with first
         return moves;
     }
 
-    possible_movements_flaco get_flaco_flat_moves(game_state state, PieceIndex piece_idx){
+    possible_movements_fh get_flaco_moves(game_state state){
 
-        int pos = ctz_u128(state.pieces[piece_idx].bitboard);
+        piece p = state.pieces[2 + (int)state.turn];
+
+        int pos = ctz_u128(p.bitboard);
 
         bitboard_t occupancy = get_occupancy(state, true);
 
-        possible_movements_mini moves = 0;
+        possible_movements_m moves = 0;
 
         uint8_t zone_occupancy = 0;
 
@@ -458,11 +487,59 @@ namespace positioning{
             zone_occupancy = 0;
 
             for(int zone = 0; zone < 4; zone++){
-                zone_occupancy |= ((zone_mask_flaco_flat[pos][rot][zone] & occupancy) != 0) << zone;
+                zone_occupancy |= ((zone_mask_flaco[pos][rot][zone][p.o] & occupancy) != 0) << zone;
             }
-            moves |= movement_lookup_flaco[zone_occupancy] << rot*4;;
+            moves |= movement_lookup_fh[zone_occupancy] << rot*4;;
         }
         return moves;
     }
+
+    possible_movements_fh get_chato_moves(game_state state){
+
+        piece p = state.pieces[3 + (int)state.turn];
+
+        int pos = ctz_u128(p.bitboard);
+
+        bitboard_t occupancy = get_occupancy(state, true);
+
+        possible_movements_m moves = 0;
+
+        uint8_t zone_occupancy = 0;
+
+        for(int rot = 0; rot < 4; rot++){
+            
+            zone_occupancy = 0;
+
+            for(int zone = 0; zone < 4; zone++){
+                zone_occupancy |= ((zone_mask_chato[pos][rot][zone][p.o] & occupancy) != 0) << zone;
+            }
+            moves |= movement_lookup_fh[zone_occupancy] << rot*4;;
+        }
+        return moves;
+    }
+
+    possible_movements_g get_gordo_moves(game_state state){
+
+        piece p = state.pieces[4 + (int)state.turn];
+
+        int pos = ctz_u128(p.bitboard);
+
+        bitboard_t occupancy = get_occupancy(state, true);
+
+        possible_movements_m moves = 0;
+
+        uint8_t zone_occupancy = 0;
+
+        for(int rot = 0; rot < 4; rot++){
+            
+            zone_occupancy = 0;
+
+            zone_occupancy |= ((zone_mask_gordo[pos][rot] & occupancy) == 0);
+    
+            moves |= zone_occupancy << rot;;
+        }
+        return moves;
+    }
+
 
 }
