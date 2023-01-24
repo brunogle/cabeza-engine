@@ -78,6 +78,7 @@ CMakeFiles/console_graphics_helper.dir/src/console_graphics_helper.cpp.obj: C:/U
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
+  C:/Portable/mingw64/include/c++/12.2.0/pstl/pstl_config.h \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/stdlib.h \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/corecrt_wstdlib.h \
   C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include-fixed/limits.h \
@@ -283,6 +284,16 @@ CMakeFiles/console_graphics_helper.dir/src/console_graphics_helper.cpp.obj: C:/U
   C:/Portable/mingw64/include/c++/12.2.0/type_traits \
   C:/Portable/mingw64/include/c++/12.2.0/bits/nested_exception.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/char_traits.h \
+  C:/Portable/mingw64/include/c++/12.2.0/compare \
+  C:/Portable/mingw64/include/c++/12.2.0/concepts \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/iterator_concepts.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_cmp.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/concept_check.h \
+  C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h \
   C:/Portable/mingw64/include/c++/12.2.0/cstdint \
   C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/stdint.h \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/stdint.h \
@@ -319,13 +330,8 @@ CMakeFiles/console_graphics_helper.dir/src/console_graphics_helper.cpp.obj: C:/U
   C:/Portable/mingw64/include/c++/12.2.0/bits/cpp_type_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/ostream_insert.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/cxxabi_forced.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/concept_check.h \
-  C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/type_traits.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/stl_function.h \
   C:/Portable/mingw64/include/c++/12.2.0/backward/binders.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/numeric_traits.h \
@@ -341,12 +347,16 @@ CMakeFiles/console_graphics_helper.dir/src/console_graphics_helper.cpp.obj: C:/U
   C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/alloc_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/alloc_traits.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h \
+  C:/Portable/mingw64/include/c++/12.2.0/string_view \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/functional_hash.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_base.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/max_size_type.h \
+  C:/Portable/mingw64/include/c++/12.2.0/numbers \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/string_view.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/ext/string_conversions.h \
   C:/Portable/mingw64/include/c++/12.2.0/cstdio \
   C:/Portable/mingw64/include/c++/12.2.0/cerrno \
   C:/Portable/mingw64/include/c++/12.2.0/bits/charconv.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/functional_hash.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/bits/locale_classes.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/system_error \
@@ -558,6 +568,8 @@ C:/Portable/mingw64/x86_64-w64-mingw32/include/pthread_time.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/uintrintrin.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/bits/iterator_concepts.h:
+
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/wbnoinvdintrin.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/xsaveoptintrin.h:
@@ -584,6 +596,8 @@ C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/cpu_defines.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/pstl/pstl_config.h:
+
 C:/Portable/mingw64/x86_64-w64-mingw32/include/stdlib.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include-fixed/limits.h:
@@ -594,9 +608,13 @@ C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include-fixed/syslimits.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/limits.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/string_view:
+
 C:/Portable/mingw64/include/c++/12.2.0/string:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/sec_api/stdlib_s.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/numbers:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/cderr.h:
 
@@ -631,6 +649,8 @@ C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/avx512erintrin.h:
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/avx512cdintrin.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/avx512vlintrin.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/string_view.tcc:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/avx512bwintrin.h:
 
@@ -884,6 +904,8 @@ C:/Portable/mingw64/x86_64-w64-mingw32/include/psdk_inc/_ip_types.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/psdk_inc/_ip_mreq1.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/compare:
+
 C:/Portable/mingw64/x86_64-w64-mingw32/include/psdk_inc/_xmitfile.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/psdk_inc/_wsa_errnos.h:
@@ -901,6 +923,8 @@ C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/ctype_inline.h:
 C:/Portable/mingw64/x86_64-w64-mingw32/include/winefs.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/winscard.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/max_size_type.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/wtypes.h:
 
@@ -943,6 +967,8 @@ C:/Portable/mingw64/include/c++/12.2.0/bits/streambuf_iterator.h:
 C:/Portable/mingw64/x86_64-w64-mingw32/include/winspool.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/stralign.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/concepts:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/char_traits.h:
 
@@ -992,6 +1018,18 @@ C:/Portable/mingw64/include/c++/12.2.0/bits/locale_classes.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/nested_exception.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_cmp.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h:
+
 C:/Portable/mingw64/include/c++/12.2.0/cstdint:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/stdint.h:
@@ -1038,14 +1076,6 @@ C:/Portable/mingw64/include/c++/12.2.0/bits/cpp_type_traits.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/ostream_insert.h:
 
-C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h:
-
-C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h:
-
-C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h:
-
-C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h:
-
 C:/Portable/mingw64/include/c++/12.2.0/bits/stl_function.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/initializer_list:
@@ -1064,7 +1094,7 @@ C:/Portable/mingw64/include/c++/12.2.0/bits/range_access.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/alloc_traits.h:
 
-C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h:
+C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_base.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/ext/string_conversions.h:
 

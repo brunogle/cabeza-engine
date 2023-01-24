@@ -1,9 +1,8 @@
 #include <iostream>
 #include <cmath>
-
+#include <algorithm>
 
 #include "positioning.h"
-
 
 
 namespace positioning{
@@ -13,19 +12,32 @@ namespace positioning{
     game_state initial_game_state(){
  
         game_state state;
-        state.pieces[PieceIndex::red_cabeza_idx] = {5,0};
-        state.pieces[PieceIndex::red_mini_idx] = {4,0};
-        state.pieces[PieceIndex::red_flaco_idx] = {3,0,Orientation::vertical};
-        state.pieces[PieceIndex::red_chato_idx] = {6,0,Orientation::vertical};
-        state.pieces[PieceIndex::red_gordo_idx] = {4,1};
 
-        state.pieces[PieceIndex::blue_cabeza_idx] = {4,9};
-        state.pieces[PieceIndex::blue_mini_idx]  = {5,9};
-        state.pieces[PieceIndex::blue_flaco_idx] = {6,8,Orientation::vertical};
-        state.pieces[PieceIndex::blue_chato_idx] = {3,8,Orientation::vertical};
-        state.pieces[PieceIndex::blue_gordo_idx] = {4,7};
+        using enum PieceIndex;
+        using enum Orientation;
 
-        generate_bitboards(&state);
+        state.pieces[red_cabeza_idx].bitboard = generate_bitboard_for_piece(red_cabeza_idx, flat, 5, 0);
+        state.pieces[red_mini_idx].bitboard  =   generate_bitboard_for_piece(red_mini_idx, flat, 4, 0);
+        state.pieces[red_flaco_idx].bitboard =  generate_bitboard_for_piece(red_flaco_idx, vertical, 3, 0);
+        state.pieces[red_chato_idx].bitboard =  generate_bitboard_for_piece(red_chato_idx, vertical, 6, 0);
+        state.pieces[red_gordo_idx].bitboard =  generate_bitboard_for_piece(red_gordo_idx, flat, 4, 1);
+
+        state.pieces[blue_cabeza_idx].bitboard = generate_bitboard_for_piece(blue_cabeza_idx, flat, 4, 9);
+        state.pieces[blue_mini_idx].bitboard  =  generate_bitboard_for_piece(blue_mini_idx, flat, 5, 9);
+        state.pieces[blue_flaco_idx].bitboard =  generate_bitboard_for_piece(blue_flaco_idx, vertical, 6, 8);
+        state.pieces[blue_chato_idx].bitboard =  generate_bitboard_for_piece(blue_chato_idx, vertical, 3, 8);
+        state.pieces[blue_gordo_idx].bitboard =  generate_bitboard_for_piece(blue_gordo_idx, flat, 4, 7);
+
+        state.pieces[red_cabeza_idx].o = flat;
+        state.pieces[red_mini_idx].o = flat;
+        state.pieces[red_flaco_idx].o = vertical;
+        state.pieces[red_chato_idx].o = vertical;
+        state.pieces[red_gordo_idx].o = flat;
+        state.pieces[blue_cabeza_idx].o = flat;
+        state.pieces[blue_mini_idx].o = flat;
+        state.pieces[blue_flaco_idx].o = vertical;
+        state.pieces[blue_chato_idx].o = vertical;
+        state.pieces[blue_gordo_idx].o = flat;
 
         return state;
     }
@@ -37,8 +49,6 @@ namespace positioning{
         game_state state;
 
         state.turn = Team(5*(rand()%2)); //Generate random team
-
-
 
         //Initialize to 0
         for(int i = 0; i < 10; i++){
@@ -54,14 +64,12 @@ namespace positioning{
             int test_y;
             Orientation test_o;
 
-            PieceType piece_type = kPieceType[piece_num];
-
-            if(piece_type & (PIECE_CABEZA_MASK | PIECE_MINI_MASK)){//If piece is cabeza or mini
+            if(piece_num == red_cabeza_idx || piece_num == red_mini_idx || piece_num == blue_cabeza_idx || piece_num == blue_mini_idx){//If piece is cabeza or mini
                 test_x = rand() % 10;
                 test_y = rand() % 10;
             }
 
-            else if(piece_type & PIECE_FLACO_MASK){//If piece is flaco
+            else if(piece_num == red_flaco_idx || piece_num == blue_flaco_idx){//If piece is flaco
 
                 test_o = Orientation(rand()%3);
 
@@ -69,7 +77,7 @@ namespace positioning{
                 test_y = rand() % (test_o == Orientation::vertical ? 9 : 10);
 
             }
-            else if(piece_type & PIECE_CHATO_MASK){//If piece is chato 
+            else if(piece_num == red_chato_idx || piece_num == blue_chato_idx){//If piece is chato 
 
                 test_o = Orientation(rand()%3);
 
@@ -82,7 +90,7 @@ namespace positioning{
                 test_y = rand() % 9;
             }
             
-            test_bitboard = generate_bitboard_for_piece(piece_type, test_o, test_x, test_y);
+            test_bitboard = generate_bitboard_for_piece(piece_num, test_o, test_x, test_y);
 
             bitboard_t occupancy = get_occupancy(state, false);
 
@@ -102,7 +110,7 @@ namespace positioning{
     /*
     Generates occupancy bitboard for a specific piece
     */
-    bitboard_t generate_bitboard_for_piece(PieceType piece_type, Orientation o, int x, int y){
+    bitboard_t generate_bitboard_for_piece(int piece_num, Orientation o, int x, int y){
 
         bitboard_t bitboard;
 
@@ -111,22 +119,22 @@ namespace positioning{
         bitboard_t chato_template[] = {0xC03, 0x3, 0x401}; //Flat, horizontal, vertical
         
         //If piece type is a cabeza or a mini
-        if(piece_type & (PIECE_CABEZA_MASK | PIECE_MINI_MASK)){
+        if(piece_num == red_cabeza_idx || piece_num == red_mini_idx || piece_num == blue_cabeza_idx || piece_num == blue_mini_idx){
             bitboard = (bitboard_t)1 << (y*10 + x);
         }
 
         //If piece type is a flaco
-        else if(piece_type & PIECE_FLACO_MASK){
+        else if(piece_num == red_flaco_idx || piece_num == blue_flaco_idx){
             bitboard = flaco_template[o] << (y*10 + x);
         }
 
         //If piece type is a flaco
-        else if(piece_type & PIECE_CHATO_MASK){
+        else if(piece_num == red_chato_idx || piece_num == blue_chato_idx){
             bitboard = chato_template[o] << (y*10 + x);
         }
 
         //If piece type is a chato
-        else if(piece_type & PIECE_GORDO_MASK){
+        else{
             bitboard = (bitboard_t)0xC03 << (y*10 + x);
         }
 
@@ -134,25 +142,9 @@ namespace positioning{
     }
 
     /*
-    Writes bitboard variables on each piece for a given game state
-    */
-    int generate_bitboards(game_state * state){
-        
-        for(int i = 0; i < 10; i++){
-            PieceType piece_type = kPieceType[i];
-            piece piece_ = state->pieces[i];
-            
-            state->pieces[i].bitboard = generate_bitboard_for_piece(piece_type, piece_.o, piece_.x, piece_.y);
-        }
-
-        return 0;
-    }
-
-
-    /*
     Calculates occupancy bitboard for the board of the given game state
     If opponent_cabeza_free is true, the function will consider the cabeza of the non moving player as free,
-    thus it permits a capture
+    thus it permits a capture if true
     */
     bitboard_t get_occupancy(game_state state, bool opponent_cabeza_free){
         bitboard_t occupancy = (bitboard_t)0;
@@ -174,24 +166,8 @@ namespace positioning{
     }
 
     /*
-    Calculates leading zeroes in a bitboard.
-    Used to determine the lower left coordinate of a piece from the bitboard.
-    */
-    inline int ctz_u128 (__uint128_t u) {
-        uint64_t hi = u>>64;
-        uint64_t lo = u;
-        int retval[3]={ 
-            __builtin_ctzll(lo),
-            __builtin_ctzll(hi)+64,
-            128
-        };
-        int idx = !lo + ((!lo)&(!hi));
-        return retval[idx];
-    }
-
-    /*
     Bitboards used for masking out the specific "zones" needed to analyze a piece.
-    First index encodes the possible possitions, as obtained by ctz_u128()
+    First index encodes the possible possitions, as obtained by get_pos_from_bitboard()
     Second index encodes the four possible symmetries used in each case.
     Third index encodes the 1,5,6,7 or 8 zones used in analyzing a piece.
     Fourth index represents orientation if applicable.
@@ -202,38 +178,18 @@ namespace positioning{
     bitboard_t zone_mask_chato[100][4][4][3];
     bitboard_t zone_mask_gordo[100][4];
 
-    int generate_zone_masks(){
+    /*
+    Each bit of the index corresponds to the occupancy zone.
+    This is used after zone mask arrays are used to obtain the occupancy at each zone.
+    Each element only represents the possible movement_t for the first of the four symetries.
+    */
+    possible_movements_t movement_lookup_c[256]; 
+    possible_movements_t movement_lookup_m[16];
+    possible_movements_t movement_lookup_fh[16];
 
-        for(int pos = 0; pos < 100; pos++){
-            for(int rot = 0; rot < 4; rot++){
-                for(int zone = 0; zone < 8; zone++)
-                    zone_mask_cabeza[pos][rot][zone] = generate_zone_mask_from_string(zone_mask_drawing_cabeza[rot], pos, rot, zone);
-
-                for(int zone = 0; zone < 4; zone++){
-                    
-                    zone_mask_mini[pos][rot][zone] = generate_zone_mask_from_string(zone_mask_drawing_mini[rot], pos, rot, zone);
-
-                    zone_mask_flaco[pos][rot][zone][0] = generate_zone_mask_from_string(zone_mask_drawing_flaco_flat[rot], pos, rot, zone);
-
-                    zone_mask_flaco[pos][rot][zone][1] = generate_zone_mask_from_string(zone_mask_drawing_flaco_horizontal[rot], pos, rot, zone);
-
-                    zone_mask_flaco[pos][rot][zone][2] = generate_zone_mask_from_string(zone_mask_drawing_flaco_vertical[rot], pos, rot, zone);
-
-                    zone_mask_chato[pos][rot][zone][0] = generate_zone_mask_from_string(zone_mask_drawing_chato_flat[rot], pos, rot, zone);
-
-                    zone_mask_chato[pos][rot][zone][1] = generate_zone_mask_from_string(zone_mask_drawing_chato_horizontal[rot], pos, rot, zone);
-
-                    zone_mask_chato[pos][rot][zone][2] = generate_zone_mask_from_string(zone_mask_drawing_chato_vertical[rot], pos, rot, zone);
-
-                }
-
-                zone_mask_gordo[pos][rot] =  generate_zone_mask_from_string(zone_mask_drawing_gordo[rot], pos, rot, 0);
-            }
-        }
-
-        return 0;
-    }
-
+    /*
+    Converts one of the zone_mask_drawings to a bitboard mask for a specific position, rotation and zone
+    */
     bitboard_t generate_zone_mask_from_string(std::string mask_drawing, int pos, int rot, int zone){
 
         int str_length = sqrt(mask_drawing.length());
@@ -274,14 +230,43 @@ namespace positioning{
 
     }
 
-    possible_movements_c movement_lookup_c[256]; 
-    possible_movements_m movement_lookup_m[16];
-    possible_movements_fh movement_lookup_fh[16];
 
-    int generate_movement_lookups(){
+    int init_zone_masks(){
+
+        for(int pos = 0; pos < 100; pos++){
+            for(int rot = 0; rot < 4; rot++){
+                for(int zone = 0; zone < 8; zone++)
+                    zone_mask_cabeza[pos][rot][zone] = generate_zone_mask_from_string(zone_mask_drawing_cabeza[rot], pos, rot, zone);
+
+                for(int zone = 0; zone < 4; zone++){
+                    
+                    zone_mask_mini[pos][rot][zone] = generate_zone_mask_from_string(zone_mask_drawing_mini[rot], pos, rot, zone);
+
+                    zone_mask_flaco[pos][rot][zone][0] = generate_zone_mask_from_string(zone_mask_drawing_flaco_flat[rot], pos, rot, zone);
+
+                    zone_mask_flaco[pos][rot][zone][1] = generate_zone_mask_from_string(zone_mask_drawing_flaco_horizontal[rot], pos, rot, zone);
+
+                    zone_mask_flaco[pos][rot][zone][2] = generate_zone_mask_from_string(zone_mask_drawing_flaco_vertical[rot], pos, rot, zone);
+
+                    zone_mask_chato[pos][rot][zone][0] = generate_zone_mask_from_string(zone_mask_drawing_chato_flat[rot], pos, rot, zone);
+
+                    zone_mask_chato[pos][rot][zone][1] = generate_zone_mask_from_string(zone_mask_drawing_chato_horizontal[rot], pos, rot, zone);
+
+                    zone_mask_chato[pos][rot][zone][2] = generate_zone_mask_from_string(zone_mask_drawing_chato_vertical[rot], pos, rot, zone);
+
+                }
+
+                zone_mask_gordo[pos][rot] =  generate_zone_mask_from_string(zone_mask_drawing_gordo[rot], pos, rot, 0);
+            }
+        }
+
+        return 0;
+    }
+
+    int init_movement_lookups(){
 
 
-        //Generate cabeza movement lookup
+        //Generate cabeza movement_t lookup
 
         char occupancy[3][3]; //3x3 sorounding of cabeza (C) piece.
         //'x'=not accessbile, ' '=not analyzed, '0'=piece, 'a'=accessible
@@ -304,7 +289,7 @@ namespace positioning{
             occupancy[2][0] = addr&0x80 ? 'x' : ' ';
             occupancy[0][0] = '0';
 
-            //This code is NOT scalable to larger movement numbers
+            //This code is NOT scalable to larger movement_t numbers
             for(int move = 1; move <= 2; move++){
 
                 
@@ -353,86 +338,97 @@ namespace positioning{
                 }
             }
 
-            possible_movements_c possible_movements_ = 0;
+            possible_movements_t possible_movements_ = 0;
 
-            possible_movements_ |= (occupancy[0][1] == 'a') ? POSSIBLE_MOVEMENT_C_N : 0;
-            possible_movements_ |= (occupancy[0][2] == 'a') ? POSSIBLE_MOVEMENT_C_NN : 0;
-            possible_movements_ |= (occupancy[1][0] == 'a') ? POSSIBLE_MOVEMENT_C_E : 0;
-            possible_movements_ |= (occupancy[1][1] == 'a') ? POSSIBLE_MOVEMENT_C_NE : 0;
-            possible_movements_ |= (occupancy[1][2] == 'a') ? POSSIBLE_MOVEMENT_C_NNE : 0;
-            possible_movements_ |= (occupancy[2][0] == 'a') ? POSSIBLE_MOVEMENT_C_EE : 0;
-            possible_movements_ |= (occupancy[2][1] == 'a') ? POSSIBLE_MOVEMENT_C_NEE : 0;
-            possible_movements_ |= (occupancy[2][2] == 'a') ? POSSIBLE_MOVEMENT_C_NNEE : 0;
+            possible_movements_ |= (occupancy[0][1] == 'a') ? MOVEMENT_N : 0;
+            possible_movements_ |= (occupancy[0][2] == 'a') ? MOVEMENT_NN : 0;
+            possible_movements_ |= (occupancy[1][0] == 'a') ? MOVEMENT_E : 0;
+            possible_movements_ |= (occupancy[1][1] == 'a') ? MOVEMENT_NE : 0;
+            possible_movements_ |= (occupancy[1][2] == 'a') ? MOVEMENT_NNE : 0;
+            possible_movements_ |= (occupancy[2][0] == 'a') ? MOVEMENT_EE : 0;
+            possible_movements_ |= (occupancy[2][1] == 'a') ? MOVEMENT_NEE : 0;
+            possible_movements_ |= (occupancy[2][2] == 'a') ? MOVEMENT_NNEE : 0;
 
             movement_lookup_c[addr] = possible_movements_;
 
         }
 
-        //Generate mini movement lookups
+        //Generate mini movement_t lookups
 
-        movement_lookup_m[0b0000] = POSSIBLE_MOVEMENT_M_N | POSSIBLE_MOVEMENT_M_NN | POSSIBLE_MOVEMENT_M_NE | POSSIBLE_MOVEMENT_M_NW;
-        movement_lookup_m[0b0001] = POSSIBLE_MOVEMENT_M_N | POSSIBLE_MOVEMENT_M_NE | POSSIBLE_MOVEMENT_M_NW;
-        movement_lookup_m[0b0010] = POSSIBLE_MOVEMENT_M_N | POSSIBLE_MOVEMENT_M_NN | POSSIBLE_MOVEMENT_M_NE;
-        movement_lookup_m[0b0011] = POSSIBLE_MOVEMENT_M_N | POSSIBLE_MOVEMENT_M_NE;
-        movement_lookup_m[0b0100] = (possible_movements_m) 0;
-        movement_lookup_m[0b0101] = (possible_movements_m) 0;
-        movement_lookup_m[0b0110] = (possible_movements_m) 0;
-        movement_lookup_m[0b0111] = (possible_movements_m) 0;
-        movement_lookup_m[0b1000] = POSSIBLE_MOVEMENT_M_N | POSSIBLE_MOVEMENT_M_NN | POSSIBLE_MOVEMENT_M_NW;
-        movement_lookup_m[0b1001] = POSSIBLE_MOVEMENT_M_N | POSSIBLE_MOVEMENT_M_NW;
-        movement_lookup_m[0b1010] = POSSIBLE_MOVEMENT_M_N | POSSIBLE_MOVEMENT_M_NN;
-        movement_lookup_m[0b1011] = POSSIBLE_MOVEMENT_M_N;
-        movement_lookup_m[0b1100] = (possible_movements_m) 0;
-        movement_lookup_m[0b1101] = (possible_movements_m) 0;
-        movement_lookup_m[0b1110] = (possible_movements_m) 0;
-        movement_lookup_m[0b1111] = (possible_movements_m) 0;
+        movement_lookup_m[0b0000] = MOVEMENT_N | MOVEMENT_NN | MOVEMENT_NE | MOVEMENT_WN;
+        movement_lookup_m[0b0001] = MOVEMENT_N | MOVEMENT_NE | MOVEMENT_WN;
+        movement_lookup_m[0b0010] = MOVEMENT_N | MOVEMENT_NN | MOVEMENT_NE;
+        movement_lookup_m[0b0011] = MOVEMENT_N | MOVEMENT_NE;
+        movement_lookup_m[0b0100] = (possible_movements_t) 0;
+        movement_lookup_m[0b0101] = (possible_movements_t) 0;
+        movement_lookup_m[0b0110] = (possible_movements_t) 0;
+        movement_lookup_m[0b0111] = (possible_movements_t) 0;
+        movement_lookup_m[0b1000] = MOVEMENT_N | MOVEMENT_NN | MOVEMENT_WN;
+        movement_lookup_m[0b1001] = MOVEMENT_N | MOVEMENT_WN;
+        movement_lookup_m[0b1010] = MOVEMENT_N | MOVEMENT_NN;
+        movement_lookup_m[0b1011] = MOVEMENT_N;
+        movement_lookup_m[0b1100] = (possible_movements_t) 0;
+        movement_lookup_m[0b1101] = (possible_movements_t) 0;
+        movement_lookup_m[0b1110] = (possible_movements_t) 0;
+        movement_lookup_m[0b1111] = (possible_movements_t) 0;
 
-        //Generate falco movement lookups
+        //Generate falco movement_t lookups
 
-        movement_lookup_fh[0b0000] = POSSIBLE_MOVEMENT_FH_N | POSSIBLE_MOVEMENT_FH_NN | POSSIBLE_MOVEMENT_FH_NE | POSSIBLE_MOVEMENT_FH_NW;
-        movement_lookup_fh[0b0001] = POSSIBLE_MOVEMENT_FH_N | POSSIBLE_MOVEMENT_FH_NE | POSSIBLE_MOVEMENT_FH_NW;
-        movement_lookup_fh[0b0010] = POSSIBLE_MOVEMENT_FH_N | POSSIBLE_MOVEMENT_FH_NN | POSSIBLE_MOVEMENT_FH_NE;
-        movement_lookup_fh[0b0011] = POSSIBLE_MOVEMENT_FH_N | POSSIBLE_MOVEMENT_FH_NE;
-        movement_lookup_fh[0b0100] = (possible_movements_m) 0;
-        movement_lookup_fh[0b0101] = (possible_movements_m) 0;
-        movement_lookup_fh[0b0110] = (possible_movements_m) 0;
-        movement_lookup_fh[0b0111] = (possible_movements_m) 0;
-        movement_lookup_fh[0b1000] = POSSIBLE_MOVEMENT_FH_N | POSSIBLE_MOVEMENT_FH_NN | POSSIBLE_MOVEMENT_FH_NW;
-        movement_lookup_fh[0b1001] = POSSIBLE_MOVEMENT_FH_N | POSSIBLE_MOVEMENT_FH_NW;
-        movement_lookup_fh[0b1010] = POSSIBLE_MOVEMENT_FH_N | POSSIBLE_MOVEMENT_FH_NN;
-        movement_lookup_fh[0b1011] = POSSIBLE_MOVEMENT_FH_N;
-        movement_lookup_fh[0b1100] = (possible_movements_m) 0;
-        movement_lookup_fh[0b1101] = (possible_movements_m) 0;
-        movement_lookup_fh[0b1110] = (possible_movements_m) 0;
-        movement_lookup_fh[0b1111] = (possible_movements_m) 0;
+        movement_lookup_fh[0b0000] = MOVEMENT_N | MOVEMENT_NN | MOVEMENT_NE | MOVEMENT_NW;
+        movement_lookup_fh[0b0001] = MOVEMENT_N | MOVEMENT_NE | MOVEMENT_NW;
+        movement_lookup_fh[0b0010] = MOVEMENT_N | MOVEMENT_NN | MOVEMENT_NE;
+        movement_lookup_fh[0b0011] = MOVEMENT_N | MOVEMENT_NE;
+        movement_lookup_fh[0b0100] = (possible_movements_t) 0;
+        movement_lookup_fh[0b0101] = (possible_movements_t) 0;
+        movement_lookup_fh[0b0110] = (possible_movements_t) 0;
+        movement_lookup_fh[0b0111] = (possible_movements_t) 0;
+        movement_lookup_fh[0b1000] = MOVEMENT_N | MOVEMENT_NN | MOVEMENT_NW;
+        movement_lookup_fh[0b1001] = MOVEMENT_N | MOVEMENT_NW;
+        movement_lookup_fh[0b1010] = MOVEMENT_N | MOVEMENT_NN;
+        movement_lookup_fh[0b1011] = MOVEMENT_N;
+        movement_lookup_fh[0b1100] = (possible_movements_t) 0;
+        movement_lookup_fh[0b1101] = (possible_movements_t) 0;
+        movement_lookup_fh[0b1110] = (possible_movements_t) 0;
+        movement_lookup_fh[0b1111] = (possible_movements_t) 0;
         
         return 0;
     }
-
     
-
-    possible_movements get_movements(game_state state){
-
-        possible_movements possible_movements_;
-
-        possible_movements_.cabeza = get_cabeza_moves(state);
-        possible_movements_.mini = get_mini_moves(state);
-        possible_movements_.flaco = get_flaco_moves(state);
-        possible_movements_.chato = get_chato_moves(state);
-        possible_movements_.gordo = get_gordo_moves(state);
-
-        return possible_movements_;
+    /*
+    Initializes lookup arrays
+    */
+    int init(){
+        init_zone_masks();
+        init_movement_lookups();
+        return 0;
     }
 
-    possible_movements_c get_cabeza_moves(game_state state){
 
-        int pos = ctz_u128(state.pieces[0 + (int)state.turn].bitboard);
+
+    possible_movements_t get_cabeza_moves(game_state state){
+
+        
+        int pos;
+
+        switch (state.turn){
+
+        case Team::red:
+            pos = get_pos_from_bitboard(state.pieces[red_cabeza_idx].bitboard);
+            break;
+
+        default:
+            pos = get_pos_from_bitboard(state.pieces[blue_cabeza_idx].bitboard);
+            break;
+
+        }
 
         bitboard_t occupancy = get_occupancy(state, false);
 
-        possible_movements_c moves = 0;
+        possible_movements_t moves = 0;
 
         uint8_t zone_occupancy = 0;
+
+        possible_movements_t unshifted_moves = movement_lookup_c[zone_occupancy];
 
         for(int rot = 0; rot < 4; rot++){
             
@@ -441,21 +437,34 @@ namespace positioning{
             for(int zone = 0; zone < 8; zone++){
                 zone_occupancy |= ((zone_mask_cabeza[pos][rot][zone] & occupancy) != 0) << zone;
             }
-            moves |= movement_lookup_c[zone_occupancy] << rot*6;;
+            unshifted_moves = movement_lookup_c[zone_occupancy];
+            moves |= (unshifted_moves << rot*7)|(unshifted_moves >> (28 - rot*7));
         }
-        moves |= moves >> 24; //Performs or operation to joing last rotation with first
         return moves;
     }
 
-    possible_movements_m get_mini_moves(game_state state){
+    possible_movements_t get_mini_moves(game_state state){
 
-        int pos = ctz_u128(state.pieces[1 + (int)state.turn].bitboard);
+        int pos;
 
+        switch (state.turn){
+
+        case Team::red:
+            pos = get_pos_from_bitboard(state.pieces[red_mini_idx].bitboard);
+            break;
+
+        default:
+            pos = get_pos_from_bitboard(state.pieces[blue_mini_idx].bitboard);
+            break;
+
+        }
         bitboard_t occupancy = get_occupancy(state, true);
 
-        possible_movements_m moves = 0;
+        possible_movements_t moves = 0;
 
         uint8_t zone_occupancy = 0;
+
+        possible_movements_t unshifted_moves = movement_lookup_m[zone_occupancy];
 
         for(int rot = 0; rot < 4; rot++){
             
@@ -464,23 +473,36 @@ namespace positioning{
             for(int zone = 0; zone < 4; zone++){
                 zone_occupancy |= ((zone_mask_mini[pos][rot][zone] & occupancy) != 0) << zone;
             }
-            moves |= movement_lookup_m[zone_occupancy] << rot*3;;
+            moves |= (unshifted_moves << rot*7)|(unshifted_moves >> (28 - rot*7));
         }
-        moves |= moves >> 12; //Performs or operation to joing last rotation with first
         return moves;
     }
 
-    possible_movements_fh get_flaco_moves(game_state state){
+    possible_movements_t get_flaco_moves(game_state state){
 
-        piece p = state.pieces[2 + (int)state.turn];
+        piece p;
 
-        int pos = ctz_u128(p.bitboard);
+        switch (state.turn){
+
+        case Team::red:
+            p = state.pieces[red_flaco_idx];
+            break;
+
+        default:
+            p = state.pieces[blue_flaco_idx];
+            break;
+
+        }
+
+        int pos = get_pos_from_bitboard(p.bitboard);
 
         bitboard_t occupancy = get_occupancy(state, true);
 
-        possible_movements_m moves = 0;
+        possible_movements_t moves = 0;
 
         uint8_t zone_occupancy = 0;
+
+        possible_movements_t unshifted_moves = movement_lookup_fh[zone_occupancy];
 
         for(int rot = 0; rot < 4; rot++){
             
@@ -489,20 +511,32 @@ namespace positioning{
             for(int zone = 0; zone < 4; zone++){
                 zone_occupancy |= ((zone_mask_flaco[pos][rot][zone][p.o] & occupancy) != 0) << zone;
             }
-            moves |= movement_lookup_fh[zone_occupancy] << rot*4;;
+            moves |= (unshifted_moves << rot*7)|(unshifted_moves >> (28 - rot*7));;
         }
         return moves;
     }
 
-    possible_movements_fh get_chato_moves(game_state state){
+    possible_movements_t get_chato_moves(game_state state){
 
-        piece p = state.pieces[3 + (int)state.turn];
+        piece p;
 
-        int pos = ctz_u128(p.bitboard);
+        switch (state.turn){
+
+        case Team::red:
+            p = state.pieces[red_chato_idx];
+            break;
+
+        default:
+            p = state.pieces[blue_chato_idx];
+            break;
+
+        }
+
+        int pos = get_pos_from_bitboard(p.bitboard);
 
         bitboard_t occupancy = get_occupancy(state, true);
 
-        possible_movements_m moves = 0;
+        possible_movements_t moves = 0;
 
         uint8_t zone_occupancy = 0;
 
@@ -513,20 +547,30 @@ namespace positioning{
             for(int zone = 0; zone < 4; zone++){
                 zone_occupancy |= ((zone_mask_chato[pos][rot][zone][p.o] & occupancy) != 0) << zone;
             }
-            moves |= movement_lookup_fh[zone_occupancy] << rot*4;;
+            moves |= (movement_lookup_fh[zone_occupancy] << rot*7)|(movement_lookup_fh[zone_occupancy] >> (28 - rot*7));
         }
         return moves;
     }
 
-    possible_movements_g get_gordo_moves(game_state state){
+    possible_movements_t get_gordo_moves(game_state state){
 
-        piece p = state.pieces[4 + (int)state.turn];
+        int pos;
 
-        int pos = ctz_u128(p.bitboard);
+        switch (state.turn){
+
+        case Team::red:
+            pos = get_pos_from_bitboard(state.pieces[red_gordo_idx].bitboard);
+            break;
+
+        default:
+            pos = get_pos_from_bitboard(state.pieces[blue_gordo_idx].bitboard);
+            break;
+
+        }
 
         bitboard_t occupancy = get_occupancy(state, true);
 
-        possible_movements_m moves = 0;
+        possible_movements_t moves = 0;
 
         uint8_t zone_occupancy = 0;
 
@@ -536,10 +580,132 @@ namespace positioning{
 
             zone_occupancy |= ((zone_mask_gordo[pos][rot] & occupancy) == 0);
     
-            moves |= zone_occupancy << rot;;
+            moves |= zone_occupancy << rot*7;
         }
         return moves;
     }
 
+    /*
+    Finds all movements for a given game state
+    */
+    all_possible_movements get_movements(game_state state){
+
+        all_possible_movements all_possible_movements_;
+
+        all_possible_movements_.cabeza = get_cabeza_moves(state);
+        all_possible_movements_.mini = get_mini_moves(state);
+        all_possible_movements_.flaco = get_flaco_moves(state);
+        all_possible_movements_.chato = get_chato_moves(state);
+        all_possible_movements_.gordo = get_gordo_moves(state);
+
+        return all_possible_movements_;
+    }
+
+    std::map<std::string, movement_t> movement_str_dict = {{"N",MOVEMENT_N},
+                                                            {"NN",MOVEMENT_NN},
+                                                            {"NE",MOVEMENT_NE},
+                                                            {"EN",MOVEMENT_EN},
+                                                            {"NNE",MOVEMENT_NNE},
+                                                            {"NNEE",MOVEMENT_NNEE},
+                                                            {"NEE",MOVEMENT_NEE},
+                                                            {"E",MOVEMENT_E},
+                                                            {"EE",MOVEMENT_EE},
+                                                            {"ES",MOVEMENT_ES},
+                                                            {"SE",MOVEMENT_SE},
+                                                            {"SEE",MOVEMENT_SEE},
+                                                            {"SSEE",MOVEMENT_SSEE},
+                                                            {"SSE",MOVEMENT_SSE},
+                                                            {"S",MOVEMENT_S},
+                                                            {"SS",MOVEMENT_SS},
+                                                            {"SW",MOVEMENT_SW},
+                                                            {"WS",MOVEMENT_WS},
+                                                            {"SSW",MOVEMENT_SSW},
+                                                            {"SSWW",MOVEMENT_SSWW},
+                                                            {"SWW",MOVEMENT_SWW},
+                                                            {"W",MOVEMENT_W},
+                                                            {"WW",MOVEMENT_WW},
+                                                            {"WN",MOVEMENT_WN},
+                                                            {"NW",MOVEMENT_NW},
+                                                            {"NWW",MOVEMENT_NWW},
+                                                            {"NNWW",MOVEMENT_NNWW},
+                                                            {"NNW",MOVEMENT_NNW}};
+                                                            
+    movement_t parse_movement_str(std::string str){
+        
+        using namespace std;
+
+        string final_str;
+
+        transform(str.begin(), str.end(), str.begin(), ::toupper); //Convert to upper case
+
+        //Count how many N/S/E/W characters
+
+        int num_north = count(str.begin(), str.end(), 'N');
+        int num_south = count(str.begin(), str.end(), 'S');
+        int num_east = count(str.begin(), str.end(), 'E');
+        int num_west = count(str.begin(), str.end(), 'W');
+
+        //Total movement
+        int total_north = num_north - num_south; 
+        int total_east = num_east - num_west; 
+
+        if(total_north > 0){
+            final_str.append(total_north, 'N');
+        }
+        if(total_north < 0){
+            final_str.append(-total_north, 'S');
+        }
+        if(total_east > 0){
+            final_str.append(total_east, 'E');
+        }
+        if(total_east < 0){
+            final_str.append(-total_east, 'W');
+        }
+
+        movement_t movement = movement_str_dict[final_str];
+
+        return movement;
+        
+    }
+
+
+    /*
+    Applies a movement_t to a cabeza piece.
+    This function does NOT check if movement_t is valid, or if only one bit is set.
+    */
+    bitboard_t apply_move_cabeza(bitboard_t bitboard, movement_t movement_t){
+
+        bitboard_t moved_bitboard = bitboard;
+
+        if(movement_t & (MOVEMENT_N | MOVEMENT_NE | MOVEMENT_EN | MOVEMENT_NW | MOVEMENT_WN | MOVEMENT_NEE | MOVEMENT_NWW)){
+            moved_bitboard <<= 10;
+        }
+        if(movement_t & (MOVEMENT_S | MOVEMENT_SE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WS | MOVEMENT_SEE | MOVEMENT_SWW)){
+            moved_bitboard >>= 10;
+        }
+        if(movement_t & (MOVEMENT_E | MOVEMENT_NE | MOVEMENT_EN | MOVEMENT_SE | MOVEMENT_ES | MOVEMENT_NNE | MOVEMENT_SSE)){
+            moved_bitboard <<= 1; 
+        }
+        if(movement_t & (MOVEMENT_W | MOVEMENT_NW | MOVEMENT_WN | MOVEMENT_SW | MOVEMENT_WS | MOVEMENT_NNW | MOVEMENT_SSW)){
+            moved_bitboard >>= 1;
+        }
+
+        if(movement_t & (MOVEMENT_NNE | MOVEMENT_NNW | MOVEMENT_NNWW | MOVEMENT_NNEE | MOVEMENT_NN)){
+            moved_bitboard <<= 20;
+        }
+        if(movement_t & (MOVEMENT_SSE | MOVEMENT_SSW | MOVEMENT_SSWW | MOVEMENT_SSEE | MOVEMENT_SS)){
+            moved_bitboard >>= 20;
+        }
+        if(movement_t & (MOVEMENT_NEE | MOVEMENT_SEE | MOVEMENT_NNEE | MOVEMENT_SSEE | MOVEMENT_EE)){
+            moved_bitboard <<= 2;
+        }
+        if(movement_t & (MOVEMENT_NWW | MOVEMENT_SWW | MOVEMENT_NNWW | MOVEMENT_SSWW | MOVEMENT_WW)){
+            moved_bitboard >>= 2;
+        }
+
+        return moved_bitboard;
+
+    }
+    
 
 }

@@ -116,10 +116,16 @@ namespace graphics{
 			int x_offset, y_offset; //Represents lower left character of the piece to draw
 			int piece_width, piece_height; //Represents piece rectange draw size in characters
 		
+			int pos, x, y;
 
 			//Draw CABEZA piece
-			x_offset = state.pieces[player_num*5].x*(IN_SQUARE_WIDTH + 1) + 1;
-			y_offset = state.pieces[player_num*5].y*(IN_SQUARE_HEIGHT + 1) + 1;
+
+			pos = positioning::get_pos_from_bitboard(state.pieces[player_num*5].bitboard);
+			x = pos%10;
+			y = pos/10;
+
+			x_offset = x*(IN_SQUARE_WIDTH + 1) + 1;
+			y_offset = y*(IN_SQUARE_HEIGHT + 1) + 1;
 
 			//Cabeza doesn't use piece_width, piece_height
 
@@ -147,8 +153,13 @@ namespace graphics{
 			color = player_num == (int)positioning::Team::red ? RED_PLAYER_PIECE_COLOR : BLUE_PLAYER_PIECE_COLOR; 
 
 			//Draw MINI piece
-			x_offset = state.pieces[player_num*5 + 1].x*(IN_SQUARE_WIDTH + 1) + 1;
-			y_offset = state.pieces[player_num*5 + 1].y*(IN_SQUARE_HEIGHT + 1) + 1;
+
+			pos = positioning::get_pos_from_bitboard(state.pieces[player_num*5 + 1].bitboard);
+			x = pos%10;
+			y = pos/10;
+
+			x_offset = x*(IN_SQUARE_WIDTH + 1) + 1;
+			y_offset = y*(IN_SQUARE_HEIGHT + 1) + 1;
 
 			//Mini doesn't use piece_width, piece_height
 
@@ -160,8 +171,13 @@ namespace graphics{
 			}
 
 			//Draw FLACO piece
-			x_offset = state.pieces[player_num*5 + 2].x*(IN_SQUARE_WIDTH + 1) + 1;
-			y_offset = state.pieces[player_num*5 + 2].y*(IN_SQUARE_HEIGHT + 1) + 1;
+
+			pos = positioning::get_pos_from_bitboard(state.pieces[player_num*5 + 2].bitboard);
+			x = pos%10;
+			y = pos/10;
+
+			x_offset = x*(IN_SQUARE_WIDTH + 1) + 1;
+			y_offset = y*(IN_SQUARE_HEIGHT + 1) + 1;
 
 			piece_width = state.pieces[player_num*5 + 2].o == positioning::Orientation::horizontal ? (IN_SQUARE_WIDTH*2+1) : IN_SQUARE_WIDTH;
 			piece_height = state.pieces[player_num*5 + 2].o == positioning::Orientation::vertical ? (IN_SQUARE_HEIGHT*2+1) : IN_SQUARE_HEIGHT;
@@ -174,8 +190,13 @@ namespace graphics{
 			}	
 
 			//Draw CHATO piece
-			x_offset = state.pieces[player_num*5 + 3].x*(IN_SQUARE_WIDTH + 1) + 1;
-			y_offset = state.pieces[player_num*5 + 3].y*(IN_SQUARE_HEIGHT + 1) + 1;
+
+			pos = positioning::get_pos_from_bitboard(state.pieces[player_num*5 + 3].bitboard);
+			x = pos%10;
+			y = pos/10;
+
+			x_offset = x*(IN_SQUARE_WIDTH + 1) + 1;
+			y_offset = y*(IN_SQUARE_HEIGHT + 1) + 1;
 
 			piece_width = state.pieces[player_num*5 + 3].o == positioning::Orientation::vertical ? IN_SQUARE_WIDTH : (IN_SQUARE_WIDTH*2+1);
 			piece_height = state.pieces[player_num*5 + 3].o == positioning::Orientation::horizontal ? IN_SQUARE_HEIGHT: (IN_SQUARE_HEIGHT*2+1);
@@ -188,8 +209,13 @@ namespace graphics{
 			}	
 
 			//Draw GORDO piece
-			x_offset = state.pieces[player_num*5 + 4].x*(IN_SQUARE_WIDTH + 1) + 1;
-			y_offset = state.pieces[player_num*5 + 4].y*(IN_SQUARE_HEIGHT + 1) + 1;
+
+			pos = positioning::get_pos_from_bitboard(state.pieces[player_num*5 + 4].bitboard);
+			x = pos%10;
+			y = pos/10;
+
+			x_offset = x*(IN_SQUARE_WIDTH + 1) + 1;
+			y_offset = y*(IN_SQUARE_HEIGHT + 1) + 1;
 
 			piece_width = IN_SQUARE_WIDTH*2 + 1;
 			piece_height = IN_SQUARE_HEIGHT*2 + 1;

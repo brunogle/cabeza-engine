@@ -3,6 +3,8 @@
 
 #include <cstdint>
 #include <string>
+#include <map>
+
 
 #define OCCUPANCY_LOOKUP_O(x, y, o) (x << 6) | (y << 2) | o
 #define OCCUPANCY_LOOKUP(x, y) (x << 6) | (y << 2)
@@ -14,70 +16,36 @@
 #define PIECE_GORDO_MASK  0b00010000
 #define PIECE_PLAYER_MASK 0b10000000
 
+//Movement bits
+#define MOVEMENT_N      0x0000001
+#define MOVEMENT_NN     0x0000002
+#define MOVEMENT_NE     0x0000004
+#define MOVEMENT_EN     0x0000008
+#define MOVEMENT_NNE    0x0000010
+#define MOVEMENT_NNEE   0x0000020
+#define MOVEMENT_NEE    0x0000040
+#define MOVEMENT_E      0x0000080
+#define MOVEMENT_EE     0x0000100
+#define MOVEMENT_ES     0x0000200
+#define MOVEMENT_SE     0x0000400
+#define MOVEMENT_SEE    0x0000800
+#define MOVEMENT_SSEE   0x0001000
+#define MOVEMENT_SSE    0x0002000
+#define MOVEMENT_S      0x0004000
+#define MOVEMENT_SS     0x0008000
+#define MOVEMENT_SW     0x0010000
+#define MOVEMENT_WS     0x0020000
+#define MOVEMENT_SSW    0x0040000
+#define MOVEMENT_SSWW   0x0080000
+#define MOVEMENT_SWW    0x0100000
+#define MOVEMENT_W      0x0200000
+#define MOVEMENT_WW     0x0400000
+#define MOVEMENT_WN     0x0800000
+#define MOVEMENT_NW     0x1000000
+#define MOVEMENT_NWW    0x2000000
+#define MOVEMENT_NNWW   0x4000000
+#define MOVEMENT_NNW    0x8000000
 
-//Movement bits for cabeza
-#define POSSIBLE_MOVEMENT_C_N    0x000001
-#define POSSIBLE_MOVEMENT_C_NN   0x000002
-#define POSSIBLE_MOVEMENT_C_NE   0x000004
-#define POSSIBLE_MOVEMENT_C_NNE  0x000008
-#define POSSIBLE_MOVEMENT_C_NNEE 0x000010
-#define POSSIBLE_MOVEMENT_C_NEE  0x000020
-#define POSSIBLE_MOVEMENT_C_E    0x000040
-#define POSSIBLE_MOVEMENT_C_EE   0x000080
-#define POSSIBLE_MOVEMENT_C_SE   0x000100
-#define POSSIBLE_MOVEMENT_C_SEE  0x000200
-#define POSSIBLE_MOVEMENT_C_SSEE 0x000400
-#define POSSIBLE_MOVEMENT_C_ESS  0x000800
-#define POSSIBLE_MOVEMENT_C_S    0x001000
-#define POSSIBLE_MOVEMENT_C_SS   0x002000
-#define POSSIBLE_MOVEMENT_C_SW   0x004000
-#define POSSIBLE_MOVEMENT_C_SSW  0x008000
-#define POSSIBLE_MOVEMENT_C_SSWW 0x010000
-#define POSSIBLE_MOVEMENT_C_SWW  0x020000
-#define POSSIBLE_MOVEMENT_C_W    0x040000
-#define POSSIBLE_MOVEMENT_C_WW   0x080000
-#define POSSIBLE_MOVEMENT_C_NW   0x100000
-#define POSSIBLE_MOVEMENT_C_NWW  0x200000
-#define POSSIBLE_MOVEMENT_C_NNWW 0x400000
-#define POSSIBLE_MOVEMENT_C_NNW  0x800000
-
-//Movement bits for mini
-#define POSSIBLE_MOVEMENT_M_N  0x000001
-#define POSSIBLE_MOVEMENT_M_NN 0x000002
-#define POSSIBLE_MOVEMENT_M_NE 0x000004
-#define POSSIBLE_MOVEMENT_M_E  0x000008
-#define POSSIBLE_MOVEMENT_M_EE 0x000010
-#define POSSIBLE_MOVEMENT_M_SE 0x000020
-#define POSSIBLE_MOVEMENT_M_S  0x000040
-#define POSSIBLE_MOVEMENT_M_SS 0x000080
-#define POSSIBLE_MOVEMENT_M_SW 0x000100
-#define POSSIBLE_MOVEMENT_M_W  0x000200
-#define POSSIBLE_MOVEMENT_M_WW 0x000400
-#define POSSIBLE_MOVEMENT_M_NW 0x000800
-
-//Movement bts for flaco and chato
-#define POSSIBLE_MOVEMENT_FH_N  0x000001
-#define POSSIBLE_MOVEMENT_FH_NN 0x000002
-#define POSSIBLE_MOVEMENT_FH_NW 0x000004
-#define POSSIBLE_MOVEMENT_FH_NE 0x000008
-#define POSSIBLE_MOVEMENT_FH_E  0x000010
-#define POSSIBLE_MOVEMENT_FH_EE 0x000020
-#define POSSIBLE_MOVEMENT_FH_EN 0x000040
-#define POSSIBLE_MOVEMENT_FH_ES 0x000080
-#define POSSIBLE_MOVEMENT_FH_S  0x000100
-#define POSSIBLE_MOVEMENT_FH_SS 0x000200
-#define POSSIBLE_MOVEMENT_FH_SE 0x000400
-#define POSSIBLE_MOVEMENT_FH_SW 0x000800
-#define POSSIBLE_MOVEMENT_FH_W  0x001000
-#define POSSIBLE_MOVEMENT_FH_WW 0x002000
-#define POSSIBLE_MOVEMENT_FH_WS 0x004000
-#define POSSIBLE_MOVEMENT_FH_WN 0x008000
-
-//Movement bits for gordo
-#define POSSIBLE_MOVEMENT_G_N 0x000001
-#define POSSIBLE_MOVEMENT_G_E 0x000002
-#define POSSIBLE_MOVEMENT_G_S 0x000004
-#define POSSIBLE_MOVEMENT_G_W 0x000008
 
 
 namespace positioning{
@@ -88,62 +56,18 @@ namespace positioning{
     */
     typedef __uint128_t bitboard_t;
 
-    //TODO: TRY TO UNIFY MOVEMENT TPYES
+    /*
+    28 bit Variable type that can encode all possible movements any piece can make  (7 bit rotational symmetry)
+    */
+    typedef uint32_t possible_movements_t; //Used for Cabeza
+    const std::string kMovementBitName[] = {"N","NN","NE","EN","NNE","NNEE","NEE","E","EE","ES","SE","SEE","SSEE","SSE","S","SS","SW","WS","SSW","SSWW","SWW","W","WW","WN","NW","NWW","NNWW","NNW"};
 
 
     /*
-    24 bit Variable type that can encode all possible movements for a CABEZA. (6 bit rotational symmetry)
-    Encoded as:
-    MSB (WNN, WWNN, WWN, WN, WW, W, SWW, SSWW, SSW, SW, SS, S, ESS, EESS, EES, ES, EE, E, NEE, NNEE, NNE, NE, NN, N) LSB
-    These are all possible movements a CABEZA can make. A cabeza that is alone can move in all 24 directions.
+    Should only take one value of MOVEMENT_XXX (i.e. only ONE bit should be set)
     */
+    typedef uint32_t movement_t;
 
-    typedef uint32_t possible_movements_c; //Used for Cabeza
-    const std::string kCabezaMovementBitName[] = {"N", "NN", "NE", "NNE", "NNEE", "NEE", "E", "EE", "ES", "EES", "EESS", "ESS", "S", "SS", "SW", "SSW", "SSWW", "SWW", "W", "WW", "WN", "WWN", "WWNN", "WNN"};
-
-
-    /*
-    12 bit Variable type that can encode all possible movements for a MINI. (3 bit rotational symmetry)
-    Encoded as:
-    MSB (WN, WW, W, SW, SS, S, ES, EE, E, NE, NN, N) LSB
-    These are all possible movements a MINI can make.
-    */
-    typedef uint32_t possible_movements_m; //Used for Mini
-    const std::string kMiniMovementBitName[] = {"N", "NN", "NE", "E", "EE", "ES", "S", "SS", "SW", "W", "WW", "WN"};
-
-    /*
-    16 bit Variable type that can encode all possible movements for a FLACO. (4 bit rotational symmetry)
-    Encoded as:
-    MSB (WN, WS, WW, W, SW, SE, SS, S, ES, EN, EE, E, NE, NW, NN, N) LSB
-    These are all possible movements a FLACO or CHATO can make. Distiction is made between NE, EN moves, etc.
-    */
-    typedef uint32_t possible_movements_fh; //Used for Flaco
-    const std::string kFlacoChatoMovementBitName[] = {"N", "NN", "NW", "NE", "E", "EE", "EN", "ES", "S", "SS", "SE", "SW", "W", "WW", "WS", "WN"};
-
-    /*
-    4 bit Variable type that can encode all possible movements for a FLACO. (4 bit rotational symmetry)
-    Encoded as:
-    MSB (W, S, E, N) LSB
-    These are all possible movements a FLACO or CHATO can make. Distiction is made between NE, EN moves, etc.
-    */
-    typedef uint32_t possible_movements_g; //Used for Flaco
-    const std::string kGordoMovementBitName[] = {"N", "E", "S", "W"};
-
-    namespace{
-        enum PieceType
-        {
-            red_cabeza  = 0b00000001,
-            red_mini    = 0b00000010,
-            red_flaco   = 0b00000100,
-            red_chato   = 0b00001000,
-            red_gordo   = 0b00010000,
-            blue_cabeza = 0b10000001,
-            blue_mini   = 0b10000010,
-            blue_flaco  = 0b10000100,
-            blue_chato  = 0b10001000,
-            blue_gordo  = 0b10010000
-        };
-    }
 
     enum Orientation
     {
@@ -172,6 +96,7 @@ namespace positioning{
         red = 0,
         blue = 5
     };
+    
 
     struct piece
     {
@@ -187,16 +112,13 @@ namespace positioning{
         piece pieces[10];
     };
 
-    struct possible_movements{
-        possible_movements_c cabeza;
-        possible_movements_m mini;
-        possible_movements_fh flaco;
-        possible_movements_fh chato;
-        possible_movements_g gordo;
+    struct all_possible_movements{
+        possible_movements_t cabeza;
+        possible_movements_t mini;
+        possible_movements_t flaco;
+        possible_movements_t chato;
+        possible_movements_t gordo;
     };
-
-    const PieceType kPieceType[] = {PieceType::red_cabeza, PieceType::red_mini, PieceType::red_flaco, PieceType::red_chato, PieceType::red_gordo, 
-                                PieceType::blue_cabeza, PieceType::blue_mini, PieceType::blue_flaco, PieceType::blue_chato, PieceType::blue_gordo};
 
 
     /*
@@ -229,14 +151,10 @@ namespace positioning{
     bitboard_t generate_zone_mask_from_string(std::string mask_drawing, int pos, int rot, int zone);
 
     /*
-    Calculates and writes zone masks arrays. Must be called before using get_movments()
+    Initializes lookup arrays
     */
-    int generate_zone_masks();
+    int init();
 
-    /*
-    Calculates and writes movement lookup arrays. Must be called before using get_movements()
-    */
-    int generate_movement_lookups();
 
     /*
     Returns initial game state
@@ -251,28 +169,46 @@ namespace positioning{
     /*
     Generates the corresponding bitboard for a specific piece
     */
-    bitboard_t generate_bitboard_for_piece(PieceType piece_type, Orientation o, int x, int y);
-
-
-    /*
-    Fills a game state with bitboards using coordinate and orientation data
-    */
-    int generate_bitboards(game_state *state);
+    bitboard_t generate_bitboard_for_piece(int piece_type, Orientation o, int x, int y);
 
     /*
     Get occupancy bitboard of current game
     */
     bitboard_t get_occupancy(game_state state, bool opponent_cabeza_free = false);
 
-    possible_movements get_movements(game_state state);
-    
-    possible_movements_c get_cabeza_moves(game_state state);
-    possible_movements_m get_mini_moves(game_state state);
-    possible_movements_fh get_flaco_moves(game_state state);
-    possible_movements_fh get_chato_moves(game_state state);
-    possible_movements_g get_gordo_moves(game_state state);
+    /*
+    Calculates leading zeroes in a bitboard.
+    Used to determine the lower left coordinate of a piece from the bitboard.
+    */
+    inline int get_pos_from_bitboard (bitboard_t u) {
+        uint64_t hi = u>>64;
+        uint64_t lo = u;
+        int retval[3]={ 
+            __builtin_ctzll(lo),
+            __builtin_ctzll(hi)+64,
+            128
+        };
+        int idx = !lo + ((!lo)&(!hi));
+        return retval[idx];
+    }
+
+
+    /*
+    Finds all movements for a given game state
+    */
+    all_possible_movements get_movements(game_state state);
 
     
+    movement_t parse_movement_str(std::string str);
 
+    /*
+    Applies a movement_t to a cabeza piece.
+    This function does NOT check if movement_t is valid, or if only one bit is set.
+    */
+    bitboard_t apply_move_cabeza(bitboard_t bitboard, movement_t movement_t);
+
+
+    
 }
+
 #endif

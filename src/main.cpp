@@ -10,12 +10,41 @@
 #include "performance.h"
 #include "positioning.h"
 
+
+int main(){
+
+	using namespace positioning;
+
+	init();
+	
+	graphics::init_graphics_console();
+	
+	game_state state = initial_game_state();
+
+	while(1){
+		
+		graphics::draw_on_console(state);
+
+		std::string movement_str;
+
+		std::cin >> movement_str;
+
+		bitboard_t bitboard = state.pieces[red_cabeza_idx].bitboard;
+
+		bitboard = apply_move_cabeza(bitboard, parse_movement_str(movement_str));
+
+		state.pieces[red_cabeza_idx].bitboard = bitboard;
+
+	}
+}
+
+/*
 int main()
 {
 
-	positioning::generate_zone_masks();
+	positioning::init_zone_masks();
 	
-	positioning::generate_movement_lookups();
+	positioning::init_movement_lookups();
 
 	graphics::init_graphics_console();
 
@@ -28,7 +57,7 @@ int main()
 
 		graphics::draw_on_console(state);
 
-		positioning::possible_movements moves = positioning::get_movements(state);
+		positioning::all_possible_movements moves = positioning::get_movements(state);
 
 		if(state.turn == positioning::Team::red){
 			std::cout << "Turn: Red" << std::endl;
@@ -37,38 +66,38 @@ int main()
 			std::cout << "Turn: Blue" << std::endl;
 		}		
 		std::cout << "Cabeza: ";
-		for (int i = 0; i < 24; i++){
+		for (int i = 0; i < 28; i++){
 			if (moves.cabeza & (1 << i))
-				std::cout << positioning::kCabezaMovementBitName[i] << " ";
+				std::cout << positioning::kMovementBitName[i] << " ";
 		}
 		std::cout << std::endl;
 
 		std::cout << "Mini: ";
-		for (int i = 0; i < 12; i++){
+		for (int i = 0; i < 28; i++){
 			if (moves.mini & (1 << i))
-				std::cout << positioning::kMiniMovementBitName[i] << " ";
+				std::cout << positioning::kMovementBitName[i] << " ";
 		}
 		std::cout << std::endl;
 
 
 		std::cout << "Flaco: ";
-		for (int i = 0; i < 16; i++){
+		for (int i = 0; i < 28; i++){
 			if (moves.flaco & (1 << i))
-				std::cout << positioning::kFlacoChatoMovementBitName[i] << " ";
+				std::cout << positioning::kMovementBitName[i] << " ";
 		}
 		std::cout << std::endl;
 
 		std::cout << "Chato: ";
-		for (int i = 0; i < 16; i++){
+		for (int i = 0; i < 28; i++){
 			if (moves.chato & (1 << i))
-				std::cout << positioning::kFlacoChatoMovementBitName[i] << " ";
+				std::cout << positioning::kMovementBitName[i] << " ";
 		}
 		std::cout << std::endl;
 
 		std::cout << "Gordo: ";
-		for (int i = 0; i < 4; i++){
+		for (int i = 0; i < 28; i++){
 			if (moves.gordo & (1 << i))
-				std::cout << positioning::kGordoMovementBitName[i] << " ";
+				std::cout << positioning::kMovementBitName[i] << " ";
 		}
 		std::cout << std::endl;
 		std::cout << std::endl;
@@ -80,12 +109,12 @@ int main()
 
 	return 0;
 }
-
-
+*/
 /*
+
 int main(){
-	positioning::generate_zone_masks();
-	positioning::generate_movement_lookups();
+	positioning::init_zone_masks();
+	positioning::init_movement_lookups();
 
 	positioning::game_state states[100];
 
@@ -107,8 +136,8 @@ int main(){
     std::cout << ms_double.count() << "ms\n";
 	getchar();
 }
-*/
 
+*/
 
 /*
 int main(){
@@ -142,7 +171,7 @@ int main(){
 	char occupancy[3][3];
 
 	for(int addr = 0x00; addr <= 0xFF; addr++){
-		positioning::possible_movements moves = positioning::movement_lookup_c[addr];
+		positioning::possible_movements_t moves = positioning::movement_lookup_c[addr];
 
 		occupancy[0][2] = addr&0x01 ? 'x' : '.';
 		occupancy[0][1] = addr&0x02 ? 'x' : '.';

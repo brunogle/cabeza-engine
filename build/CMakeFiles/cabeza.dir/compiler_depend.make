@@ -78,6 +78,7 @@ CMakeFiles/cabeza.dir/src/graphics.cpp.obj: C:/Users/Bruno/Documents/Projects/Ca
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
+  C:/Portable/mingw64/include/c++/12.2.0/pstl/pstl_config.h \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/stdlib.h \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/corecrt_wstdlib.h \
   C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include-fixed/limits.h \
@@ -275,14 +276,24 @@ CMakeFiles/cabeza.dir/src/graphics.cpp.obj: C:/Users/Bruno/Documents/Projects/Ca
   C:/Portable/mingw64/x86_64-w64-mingw32/include/swprintf.inl \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/sec_api/wchar_s.h \
   C:/Portable/mingw64/include/c++/12.2.0/type_traits \
+  C:/Portable/mingw64/include/c++/12.2.0/compare \
+  C:/Portable/mingw64/include/c++/12.2.0/concepts \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h \
+  C:/Portable/mingw64/include/c++/12.2.0/new \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/exception.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/move.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/iterator_concepts.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_cmp.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/concept_check.h \
+  C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/allocator.h \
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++allocator.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/new_allocator.h \
-  C:/Portable/mingw64/include/c++/12.2.0/new \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/exception.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/functexcept.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/exception_defines.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/move.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/cpp_type_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/localefwd.h \
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++locale.h \
@@ -294,13 +305,8 @@ CMakeFiles/cabeza.dir/src/graphics.cpp.obj: C:/Users/Bruno/Documents/Projects/Ca
   C:/Portable/mingw64/include/c++/12.2.0/cctype \
   C:/Portable/mingw64/include/c++/12.2.0/bits/ostream_insert.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/cxxabi_forced.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/concept_check.h \
-  C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/type_traits.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/stl_function.h \
   C:/Portable/mingw64/include/c++/12.2.0/backward/binders.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/numeric_traits.h \
@@ -316,14 +322,27 @@ CMakeFiles/cabeza.dir/src/graphics.cpp.obj: C:/Users/Bruno/Documents/Projects/Ca
   C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/alloc_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/alloc_traits.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h \
+  C:/Portable/mingw64/include/c++/12.2.0/string_view \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/functional_hash.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/hash_bytes.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_base.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/max_size_type.h \
+  C:/Portable/mingw64/include/c++/12.2.0/numbers \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/string_view.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/ext/string_conversions.h \
   C:/Portable/mingw64/include/c++/12.2.0/cstdio \
   C:/Portable/mingw64/include/c++/12.2.0/cerrno \
   C:/Portable/mingw64/include/c++/12.2.0/bits/charconv.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/functional_hash.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/hash_bytes.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.tcc \
+  C:/Portable/mingw64/include/c++/12.2.0/map \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_tree.h \
+  C:/Portable/mingw64/include/c++/12.2.0/ext/aligned_buffer.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/node_handle.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_map.h \
+  C:/Portable/mingw64/include/c++/12.2.0/tuple \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/uses_allocator.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_multimap.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/erase_if.h \
   C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics_console.h
 
 CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj: C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics_console.cpp \
@@ -331,6 +350,7 @@ CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj: C:/Users/Bruno/Documents/Pro
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
+  C:/Portable/mingw64/include/c++/12.2.0/pstl/pstl_config.h \
   C:/Portable/mingw64/include/c++/12.2.0/ostream \
   C:/Portable/mingw64/include/c++/12.2.0/ios \
   C:/Portable/mingw64/include/c++/12.2.0/iosfwd \
@@ -366,6 +386,16 @@ CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj: C:/Users/Bruno/Documents/Pro
   C:/Portable/mingw64/include/c++/12.2.0/type_traits \
   C:/Portable/mingw64/include/c++/12.2.0/bits/nested_exception.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/char_traits.h \
+  C:/Portable/mingw64/include/c++/12.2.0/compare \
+  C:/Portable/mingw64/include/c++/12.2.0/concepts \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/iterator_concepts.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_cmp.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/concept_check.h \
+  C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h \
   C:/Portable/mingw64/include/c++/12.2.0/cstdint \
   C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/stdint.h \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/stdint.h \
@@ -408,13 +438,8 @@ CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj: C:/Users/Bruno/Documents/Pro
   C:/Portable/mingw64/include/c++/12.2.0/bits/cpp_type_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/ostream_insert.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/cxxabi_forced.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/concept_check.h \
-  C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/type_traits.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/stl_function.h \
   C:/Portable/mingw64/include/c++/12.2.0/backward/binders.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/numeric_traits.h \
@@ -430,7 +455,12 @@ CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj: C:/Users/Bruno/Documents/Pro
   C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/alloc_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/alloc_traits.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h \
+  C:/Portable/mingw64/include/c++/12.2.0/string_view \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/functional_hash.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_base.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/max_size_type.h \
+  C:/Portable/mingw64/include/c++/12.2.0/numbers \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/string_view.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/ext/string_conversions.h \
   C:/Portable/mingw64/include/c++/12.2.0/cstdlib \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/stdlib.h \
@@ -442,7 +472,6 @@ CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj: C:/Users/Bruno/Documents/Pro
   C:/Portable/mingw64/include/c++/12.2.0/cstdio \
   C:/Portable/mingw64/include/c++/12.2.0/cerrno \
   C:/Portable/mingw64/include/c++/12.2.0/bits/charconv.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/functional_hash.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/bits/locale_classes.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/system_error \
@@ -775,6 +804,7 @@ CMakeFiles/cabeza.dir/src/main.cpp.obj: C:/Users/Bruno/Documents/Projects/Cabeza
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
+  C:/Portable/mingw64/include/c++/12.2.0/pstl/pstl_config.h \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/stdlib.h \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/corecrt_wstdlib.h \
   C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include-fixed/limits.h \
@@ -979,6 +1009,16 @@ CMakeFiles/cabeza.dir/src/main.cpp.obj: C:/Users/Bruno/Documents/Projects/Cabeza
   C:/Portable/mingw64/include/c++/12.2.0/type_traits \
   C:/Portable/mingw64/include/c++/12.2.0/bits/nested_exception.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/char_traits.h \
+  C:/Portable/mingw64/include/c++/12.2.0/compare \
+  C:/Portable/mingw64/include/c++/12.2.0/concepts \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/iterator_concepts.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_cmp.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/concept_check.h \
+  C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h \
   C:/Portable/mingw64/include/c++/12.2.0/cstdint \
   C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/stdint.h \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/stdint.h \
@@ -1013,13 +1053,8 @@ CMakeFiles/cabeza.dir/src/main.cpp.obj: C:/Users/Bruno/Documents/Projects/Cabeza
   C:/Portable/mingw64/include/c++/12.2.0/bits/cpp_type_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/ostream_insert.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/cxxabi_forced.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/concept_check.h \
-  C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/type_traits.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/stl_function.h \
   C:/Portable/mingw64/include/c++/12.2.0/backward/binders.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/numeric_traits.h \
@@ -1035,12 +1070,16 @@ CMakeFiles/cabeza.dir/src/main.cpp.obj: C:/Users/Bruno/Documents/Projects/Cabeza
   C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/alloc_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/alloc_traits.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h \
+  C:/Portable/mingw64/include/c++/12.2.0/string_view \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/functional_hash.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_base.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/max_size_type.h \
+  C:/Portable/mingw64/include/c++/12.2.0/numbers \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/string_view.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/ext/string_conversions.h \
   C:/Portable/mingw64/include/c++/12.2.0/cstdio \
   C:/Portable/mingw64/include/c++/12.2.0/cerrno \
   C:/Portable/mingw64/include/c++/12.2.0/bits/charconv.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/functional_hash.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/bits/locale_classes.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/system_error \
@@ -1067,8 +1106,19 @@ CMakeFiles/cabeza.dir/src/main.cpp.obj: C:/Users/Bruno/Documents/Projects/Cabeza
   C:/Portable/mingw64/include/c++/12.2.0/limits \
   C:/Portable/mingw64/include/c++/12.2.0/ctime \
   C:/Portable/mingw64/include/c++/12.2.0/bits/parse_numbers.h \
+  C:/Portable/mingw64/include/c++/12.2.0/sstream \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/sstream.tcc \
   C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics.h \
   C:/Users/Bruno/Documents/Projects/Cabeza/src/positioning.h \
+  C:/Portable/mingw64/include/c++/12.2.0/map \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_tree.h \
+  C:/Portable/mingw64/include/c++/12.2.0/ext/aligned_buffer.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/node_handle.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_map.h \
+  C:/Portable/mingw64/include/c++/12.2.0/tuple \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/uses_allocator.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_multimap.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/erase_if.h \
   C:/Users/Bruno/Documents/Projects/Cabeza/src/performance.h
 
 CMakeFiles/cabeza.dir/src/performance.cpp.obj: C:/Users/Bruno/Documents/Projects/Cabeza/src/performance.cpp \
@@ -1076,6 +1126,7 @@ CMakeFiles/cabeza.dir/src/performance.cpp.obj: C:/Users/Bruno/Documents/Projects
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
+  C:/Portable/mingw64/include/c++/12.2.0/pstl/pstl_config.h \
   C:/Portable/mingw64/include/c++/12.2.0/ostream \
   C:/Portable/mingw64/include/c++/12.2.0/ios \
   C:/Portable/mingw64/include/c++/12.2.0/iosfwd \
@@ -1111,6 +1162,16 @@ CMakeFiles/cabeza.dir/src/performance.cpp.obj: C:/Users/Bruno/Documents/Projects
   C:/Portable/mingw64/include/c++/12.2.0/type_traits \
   C:/Portable/mingw64/include/c++/12.2.0/bits/nested_exception.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/char_traits.h \
+  C:/Portable/mingw64/include/c++/12.2.0/compare \
+  C:/Portable/mingw64/include/c++/12.2.0/concepts \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/iterator_concepts.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_cmp.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/concept_check.h \
+  C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h \
   C:/Portable/mingw64/include/c++/12.2.0/cstdint \
   C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/stdint.h \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/stdint.h \
@@ -1153,13 +1214,8 @@ CMakeFiles/cabeza.dir/src/performance.cpp.obj: C:/Users/Bruno/Documents/Projects
   C:/Portable/mingw64/include/c++/12.2.0/bits/cpp_type_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/ostream_insert.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/cxxabi_forced.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/concept_check.h \
-  C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/type_traits.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/stl_function.h \
   C:/Portable/mingw64/include/c++/12.2.0/backward/binders.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/numeric_traits.h \
@@ -1175,7 +1231,12 @@ CMakeFiles/cabeza.dir/src/performance.cpp.obj: C:/Users/Bruno/Documents/Projects
   C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/alloc_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/alloc_traits.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h \
+  C:/Portable/mingw64/include/c++/12.2.0/string_view \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/functional_hash.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_base.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/max_size_type.h \
+  C:/Portable/mingw64/include/c++/12.2.0/numbers \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/string_view.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/ext/string_conversions.h \
   C:/Portable/mingw64/include/c++/12.2.0/cstdlib \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/stdlib.h \
@@ -1187,7 +1248,6 @@ CMakeFiles/cabeza.dir/src/performance.cpp.obj: C:/Users/Bruno/Documents/Projects
   C:/Portable/mingw64/include/c++/12.2.0/cstdio \
   C:/Portable/mingw64/include/c++/12.2.0/cerrno \
   C:/Portable/mingw64/include/c++/12.2.0/bits/charconv.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/functional_hash.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/bits/locale_classes.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/system_error \
@@ -1213,7 +1273,18 @@ CMakeFiles/cabeza.dir/src/performance.cpp.obj: C:/Users/Bruno/Documents/Projects
   C:/Portable/mingw64/include/c++/12.2.0/limits \
   C:/Portable/mingw64/include/c++/12.2.0/ctime \
   C:/Portable/mingw64/include/c++/12.2.0/bits/parse_numbers.h \
+  C:/Portable/mingw64/include/c++/12.2.0/sstream \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/sstream.tcc \
   C:/Users/Bruno/Documents/Projects/Cabeza/src/positioning.h \
+  C:/Portable/mingw64/include/c++/12.2.0/map \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_tree.h \
+  C:/Portable/mingw64/include/c++/12.2.0/ext/aligned_buffer.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/node_handle.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_map.h \
+  C:/Portable/mingw64/include/c++/12.2.0/tuple \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/uses_allocator.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_multimap.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/erase_if.h \
   C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics.h \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/windows.h \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/sdkddkver.h \
@@ -1451,6 +1522,7 @@ CMakeFiles/cabeza.dir/src/positioning.cpp.obj: C:/Users/Bruno/Documents/Projects
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \
   C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
+  C:/Portable/mingw64/include/c++/12.2.0/pstl/pstl_config.h \
   C:/Portable/mingw64/include/c++/12.2.0/ostream \
   C:/Portable/mingw64/include/c++/12.2.0/ios \
   C:/Portable/mingw64/include/c++/12.2.0/iosfwd \
@@ -1486,6 +1558,16 @@ CMakeFiles/cabeza.dir/src/positioning.cpp.obj: C:/Users/Bruno/Documents/Projects
   C:/Portable/mingw64/include/c++/12.2.0/type_traits \
   C:/Portable/mingw64/include/c++/12.2.0/bits/nested_exception.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/char_traits.h \
+  C:/Portable/mingw64/include/c++/12.2.0/compare \
+  C:/Portable/mingw64/include/c++/12.2.0/concepts \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/iterator_concepts.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_cmp.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/concept_check.h \
+  C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h \
   C:/Portable/mingw64/include/c++/12.2.0/cstdint \
   C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/stdint.h \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/stdint.h \
@@ -1528,13 +1610,8 @@ CMakeFiles/cabeza.dir/src/positioning.cpp.obj: C:/Users/Bruno/Documents/Projects
   C:/Portable/mingw64/include/c++/12.2.0/bits/cpp_type_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/ostream_insert.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/cxxabi_forced.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/concept_check.h \
-  C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/type_traits.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/stl_function.h \
   C:/Portable/mingw64/include/c++/12.2.0/backward/binders.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/numeric_traits.h \
@@ -1550,7 +1627,12 @@ CMakeFiles/cabeza.dir/src/positioning.cpp.obj: C:/Users/Bruno/Documents/Projects
   C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.h \
   C:/Portable/mingw64/include/c++/12.2.0/ext/alloc_traits.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/alloc_traits.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h \
+  C:/Portable/mingw64/include/c++/12.2.0/string_view \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/functional_hash.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_base.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/max_size_type.h \
+  C:/Portable/mingw64/include/c++/12.2.0/numbers \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/string_view.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/ext/string_conversions.h \
   C:/Portable/mingw64/include/c++/12.2.0/cstdlib \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/stdlib.h \
@@ -1562,7 +1644,6 @@ CMakeFiles/cabeza.dir/src/positioning.cpp.obj: C:/Users/Bruno/Documents/Projects
   C:/Portable/mingw64/include/c++/12.2.0/cstdio \
   C:/Portable/mingw64/include/c++/12.2.0/cerrno \
   C:/Portable/mingw64/include/c++/12.2.0/bits/charconv.h \
-  C:/Portable/mingw64/include/c++/12.2.0/bits/functional_hash.h \
   C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/bits/locale_classes.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/system_error \
@@ -1584,7 +1665,41 @@ CMakeFiles/cabeza.dir/src/positioning.cpp.obj: C:/Users/Bruno/Documents/Projects
   C:/Portable/mingw64/include/c++/12.2.0/bits/istream.tcc \
   C:/Portable/mingw64/include/c++/12.2.0/cmath \
   C:/Portable/mingw64/x86_64-w64-mingw32/include/math.h \
-  C:/Users/Bruno/Documents/Projects/Cabeza/src/positioning.h
+  C:/Portable/mingw64/include/c++/12.2.0/bits/specfun.h \
+  C:/Portable/mingw64/include/c++/12.2.0/limits \
+  C:/Portable/mingw64/include/c++/12.2.0/tr1/gamma.tcc \
+  C:/Portable/mingw64/include/c++/12.2.0/tr1/special_function_util.h \
+  C:/Portable/mingw64/include/c++/12.2.0/tr1/bessel_function.tcc \
+  C:/Portable/mingw64/include/c++/12.2.0/tr1/beta_function.tcc \
+  C:/Portable/mingw64/include/c++/12.2.0/tr1/ell_integral.tcc \
+  C:/Portable/mingw64/include/c++/12.2.0/tr1/exp_integral.tcc \
+  C:/Portable/mingw64/include/c++/12.2.0/tr1/hypergeometric.tcc \
+  C:/Portable/mingw64/include/c++/12.2.0/tr1/legendre_function.tcc \
+  C:/Portable/mingw64/include/c++/12.2.0/tr1/modified_bessel_func.tcc \
+  C:/Portable/mingw64/include/c++/12.2.0/tr1/poly_hermite.tcc \
+  C:/Portable/mingw64/include/c++/12.2.0/tr1/poly_laguerre.tcc \
+  C:/Portable/mingw64/include/c++/12.2.0/tr1/riemann_zeta.tcc \
+  C:/Portable/mingw64/include/c++/12.2.0/algorithm \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_algo.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/algorithmfwd.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_heap.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_tempbuf.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/uniform_int_dist.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_algo.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_algobase.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_util.h \
+  C:/Portable/mingw64/include/c++/12.2.0/pstl/glue_algorithm_defs.h \
+  C:/Portable/mingw64/include/c++/12.2.0/pstl/execution_defs.h \
+  C:/Users/Bruno/Documents/Projects/Cabeza/src/positioning.h \
+  C:/Portable/mingw64/include/c++/12.2.0/map \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_tree.h \
+  C:/Portable/mingw64/include/c++/12.2.0/ext/aligned_buffer.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/node_handle.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_map.h \
+  C:/Portable/mingw64/include/c++/12.2.0/tuple \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/uses_allocator.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_multimap.h \
+  C:/Portable/mingw64/include/c++/12.2.0/bits/erase_if.h
 
 
 C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics.cpp:
@@ -1605,6 +1720,8 @@ C:/Portable/mingw64/x86_64-w64-mingw32/include/windows.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/windef.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/bits/stl_heap.h:
+
 C:/Portable/mingw64/x86_64-w64-mingw32/include/_mingw_mac.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/_mingw.h:
@@ -1617,15 +1734,21 @@ C:/Portable/mingw64/include/c++/12.2.0/cstdlib:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/_mingw_secapi.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/bits/erase_if.h:
+
 C:/Portable/mingw64/x86_64-w64-mingw32/include/winbase.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/adxintrin.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/ext/aligned_buffer.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/concurrencysal.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/vadefs.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/sdkddkver.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/stl_algo.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/locale_facets.tcc:
 
@@ -1703,6 +1826,8 @@ C:/Portable/mingw64/x86_64-w64-mingw32/include/apiset.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/psdk_inc/intrin-impl.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_util.h:
+
 C:/Portable/mingw64/x86_64-w64-mingw32/include/shellapi.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/basetsd.h:
@@ -1743,6 +1868,8 @@ C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/cldemoteintrin.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/clflushoptintrin.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/tr1/exp_integral.tcc:
+
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/enqcmdintrin.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/lzcntintrin.h:
@@ -1771,6 +1898,8 @@ C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/rdseedintrin.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/rtmintrin.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/map:
+
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/sgxintrin.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/xsavecintrin.h:
@@ -1783,6 +1912,8 @@ C:/Portable/mingw64/x86_64-w64-mingw32/include/pthread_time.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/uintrintrin.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/bits/iterator_concepts.h:
+
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/wbnoinvdintrin.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/xsaveoptintrin.h:
@@ -1790,6 +1921,8 @@ C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/xsaveoptintrin.h:
 C:/Portable/mingw64/x86_64-w64-mingw32/include/dlgs.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/xsavesintrin.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/uniform_int_dist.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/xtestintrin.h:
 
@@ -1811,6 +1944,8 @@ C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/cpu_defines.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/pstl/pstl_config.h:
+
 C:/Portable/mingw64/x86_64-w64-mingw32/include/stdlib.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include-fixed/limits.h:
@@ -1821,9 +1956,13 @@ C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include-fixed/syslimits.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/limits.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/string_view:
+
 C:/Portable/mingw64/include/c++/12.2.0/string:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/sec_api/stdlib_s.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/numbers:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/cderr.h:
 
@@ -1855,11 +1994,15 @@ C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/avx512fintrin.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/avx512erintrin.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/pstl/glue_algorithm_defs.h:
+
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/avx512cdintrin.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/avx512vlintrin.h:
 
 C:/Users/Bruno/Documents/Projects/Cabeza/src/main.cpp:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/string_view.tcc:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/avx512bwintrin.h:
 
@@ -1932,6 +2075,8 @@ C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/vaesintrin.h:
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/vpclmulqdqintrin.h:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/avx512bf16vlintrin.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/tuple:
 
 C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/amxtileintrin.h:
 
@@ -2059,6 +2204,8 @@ C:/Portable/mingw64/x86_64-w64-mingw32/include/winerror.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/fltwinerror.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/algorithm:
+
 C:/Portable/mingw64/x86_64-w64-mingw32/include/servprov.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/timezoneapi.h:
@@ -2121,9 +2268,13 @@ C:/Portable/mingw64/x86_64-w64-mingw32/include/psdk_inc/_ip_types.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/psdk_inc/_ip_mreq1.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/compare:
+
 C:/Portable/mingw64/x86_64-w64-mingw32/include/psdk_inc/_xmitfile.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/psdk_inc/_wsa_errnos.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/node_handle.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/localefwd.h:
 
@@ -2138,6 +2289,8 @@ C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/ctype_inline.h:
 C:/Portable/mingw64/x86_64-w64-mingw32/include/winefs.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/winscard.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/max_size_type.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/wtypes.h:
 
@@ -2181,11 +2334,17 @@ C:/Portable/mingw64/x86_64-w64-mingw32/include/winspool.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/stralign.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/tr1/poly_hermite.tcc:
+
+C:/Portable/mingw64/include/c++/12.2.0/concepts:
+
 C:/Portable/mingw64/include/c++/12.2.0/bits/char_traits.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/sec_api/stralign_s.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/winsvc.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/uses_allocator.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/imm.h:
 
@@ -2215,13 +2374,27 @@ C:/Portable/mingw64/x86_64-w64-mingw32/include/swprintf.inl:
 
 C:/Portable/mingw64/include/c++/12.2.0/type_traits:
 
+C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h:
+
 C:/Portable/mingw64/include/c++/12.2.0/new:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/exception.h:
 
+C:/Portable/mingw64/include/c++/12.2.0/bits/move.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_cmp.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h:
+
 C:/Portable/mingw64/include/c++/12.2.0/bits/functexcept.h:
 
-C:/Portable/mingw64/include/c++/12.2.0/bits/move.h:
+C:/Portable/mingw64/include/c++/12.2.0/tr1/modified_bessel_func.tcc:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/cpp_type_traits.h:
 
@@ -2230,6 +2403,8 @@ C:/Portable/mingw64/include/c++/12.2.0/cwctype:
 C:/Portable/mingw64/include/c++/12.2.0/clocale:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/locale.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/tr1/riemann_zeta.tcc:
 
 C:/Portable/mingw64/include/c++/12.2.0/ostream:
 
@@ -2243,17 +2418,9 @@ C:/Portable/mingw64/include/c++/12.2.0/cctype:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/ostream_insert.h:
 
-C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h:
-
-C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h:
-
-C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h:
-
 C:/Portable/mingw64/x86_64-w64-mingw32/include/sys/timeb.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator.h:
-
-C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/stl_function.h:
 
@@ -2262,6 +2429,8 @@ C:/Portable/mingw64/include/c++/12.2.0/initializer_list:
 C:/Portable/mingw64/include/c++/12.2.0/backward/binders.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/stl_algobase.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/tr1/bessel_function.tcc:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/stl_pair.h:
 
@@ -2273,7 +2442,9 @@ C:/Portable/mingw64/include/c++/12.2.0/bits/range_access.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/alloc_traits.h:
 
-C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h:
+C:/Portable/mingw64/include/c++/12.2.0/bits/hash_bytes.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_base.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/ext/string_conversions.h:
 
@@ -2281,11 +2452,15 @@ C:/Portable/mingw64/include/c++/12.2.0/cerrno:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/charconv.h:
 
-C:/Portable/mingw64/include/c++/12.2.0/bits/hash_bytes.h:
-
 C:/Users/Bruno/Documents/Projects/Cabeza/src/performance.cpp:
 
 C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.tcc:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/stl_tree.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/stl_map.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/stl_multimap.h:
 
 C:/Portable/mingw64/include/c++/12.2.0/iostream:
 
@@ -2310,6 +2485,8 @@ C:/Portable/mingw64/x86_64-w64-mingw32/include/sys/types.h:
 C:/Portable/mingw64/x86_64-w64-mingw32/include/process.h:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/signal.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/tr1/legendre_function.tcc:
 
 C:/Portable/mingw64/x86_64-w64-mingw32/include/pthread_signal.h:
 
@@ -2343,6 +2520,34 @@ C:/Portable/mingw64/include/c++/12.2.0/bitset:
 
 C:/Portable/mingw64/include/c++/12.2.0/ctime:
 
+C:/Portable/mingw64/include/c++/12.2.0/sstream:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/sstream.tcc:
+
 C:/Users/Bruno/Documents/Projects/Cabeza/src/positioning.cpp:
 
 C:/Portable/mingw64/include/c++/12.2.0/cmath:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/specfun.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/tr1/gamma.tcc:
+
+C:/Portable/mingw64/include/c++/12.2.0/tr1/special_function_util.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/tr1/beta_function.tcc:
+
+C:/Portable/mingw64/include/c++/12.2.0/tr1/ell_integral.tcc:
+
+C:/Portable/mingw64/include/c++/12.2.0/tr1/hypergeometric.tcc:
+
+C:/Portable/mingw64/include/c++/12.2.0/tr1/poly_laguerre.tcc:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/algorithmfwd.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/stl_tempbuf.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_algo.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_algobase.h:
+
+C:/Portable/mingw64/include/c++/12.2.0/pstl/execution_defs.h:
