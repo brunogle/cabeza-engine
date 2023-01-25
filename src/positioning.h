@@ -205,10 +205,31 @@ namespace positioning{
     Applies a movement_t to a cabeza piece.
     This function does NOT check if movement_t is valid, or if only one bit is set.
     */
-    bitboard_t apply_move_cabeza(bitboard_t bitboard, movement_t movement_t);
+    piece apply_move_cabeza(piece p, movement_t movement);
 
+    /*
+    Applies a movement_t to a mini piece.
+    This function does NOT check if movement_t is valid, or if only one bit is set.
+    */
+    piece apply_move_mini(piece p, movement_t movement);
 
+    /*
+    Applies a movement_t to a flaco piece.
+    This function does NOT check if movement_t is valid, or if only one bit is set.
+    */
+    piece apply_move_flaco(piece p, movement_t movement);
     
+    /*
+    Applies a movement_t to a flaco piece.
+    This function does NOT check if movement_t is valid, or if only one bit is set.
+    */
+    piece apply_move_chato(piece p, movement_t movement);
+
+    /*
+    Applies a movement_t to a gordo piece.
+    This function does NOT check if movement_t is valid, or if only one bit is set.
+    */ 
+    piece apply_move_gordo(piece p, movement_t movement);
 }
 
 #endif

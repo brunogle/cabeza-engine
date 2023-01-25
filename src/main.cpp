@@ -29,11 +29,9 @@ int main(){
 
 		std::cin >> movement_str;
 
-		bitboard_t bitboard = state.pieces[red_cabeza_idx].bitboard;
+		positioning::piece new_piece = apply_move_gordo(state.pieces[red_gordo_idx], parse_movement_str(movement_str));
 
-		bitboard = apply_move_cabeza(bitboard, parse_movement_str(movement_str));
-
-		state.pieces[red_cabeza_idx].bitboard = bitboard;
+		state.pieces[red_gordo_idx] = new_piece;
 
 	}
 }
@@ -42,10 +40,8 @@ int main(){
 int main()
 {
 
-	positioning::init_zone_masks();
+	positioning::init();
 	
-	positioning::init_movement_lookups();
-
 	graphics::init_graphics_console();
 
 
@@ -110,11 +106,13 @@ int main()
 	return 0;
 }
 */
-/*
 
+/*
 int main(){
-	positioning::init_zone_masks();
-	positioning::init_movement_lookups();
+
+	getchar();
+
+	positioning::init();
 
 	positioning::game_state states[100];
 
@@ -128,7 +126,7 @@ int main(){
 
 	auto t1 = high_resolution_clock::now();
 
-	for(int i = 0; i < 1000000; i++)
+	for(int i = 0; i < 10000000; i++)
 		positioning::get_movements(states[i%100]);
 			
     auto t2 = high_resolution_clock::now();
@@ -136,7 +134,6 @@ int main(){
     std::cout << ms_double.count() << "ms\n";
 	getchar();
 }
-
 */
 
 /*
