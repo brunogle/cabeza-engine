@@ -5,21 +5,31 @@
 #include <iostream>
 #include <bitset>
 #include <chrono>
+#include <time.h>
 
 #include "graphics.h"
 #include "performance.h"
 #include "positioning.h"
+#include "eval.h"
 
 
 int main(){
+
+	srand(time(NULL));
 
 	using namespace positioning;
 
 	init();
 	
+	std::cout << "Enter PGN:";
+
+	std::string pgn_str;
+
+	std::getline(std::cin, pgn_str);
+
 	graphics::init_graphics_console();
-	
-	game_state state = initial_game_state();
+
+	game_state state = pgn_game_state(pgn_str);
 
 	while(1){
 		
@@ -29,83 +39,81 @@ int main(){
 
 		std::cin >> movement_str;
 
-		positioning::piece new_piece = apply_move_gordo(state.pieces[red_gordo_idx], parse_movement_str(movement_str));
-
-		state.pieces[red_gordo_idx] = new_piece;
+		state = apply_move_pgn(state, movement_str);
 
 	}
 }
 
-/*
-int main()
-{
 
-	positioning::init();
+// int main()
+// {
+
+// 	positioning::init();
 	
-	graphics::init_graphics_console();
+// 	graphics::init_graphics_console();
 
 
-	while (1)
-	{
+// 	while (1)
+// 	{
 
 
-		positioning::game_state state = positioning::random_game_state();
+// 		positioning::game_state state = positioning::random_game_state();
 
-		graphics::draw_on_console(state);
+// 		graphics::draw_on_console(state);
 
-		positioning::all_possible_movements moves = positioning::get_movements(state);
+// 		positioning::all_possible_movements moves = positioning::get_movements(state);
 
-		if(state.turn == positioning::Team::red){
-			std::cout << "Turn: Red" << std::endl;
-		}
-		else{
-			std::cout << "Turn: Blue" << std::endl;
-		}		
-		std::cout << "Cabeza: ";
-		for (int i = 0; i < 28; i++){
-			if (moves.cabeza & (1 << i))
-				std::cout << positioning::kMovementBitName[i] << " ";
-		}
-		std::cout << std::endl;
+// 		if(state.turn == positioning::Team::red){
+// 			std::cout << "Turn: Red" << std::endl;
+// 		}
+// 		else{
+// 			std::cout << "Turn: Blue" << std::endl;
+// 		}		
+// 		std::cout << "Cabeza: ";
+// 		for (int i = 0; i < 28; i++){
+// 			if (moves.cabeza & (1 << i))
+// 				std::cout << positioning::kMovementBitName[i] << " ";
+// 		}
+// 		std::cout << std::endl;
 
-		std::cout << "Mini: ";
-		for (int i = 0; i < 28; i++){
-			if (moves.mini & (1 << i))
-				std::cout << positioning::kMovementBitName[i] << " ";
-		}
-		std::cout << std::endl;
-
-
-		std::cout << "Flaco: ";
-		for (int i = 0; i < 28; i++){
-			if (moves.flaco & (1 << i))
-				std::cout << positioning::kMovementBitName[i] << " ";
-		}
-		std::cout << std::endl;
-
-		std::cout << "Chato: ";
-		for (int i = 0; i < 28; i++){
-			if (moves.chato & (1 << i))
-				std::cout << positioning::kMovementBitName[i] << " ";
-		}
-		std::cout << std::endl;
-
-		std::cout << "Gordo: ";
-		for (int i = 0; i < 28; i++){
-			if (moves.gordo & (1 << i))
-				std::cout << positioning::kMovementBitName[i] << " ";
-		}
-		std::cout << std::endl;
-		std::cout << std::endl;
+// 		std::cout << "Mini: ";
+// 		for (int i = 0; i < 28; i++){
+// 			if (moves.mini & (1 << i))
+// 				std::cout << positioning::kMovementBitName[i] << " ";
+// 		}
+// 		std::cout << std::endl;
 
 
+// 		std::cout << "Flaco: ";
+// 		for (int i = 0; i < 28; i++){
+// 			if (moves.flaco & (1 << i))
+// 				std::cout << positioning::kMovementBitName[i] << " ";
+// 		}
+// 		std::cout << std::endl;
 
-		getchar();
-	}
+// 		std::cout << "Chato: ";
+// 		for (int i = 0; i < 28; i++){
+// 			if (moves.chato & (1 << i))
+// 				std::cout << positioning::kMovementBitName[i] << " ";
+// 		}
+// 		std::cout << std::endl;
 
-	return 0;
-}
-*/
+// 		std::cout << "Gordo: ";
+// 		for (int i = 0; i < 28; i++){
+// 			if (moves.gordo & (1 << i))
+// 				std::cout << positioning::kMovementBitName[i] << " ";
+// 		}
+// 		std::cout << std::endl;
+// 		std::cout << std::endl;
+
+
+
+// 		getchar();
+// 	}
+
+// 	return 0;
+// }
+
 
 /*
 int main(){

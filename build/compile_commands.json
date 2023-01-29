@@ -16,13 +16,18 @@
 },
 {
   "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
-  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -g -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\performance.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\performance.cpp",
-  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/performance.cpp"
+  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -g -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\eval.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\eval.cpp",
+  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/eval.cpp"
 },
 {
   "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
   "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -g -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\graphics_console.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\graphics_console.cpp",
   "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics_console.cpp"
+},
+{
+  "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
+  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -g -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\performance.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\performance.cpp",
+  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/performance.cpp"
 },
 {
   "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",

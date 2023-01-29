@@ -256,14 +256,52 @@ CMakeFiles/cabeza.dir/src/graphics.cpp.obj: \
  c:\portable\mingw64\x86_64-w64-mingw32\include\winsvc.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\mcx.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\imm.h \
- C:\Users\Bruno\Documents\Projects\Cabeza\src\graphics.h \
- C:\Users\Bruno\Documents\Projects\Cabeza\src\positioning.h \
- c:\portable\mingw64\include\c++\12.2.0\cstdint \
- c:\portable\mingw64\lib\gcc\x86_64-w64-mingw32\12.2.0\include\stdint.h \
- c:\portable\mingw64\x86_64-w64-mingw32\include\stdint.h \
+ c:\portable\mingw64\include\c++\12.2.0\vector \
+ c:\portable\mingw64\include\c++\12.2.0\bits\stl_algobase.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\functexcept.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\exception_defines.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\cpp_type_traits.h \
+ c:\portable\mingw64\include\c++\12.2.0\ext\type_traits.h \
+ c:\portable\mingw64\include\c++\12.2.0\ext\numeric_traits.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\stl_pair.h \
+ c:\portable\mingw64\include\c++\12.2.0\type_traits \
+ c:\portable\mingw64\include\c++\12.2.0\bits\move.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\utility.h \
+ c:\portable\mingw64\include\c++\12.2.0\compare \
+ c:\portable\mingw64\include\c++\12.2.0\concepts \
+ c:\portable\mingw64\include\c++\12.2.0\bits\stl_iterator_base_types.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\iterator_concepts.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\ptr_traits.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\ranges_cmp.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\stl_iterator_base_funcs.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\concept_check.h \
+ c:\portable\mingw64\include\c++\12.2.0\debug\assertions.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\stl_iterator.h \
+ c:\portable\mingw64\include\c++\12.2.0\new \
+ c:\portable\mingw64\include\c++\12.2.0\bits\exception.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\stl_construct.h \
+ c:\portable\mingw64\include\c++\12.2.0\debug\debug.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\predefined_ops.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\allocator.h \
+ c:\portable\mingw64\include\c++\12.2.0\x86_64-w64-mingw32\bits\c++allocator.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\new_allocator.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\memoryfwd.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\stl_uninitialized.h \
+ c:\portable\mingw64\include\c++\12.2.0\ext\alloc_traits.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\alloc_traits.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\stl_vector.h \
+ c:\portable\mingw64\include\c++\12.2.0\initializer_list \
+ c:\portable\mingw64\include\c++\12.2.0\bits\stl_bvector.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\functional_hash.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\hash_bytes.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\refwrap.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\invoke.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\stl_function.h \
+ c:\portable\mingw64\include\c++\12.2.0\backward\binders.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\range_access.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\vector.tcc \
  c:\portable\mingw64\include\c++\12.2.0\string \
  c:\portable\mingw64\include\c++\12.2.0\bits\stringfwd.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\memoryfwd.h \
  c:\portable\mingw64\include\c++\12.2.0\bits\char_traits.h \
  c:\portable\mingw64\include\c++\12.2.0\bits\postypes.h \
  c:\portable\mingw64\include\c++\12.2.0\cwchar \
@@ -273,26 +311,9 @@ CMakeFiles/cabeza.dir/src/graphics.cpp.obj: \
  c:\portable\mingw64\x86_64-w64-mingw32\include\_mingw_stat64.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\swprintf.inl \
  c:\portable\mingw64\x86_64-w64-mingw32\include\sec_api\wchar_s.h \
- c:\portable\mingw64\include\c++\12.2.0\type_traits \
- c:\portable\mingw64\include\c++\12.2.0\compare \
- c:\portable\mingw64\include\c++\12.2.0\concepts \
- c:\portable\mingw64\include\c++\12.2.0\bits\stl_construct.h \
- c:\portable\mingw64\include\c++\12.2.0\new \
- c:\portable\mingw64\include\c++\12.2.0\bits\exception.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\move.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\stl_iterator_base_types.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\iterator_concepts.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\ptr_traits.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\ranges_cmp.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\stl_iterator_base_funcs.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\concept_check.h \
- c:\portable\mingw64\include\c++\12.2.0\debug\assertions.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\allocator.h \
- c:\portable\mingw64\include\c++\12.2.0\x86_64-w64-mingw32\bits\c++allocator.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\new_allocator.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\functexcept.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\exception_defines.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\cpp_type_traits.h \
+ c:\portable\mingw64\include\c++\12.2.0\cstdint \
+ c:\portable\mingw64\lib\gcc\x86_64-w64-mingw32\12.2.0\include\stdint.h \
+ c:\portable\mingw64\x86_64-w64-mingw32\include\stdint.h \
  c:\portable\mingw64\include\c++\12.2.0\bits\localefwd.h \
  c:\portable\mingw64\include\c++\12.2.0\x86_64-w64-mingw32\bits\c++locale.h \
  c:\portable\mingw64\include\c++\12.2.0\clocale \
@@ -303,26 +324,8 @@ CMakeFiles/cabeza.dir/src/graphics.cpp.obj: \
  c:\portable\mingw64\include\c++\12.2.0\cctype \
  c:\portable\mingw64\include\c++\12.2.0\bits\ostream_insert.h \
  c:\portable\mingw64\include\c++\12.2.0\bits\cxxabi_forced.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\stl_iterator.h \
- c:\portable\mingw64\include\c++\12.2.0\ext\type_traits.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\stl_function.h \
- c:\portable\mingw64\include\c++\12.2.0\backward\binders.h \
- c:\portable\mingw64\include\c++\12.2.0\ext\numeric_traits.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\stl_algobase.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\stl_pair.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\utility.h \
- c:\portable\mingw64\include\c++\12.2.0\debug\debug.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\predefined_ops.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\refwrap.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\invoke.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\range_access.h \
- c:\portable\mingw64\include\c++\12.2.0\initializer_list \
  c:\portable\mingw64\include\c++\12.2.0\bits\basic_string.h \
- c:\portable\mingw64\include\c++\12.2.0\ext\alloc_traits.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\alloc_traits.h \
  c:\portable\mingw64\include\c++\12.2.0\string_view \
- c:\portable\mingw64\include\c++\12.2.0\bits\functional_hash.h \
- c:\portable\mingw64\include\c++\12.2.0\bits\hash_bytes.h \
  c:\portable\mingw64\include\c++\12.2.0\bits\ranges_base.h \
  c:\portable\mingw64\include\c++\12.2.0\bits\max_size_type.h \
  c:\portable\mingw64\include\c++\12.2.0\numbers \
@@ -332,6 +335,24 @@ CMakeFiles/cabeza.dir/src/graphics.cpp.obj: \
  c:\portable\mingw64\include\c++\12.2.0\cerrno \
  c:\portable\mingw64\include\c++\12.2.0\bits\charconv.h \
  c:\portable\mingw64\include\c++\12.2.0\bits\basic_string.tcc \
+ c:\portable\mingw64\include\c++\12.2.0\cmath \
+ c:\portable\mingw64\x86_64-w64-mingw32\include\math.h \
+ c:\portable\mingw64\include\c++\12.2.0\bits\specfun.h \
+ c:\portable\mingw64\include\c++\12.2.0\limits \
+ c:\portable\mingw64\include\c++\12.2.0\tr1\gamma.tcc \
+ c:\portable\mingw64\include\c++\12.2.0\tr1\special_function_util.h \
+ c:\portable\mingw64\include\c++\12.2.0\tr1\bessel_function.tcc \
+ c:\portable\mingw64\include\c++\12.2.0\tr1\beta_function.tcc \
+ c:\portable\mingw64\include\c++\12.2.0\tr1\ell_integral.tcc \
+ c:\portable\mingw64\include\c++\12.2.0\tr1\exp_integral.tcc \
+ c:\portable\mingw64\include\c++\12.2.0\tr1\hypergeometric.tcc \
+ c:\portable\mingw64\include\c++\12.2.0\tr1\legendre_function.tcc \
+ c:\portable\mingw64\include\c++\12.2.0\tr1\modified_bessel_func.tcc \
+ c:\portable\mingw64\include\c++\12.2.0\tr1\poly_hermite.tcc \
+ c:\portable\mingw64\include\c++\12.2.0\tr1\poly_laguerre.tcc \
+ c:\portable\mingw64\include\c++\12.2.0\tr1\riemann_zeta.tcc \
+ C:\Users\Bruno\Documents\Projects\Cabeza\src\graphics.h \
+ C:\Users\Bruno\Documents\Projects\Cabeza\src\positioning.h \
  c:\portable\mingw64\include\c++\12.2.0\map \
  c:\portable\mingw64\include\c++\12.2.0\bits\stl_tree.h \
  c:\portable\mingw64\include\c++\12.2.0\ext\aligned_buffer.h \
@@ -341,4 +362,5 @@ CMakeFiles/cabeza.dir/src/graphics.cpp.obj: \
  c:\portable\mingw64\include\c++\12.2.0\bits\uses_allocator.h \
  c:\portable\mingw64\include\c++\12.2.0\bits\stl_multimap.h \
  c:\portable\mingw64\include\c++\12.2.0\bits\erase_if.h \
- C:\Users\Bruno\Documents\Projects\Cabeza\src\graphics_console.h
+ C:\Users\Bruno\Documents\Projects\Cabeza\src\graphics_console.h \
+ C:\Users\Bruno\Documents\Projects\Cabeza\src\eval.h

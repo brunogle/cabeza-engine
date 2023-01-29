@@ -165,6 +165,30 @@ src/console_graphics_helper.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\console_graphics_helper.dir\build.make CMakeFiles/console_graphics_helper.dir/src/console_graphics_helper.cpp.s
 .PHONY : src/console_graphics_helper.cpp.s
 
+src/eval.obj: src/eval.cpp.obj
+.PHONY : src/eval.obj
+
+# target to build an object file
+src/eval.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/eval.cpp.obj
+.PHONY : src/eval.cpp.obj
+
+src/eval.i: src/eval.cpp.i
+.PHONY : src/eval.i
+
+# target to preprocess a source file
+src/eval.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/eval.cpp.i
+.PHONY : src/eval.cpp.i
+
+src/eval.s: src/eval.cpp.s
+.PHONY : src/eval.s
+
+# target to generate assembly for a file
+src/eval.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/eval.cpp.s
+.PHONY : src/eval.cpp.s
+
 src/graphics.obj: src/graphics.cpp.obj
 .PHONY : src/graphics.obj
 
@@ -298,6 +322,9 @@ help:
 	@echo ... src/console_graphics_helper.obj
 	@echo ... src/console_graphics_helper.i
 	@echo ... src/console_graphics_helper.s
+	@echo ... src/eval.obj
+	@echo ... src/eval.i
+	@echo ... src/eval.s
 	@echo ... src/graphics.obj
 	@echo ... src/graphics.i
 	@echo ... src/graphics.s

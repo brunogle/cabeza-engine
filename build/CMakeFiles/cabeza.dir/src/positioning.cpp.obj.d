@@ -172,6 +172,8 @@ CMakeFiles/cabeza.dir/src/positioning.cpp.obj: \
  c:\portable\mingw64\include\c++\12.2.0\bits\ranges_util.h \
  c:\portable\mingw64\include\c++\12.2.0\pstl\glue_algorithm_defs.h \
  c:\portable\mingw64\include\c++\12.2.0\pstl\execution_defs.h \
+ c:\portable\mingw64\x86_64-w64-mingw32\include\string.h \
+ c:\portable\mingw64\x86_64-w64-mingw32\include\sec_api\string_s.h \
  C:\Users\Bruno\Documents\Projects\Cabeza\src\positioning.h \
  c:\portable\mingw64\include\c++\12.2.0\map \
  c:\portable\mingw64\include\c++\12.2.0\bits\stl_tree.h \

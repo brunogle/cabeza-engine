@@ -12,6 +12,7 @@
             "cwd": "${workspaceFolder}\\build\\bin",
             "externalConsole": true,
             "MIMode": "gdb",
+            "logging": { "engineLogging": true },
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",

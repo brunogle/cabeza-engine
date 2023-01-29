@@ -4,9 +4,6 @@
 #include <windows.h>
 #include "positioning.h"
 
-#define IN_SQUARE_WIDTH  6 //Width of a square on the board in characters
-#define IN_SQUARE_HEIGHT 3 //Height of a square on the board in characters
-
 #define THIN_PIECE_CHAR L'▒' //Character to use when a single height piece is shown
 #define THICK_PIECE_CHAR L'█' //Character to use when a double height piece is shown
 
@@ -19,14 +16,35 @@
 
 namespace graphics{
 
-    const int kBoardDrawingWidth = IN_SQUARE_WIDTH*10 + 11;   //Calculate total size of the board image
-    const int kBoardDrawingHeight = IN_SQUARE_HEIGHT*10 + 11;
+    //Board drawing user-defined constants
 
-    const int kDrawingWidth = kBoardDrawingWidth + 5;
+    const int kInSquareWidth = 6;  //Inner width of a board square
+    const int kInSquareHeight = 3; //Inner height of a board square
+
+
+    //Board drawing calculated constants
+
+    const int kBoardDrawingWidth = kInSquareWidth*10 + 11;   //Calculate total size of the board image
+    const int kBoardDrawingHeight = kInSquareHeight*10 + 11;
+
+
+    //Evaluation meter user-defined constants
+
+    const int kEvaluationMeterX = kBoardDrawingWidth + 4; //X coordinate of left side of evaluation meter
+    const int kEvaluationMeterY = 0; //Y coordinate of top side of evaluation meter
+
+    const int kEvaluationMeterHeight = kBoardDrawingHeight;
+    const int kEvaluationMeterBarGraphWidth = 3;
+
+    const int kEvaluationMeterValueCharNum = 4;
+
+    const float kEvaluationGraphLimit = 25.0;
+
+
+    //Graphics calculated constants
+
+    const int kDrawingWidth = kBoardDrawingWidth + kEvaluationMeterBarGraphWidth + kEvaluationMeterValueCharNum + 6;   //Calculate total size of window
     const int kDrawingHeight = kBoardDrawingHeight + 5;
-
-    const int kBoardMarginLower = kDrawingWidth - kBoardDrawingWidth;
-    const int kBoardMarginRight = kDrawingHeight - kBoardDrawingHeight;
 
     const int kGraphicArraySize = kDrawingHeight*kDrawingWidth; //Size of the array needed to represent board image
 

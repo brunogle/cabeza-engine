@@ -112,6 +112,8 @@ int GraphicsConsole::initializeWindow(int width, int height){
 	si.cb=sizeof(STARTUPINFO);
 	si.hStdInput = g_hChildStd_IN_Rd; //Pass read end of pipe as std input.
 	si.dwFlags |= STARTF_USESTDHANDLES;
+	si.dwFlags |= STARTF_USESHOWWINDOW;
+	si.wShowWindow = SW_SHOWNOACTIVATE;
 
 	LPCWSTR graphicConsoleExecutableName = L"console_graphics_helper.exe";
 

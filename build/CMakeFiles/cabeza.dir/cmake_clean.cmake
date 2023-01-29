@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/cabeza.dir/src/eval.cpp.obj"
+  "CMakeFiles/cabeza.dir/src/eval.cpp.obj.d"
   "CMakeFiles/cabeza.dir/src/graphics.cpp.obj"
   "CMakeFiles/cabeza.dir/src/graphics.cpp.obj.d"
   "CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj"

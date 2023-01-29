@@ -110,19 +110,19 @@ CMakeFiles/cabeza.dir/src/positioning.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cabeza.dir/src/positioning.cpp.s"
 	C:\Portable\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Bruno\Documents\Projects\Cabeza\src\positioning.cpp -o CMakeFiles\cabeza.dir\src\positioning.cpp.s
 
-CMakeFiles/cabeza.dir/src/performance.cpp.obj: CMakeFiles/cabeza.dir/flags.make
-CMakeFiles/cabeza.dir/src/performance.cpp.obj: C:/Users/Bruno/Documents/Projects/Cabeza/src/performance.cpp
-CMakeFiles/cabeza.dir/src/performance.cpp.obj: CMakeFiles/cabeza.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cabeza.dir/src/performance.cpp.obj"
-	C:\Portable\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cabeza.dir/src/performance.cpp.obj -MF CMakeFiles\cabeza.dir\src\performance.cpp.obj.d -o CMakeFiles\cabeza.dir\src\performance.cpp.obj -c C:\Users\Bruno\Documents\Projects\Cabeza\src\performance.cpp
+CMakeFiles/cabeza.dir/src/eval.cpp.obj: CMakeFiles/cabeza.dir/flags.make
+CMakeFiles/cabeza.dir/src/eval.cpp.obj: C:/Users/Bruno/Documents/Projects/Cabeza/src/eval.cpp
+CMakeFiles/cabeza.dir/src/eval.cpp.obj: CMakeFiles/cabeza.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cabeza.dir/src/eval.cpp.obj"
+	C:\Portable\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cabeza.dir/src/eval.cpp.obj -MF CMakeFiles\cabeza.dir\src\eval.cpp.obj.d -o CMakeFiles\cabeza.dir\src\eval.cpp.obj -c C:\Users\Bruno\Documents\Projects\Cabeza\src\eval.cpp
 
-CMakeFiles/cabeza.dir/src/performance.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cabeza.dir/src/performance.cpp.i"
-	C:\Portable\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Bruno\Documents\Projects\Cabeza\src\performance.cpp > CMakeFiles\cabeza.dir\src\performance.cpp.i
+CMakeFiles/cabeza.dir/src/eval.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cabeza.dir/src/eval.cpp.i"
+	C:\Portable\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Bruno\Documents\Projects\Cabeza\src\eval.cpp > CMakeFiles\cabeza.dir\src\eval.cpp.i
 
-CMakeFiles/cabeza.dir/src/performance.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cabeza.dir/src/performance.cpp.s"
-	C:\Portable\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Bruno\Documents\Projects\Cabeza\src\performance.cpp -o CMakeFiles\cabeza.dir\src\performance.cpp.s
+CMakeFiles/cabeza.dir/src/eval.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cabeza.dir/src/eval.cpp.s"
+	C:\Portable\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Bruno\Documents\Projects\Cabeza\src\eval.cpp -o CMakeFiles\cabeza.dir\src\eval.cpp.s
 
 CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj: CMakeFiles/cabeza.dir/flags.make
 CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj: C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics_console.cpp
@@ -138,13 +138,28 @@ CMakeFiles/cabeza.dir/src/graphics_console.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cabeza.dir/src/graphics_console.cpp.s"
 	C:\Portable\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Bruno\Documents\Projects\Cabeza\src\graphics_console.cpp -o CMakeFiles\cabeza.dir\src\graphics_console.cpp.s
 
+CMakeFiles/cabeza.dir/src/performance.cpp.obj: CMakeFiles/cabeza.dir/flags.make
+CMakeFiles/cabeza.dir/src/performance.cpp.obj: C:/Users/Bruno/Documents/Projects/Cabeza/src/performance.cpp
+CMakeFiles/cabeza.dir/src/performance.cpp.obj: CMakeFiles/cabeza.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/cabeza.dir/src/performance.cpp.obj"
+	C:\Portable\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cabeza.dir/src/performance.cpp.obj -MF CMakeFiles\cabeza.dir\src\performance.cpp.obj.d -o CMakeFiles\cabeza.dir\src\performance.cpp.obj -c C:\Users\Bruno\Documents\Projects\Cabeza\src\performance.cpp
+
+CMakeFiles/cabeza.dir/src/performance.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cabeza.dir/src/performance.cpp.i"
+	C:\Portable\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Bruno\Documents\Projects\Cabeza\src\performance.cpp > CMakeFiles\cabeza.dir\src\performance.cpp.i
+
+CMakeFiles/cabeza.dir/src/performance.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cabeza.dir/src/performance.cpp.s"
+	C:\Portable\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Bruno\Documents\Projects\Cabeza\src\performance.cpp -o CMakeFiles\cabeza.dir\src\performance.cpp.s
+
 # Object files for target cabeza
 cabeza_OBJECTS = \
 "CMakeFiles/cabeza.dir/src/main.cpp.obj" \
 "CMakeFiles/cabeza.dir/src/graphics.cpp.obj" \
 "CMakeFiles/cabeza.dir/src/positioning.cpp.obj" \
-"CMakeFiles/cabeza.dir/src/performance.cpp.obj" \
-"CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj"
+"CMakeFiles/cabeza.dir/src/eval.cpp.obj" \
+"CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj" \
+"CMakeFiles/cabeza.dir/src/performance.cpp.obj"
 
 # External object files for target cabeza
 cabeza_EXTERNAL_OBJECTS =
@@ -152,13 +167,14 @@ cabeza_EXTERNAL_OBJECTS =
 bin/cabeza.exe: CMakeFiles/cabeza.dir/src/main.cpp.obj
 bin/cabeza.exe: CMakeFiles/cabeza.dir/src/graphics.cpp.obj
 bin/cabeza.exe: CMakeFiles/cabeza.dir/src/positioning.cpp.obj
-bin/cabeza.exe: CMakeFiles/cabeza.dir/src/performance.cpp.obj
+bin/cabeza.exe: CMakeFiles/cabeza.dir/src/eval.cpp.obj
 bin/cabeza.exe: CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj
+bin/cabeza.exe: CMakeFiles/cabeza.dir/src/performance.cpp.obj
 bin/cabeza.exe: CMakeFiles/cabeza.dir/build.make
 bin/cabeza.exe: CMakeFiles/cabeza.dir/linkLibs.rsp
 bin/cabeza.exe: CMakeFiles/cabeza.dir/objects1
 bin/cabeza.exe: CMakeFiles/cabeza.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable bin\cabeza.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable bin\cabeza.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\cabeza.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

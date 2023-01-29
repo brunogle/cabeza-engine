@@ -52,6 +52,12 @@
         "typeinfo": "cpp",
         "set": "cpp",
         "bitset": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "xmemory": "cpp",
+        "xstddef": "cpp",
+        "xstring": "cpp",
+        "xtr1common": "cpp",
+        "xtree": "cpp",
+        "xutility": "cpp"
     }
 }
