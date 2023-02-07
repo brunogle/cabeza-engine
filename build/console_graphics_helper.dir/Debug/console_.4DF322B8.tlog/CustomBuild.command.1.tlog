@@ -1,0 +1,10 @@
+^C:\USERS\BRUNO\DOCUMENTS\PROJECTS\CABEZA\CMAKELISTS.TXT
+setlocal
+C:\msys64\mingw64\bin\cmake.exe -SC:/Users/Bruno/Documents/Projects/Cabeza -BC:/Users/Bruno/Documents/Projects/Cabeza/build --check-stamp-file C:/Users/Bruno/Documents/Projects/Cabeza/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

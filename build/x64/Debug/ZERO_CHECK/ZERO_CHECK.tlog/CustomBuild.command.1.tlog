@@ -1,0 +1,10 @@
+^C:\USERS\BRUNO\DOCUMENTS\PROJECTS\CABEZA\BUILD\CMAKEFILES\0CCF05DE00A0018D11E7E1E2FF675AB3\GENERATE.STAMP.RULE
+setlocal
+C:\msys64\mingw64\bin\cmake.exe -SC:/Users/Bruno/Documents/Projects/Cabeza -BC:/Users/Bruno/Documents/Projects/Cabeza/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/Bruno/Documents/Projects/Cabeza/build/cabeza.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

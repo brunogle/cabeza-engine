@@ -9,6 +9,8 @@
 #define OCCUPANCY_LOOKUP_O(x, y, o) (x << 6) | (y << 2) | o
 #define OCCUPANCY_LOOKUP(x, y) (x << 6) | (y << 2)
 
+#define MAX_POSSIBLE_MOVEMENTS 72
+
 #define PIECE_CABEZA_MASK 0b00000001
 #define PIECE_MINI_MASK   0b00000010
 #define PIECE_FLACO_MASK  0b00000100
@@ -59,14 +61,14 @@ namespace positioning{
     /*
     28 bit Variable type that can encode all possible movements any piece can make  (7 bit rotational symmetry)
     */
-    typedef uint32_t possible_movements_t; //Used for Cabeza
+    typedef uint32_t possible_moves_t; //Used for Cabeza
     const std::string kMovementBitName[] = {"N","NN","NE","EN","NNE","NNEE","NEE","E","EE","ES","SE","SEE","SSEE","SSE","S","SS","SW","WS","SSW","SSWW","SWW","W","WW","WN","NW","NWW","NNWW","NNW"};
 
 
     /*
     Should only take one value of MOVEMENT_XXX (i.e. only ONE bit should be set)
     */
-    typedef uint32_t movement_t;
+    typedef uint32_t move_bitarray_t;
 
 
     enum Orientation
@@ -123,16 +125,16 @@ namespace positioning{
         piece pieces[10];
     };
 
-    struct all_possible_movements{
-        possible_movements_t cabeza;
-        possible_movements_t mini;
-        possible_movements_t flaco;
-        possible_movements_t chato;
-        possible_movements_t gordo;
+    struct all_possible_moves_t{
+        possible_moves_t cabeza;
+        possible_moves_t mini;
+        possible_moves_t flaco;
+        possible_moves_t chato;
+        possible_moves_t gordo;
     };
 
-    struct piece_movement{
-        movement_t movement;
+    struct move{
+        move_bitarray_t move;
         PieceType piece;
     };
 
@@ -214,62 +216,76 @@ namespace positioning{
 
 
     /*
+    List all possible movements as an array of move for use in seach. Returns number of possible moves.
+    */
+    int get_moves_as_list(game_state state, move movements[MAX_POSSIBLE_MOVEMENTS]);
+
+
+    /*
     Finds all movements for a given game state
     */
-    all_possible_movements get_movements(game_state state);
+    all_possible_moves_t get_moves(game_state state);
 
     
-    piece_movement parse_movement_str(std::string str);
+    move parse_movement_str(std::string str);
+
+    std::string get_move_str(move move_to_translate);
 
     /*
-    Applies a movement_t to a cabeza piece.
-    This function does NOT check if movement_t is valid, or if only one bit is set.
+    Applies a move_bitarray_t to a cabeza piece.
+    This function does NOT check if move_bitarray_t is valid, or if only one bit is set.
     */
-    piece apply_move_cabeza(piece p, movement_t movement);
+    piece apply_move_cabeza(piece p, move_bitarray_t movement);
 
     /*
-    Applies a movement_t to a mini piece.
-    This function does NOT check if movement_t is valid, or if only one bit is set.
+    Applies a move_bitarray_t to a mini piece.
+    This function does NOT check if move_bitarray_t is valid, or if only one bit is set.
     */
-    piece apply_move_mini(piece p, movement_t movement);
+    piece apply_move_mini(piece p, move_bitarray_t movement);
 
     /*
-    Applies a movement_t to a flaco piece.
-    This function does NOT check if movement_t is valid, or if only one bit is set.
+    Applies a move_bitarray_t to a flaco piece.
+    This function does NOT check if move_bitarray_t is valid, or if only one bit is set.
     */
-    piece apply_move_flaco(piece p, movement_t movement);
+    piece apply_move_flaco(piece p, move_bitarray_t movement);
     
     /*
-    Applies a movement_t to a flaco piece.
-    This function does NOT check if movement_t is valid, or if only one bit is set.
+    Applies a move_bitarray_t to a flaco piece.
+    This function does NOT check if move_bitarray_t is valid, or if only one bit is set.
     */
-    piece apply_move_chato(piece p, movement_t movement);
+    piece apply_move_chato(piece p, move_bitarray_t movement);
 
     /*
-    Applies a movement_t to a gordo piece.
-    This function does NOT check if movement_t is valid, or if only one bit is set.
+    Applies a move_bitarray_t to a gordo piece.
+    This function does NOT check if move_bitarray_t is valid, or if only one bit is set.
     */ 
-    piece apply_move_gordo(piece p, movement_t movement);
+    piece apply_move_gordo(piece p, move_bitarray_t movement);
 
     /*
     Applies a movement to a board. Does not check if piece is valid
     */
-    game_state apply_move(game_state state, piece_movement move);
+    game_state apply_move(game_state state, move move);
 
     /*
     Checks if movement is valid
     */
-    bool check_movement_valid(game_state state, piece_movement move);
+    bool check_move_valid(game_state state, move move);
 
     /*
     Applies a movement to a board. Does not check if piece is valid
     */
-    game_state apply_move_safe(game_state state, piece_movement move, bool * success = NULL);
+    game_state apply_move_safe(game_state state, move move, bool * success = NULL);
 
     /*
     Apply PGN string
     */
-    game_state apply_move_pgn(game_state state, std::string pgn_str);
+    game_state apply_pgn(game_state state, std::string pgn_str, bool * success = NULL);
+
+    /*
+    Checks if a player won in last semimove.
+    Only returns true if the player that has the win condition hast played last semimove (i.e. the player whoes turn is not)
+    */
+    bool check_for_win(positioning::game_state state);
 
 }
 

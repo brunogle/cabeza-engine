@@ -3,6 +3,10 @@
 
 #include <windows.h>
 #include "positioning.h"
+#include "graphics_console.h"
+
+#include <functional>
+#include <vector>
 
 #define THIN_PIECE_CHAR L'▒' //Character to use when a single height piece is shown
 #define THICK_PIECE_CHAR L'█' //Character to use when a double height piece is shown
@@ -14,7 +18,7 @@
 
 #define BOARD_COLOR FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN
 
-namespace graphics{
+namespace consts{
 
     //Board drawing user-defined constants
 
@@ -38,7 +42,7 @@ namespace graphics{
 
     const int kEvaluationMeterValueCharNum = 4;
 
-    const float kEvaluationGraphLimit = 25.0;
+    const int kEvaluationGraphLimit = 40;
 
 
     //Graphics calculated constants
@@ -48,31 +52,43 @@ namespace graphics{
 
     const int kGraphicArraySize = kDrawingHeight*kDrawingWidth; //Size of the array needed to represent board image
 
-    /*
-    Struct used to pass secondary details onto the board drawing
-    */
-    struct board_graphic_details{
-        bool shade[10][10];
-    };
+}
 
-    extern board_graphic_details no_detail_struct; //Default no aditional details structure. Defined in graphics.cpp
+class GraphicsWindow{
 
-    int init_graphics_console();
-    
+    private:
+
+    GraphicsWindowHandler board_graphics_console;
+
+    int draw_board_graphic(positioning::game_state state, std::vector<std::vector<CHAR_INFO>> & image_drawing);
+    int draw_eval_meter(positioning::game_state state, std::vector<std::vector<CHAR_INFO>> & image_drawing);
+    int draw_board_turn_label(positioning::game_state state, std::vector<std::vector<CHAR_INFO>> & image_drawing);
+    int draw_board_labels(std::vector<std::vector<CHAR_INFO>> & image_drawing);
 
     /*
     Generates CHAR_INFO array for use in WINAPI WriteConsoleOutptputW
     Accetps a game_state and optionally a board_graphic_details to produce the array.
     */
-    int generate_unicode_board(positioning::game_state state, CHAR_INFO drawing[kGraphicArraySize], board_graphic_details details = no_detail_struct);
+    int generate_unicode_board(positioning::game_state state, CHAR_INFO drawing[consts::kGraphicArraySize]);
 
+    std::function<int(positioning::game_state)> evaluator_function;
+
+    public:
+
+    GraphicsWindow();
+
+    int init_graphics_console();
 
     /*
     Calls generate_unicode_board and draws it in console at specific coordinates
     */
-    int draw_on_console(positioning::game_state state, board_graphic_details details=no_detail_struct);
+    int draw_on_console(positioning::game_state state);
 
-}
+    int stop_graphics_console();
+
+    int set_evaluator_function(std::function<int(positioning::game_state)> evaluator_function);
+
+};
 
 
 #endif

@@ -1,3 +1,0 @@
-C:\Portable\cmake-3.25.1-windows-x86_64\bin\cmake.exe -E rm -f CMakeFiles\cabeza.dir/objects.a
-C:\Portable\mingw64\bin\ar.exe qc CMakeFiles\cabeza.dir/objects.a @CMakeFiles\cabeza.dir\objects1
-C:\Portable\mingw64\bin\g++.exe -g -static-libgcc -static-libstdc++ -Wl,--whole-archive CMakeFiles\cabeza.dir/objects.a -Wl,--no-whole-archive -o bin\cabeza.exe -Wl,--out-implib,bin\libcabeza.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cabeza.dir\linkLibs.rsp

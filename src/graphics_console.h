@@ -4,13 +4,11 @@
 #include <windows.h>
 
 
-class GraphicsConsole{
+class GraphicsWindowHandler{
 
 	public:
-
-		GraphicsConsole();
 	
-		~GraphicsConsole();
+		~GraphicsWindowHandler();
 
 		/*
 		This function expects a width*height CHAR_INFO array which is coppied into shared memory.
@@ -19,7 +17,7 @@ class GraphicsConsole{
 		
 		int initializeWindow(int width, int height);
 
-		void closeWindow();
+		int closeWindow();
 
 		int getWidth();
 
@@ -33,7 +31,7 @@ class GraphicsConsole{
 
     STARTUPINFOW startupInfo; //StartupInfo for process
 
-	WCHAR charInfoFileName[16]; //Shared memory file name
+	WCHAR charInfoFileName[32]; //Shared memory file name
 
 	CHAR_INFO * sharedGraphicsArray;
 

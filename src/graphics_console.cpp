@@ -20,17 +20,14 @@ std::wstring gen_random_wstr(const int len) {
     tmp_s.reserve(len);
 
     for (int i = 0; i < len; ++i) {
-        tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
+        tmp_s += alphanum[rand() % 36];
     }
     
     return tmp_s;
 }
 
-GraphicsConsole::GraphicsConsole(){
 
-}
-
-GraphicsConsole::~GraphicsConsole(){
+GraphicsWindowHandler::~GraphicsWindowHandler(){
 	if (this->hProcessGraphics!=INVALID_HANDLE_VALUE){
 		TerminateProcess(this->hProcessGraphics,0);
 		CloseHandle(this->hProcessGraphics);
@@ -38,19 +35,21 @@ GraphicsConsole::~GraphicsConsole(){
 }
 
 
-int GraphicsConsole::initializeWindow(int width, int height){
+int GraphicsWindowHandler::initializeWindow(int width, int height){
 	this->graphicArraySize = width*height;
 
-	std::wstring randomWstr = gen_random_wstr(16);
+	std::wstring charInfoFileNameStr = L"graphicsfile_" + gen_random_wstr(16);
 
-	wcscpy(charInfoFileName, L"graphicsfile");
+	wcscpy(charInfoFileName, charInfoFileNameStr.c_str());
 
-	std::wstring graphicConsoleArgumentsWstring = charInfoFileName;
+	std::wstring graphicConsoleArgumentsWstring = charInfoFileNameStr;
 	graphicConsoleArgumentsWstring += L" " + std::to_wstring(width) + L" " + std::to_wstring(height);
 
-	WCHAR graphicConsoleArguments[sizeof(graphicConsoleArgumentsWstring)];
+	LPWSTR graphicConsoleArguments;
 
-	wcscpy(graphicConsoleArguments, graphicConsoleArgumentsWstring.c_str());
+	graphicConsoleArguments = new WCHAR[100];
+
+	wcscpy((wchar_t *) graphicConsoleArguments, graphicConsoleArgumentsWstring.c_str());
 
 	////////// INITIALIZE FILE MAPPING FOR GRAPHICS
 
@@ -64,7 +63,7 @@ int GraphicsConsole::initializeWindow(int width, int height){
 					charInfoFileName);// Name of mapping object
 	
 	if (hMapFile == NULL){
-		std::cerr << "GraphicsConsole: CreateFileMappingW() Fail: " << GetLastError();
+		std::cerr << "GraphicsWindowHandler: CreateFileMappingW() Fail: " << GetLastError();
 		return 0;
 	}
 	
@@ -77,7 +76,7 @@ int GraphicsConsole::initializeWindow(int width, int height){
 
 	if (sharedGraphicsArray == NULL){
 		CloseHandle(hMapFile);
-		std::cerr << "GraphicsConsole: MapViewOfFile() Fail: " << GetLastError();
+		std::cerr << "GraphicsWindowHandler: MapViewOfFile() Fail: " << GetLastError();
 		return 0;
 	}
 
@@ -90,12 +89,12 @@ int GraphicsConsole::initializeWindow(int width, int height){
 	saAttr.lpSecurityDescriptor = NULL;
 
 	if (! CreatePipe(&g_hChildStd_IN_Rd, &g_hChildStd_IN_Wr, &saAttr, 0)) {
-		std::cerr << "GraphicsConsole: CreatePipe() Fail: " << GetLastError();
+		std::cerr << "GraphicsWindowHandler: CreatePipe() Fail: " << GetLastError();
 		return 0;
 	}
 	
    	if ( ! SetHandleInformation(g_hChildStd_IN_Wr, HANDLE_FLAG_INHERIT, 0) ){
-    	std::cerr << "GraphicsConsole: SetHandleInformation() Fail: " << GetLastError();
+    	std::cerr << "GraphicsWindowHandler: SetHandleInformation() Fail: " << GetLastError();
 		return 0;
 	}
 
@@ -129,7 +128,7 @@ int GraphicsConsole::initializeWindow(int width, int height){
 					   &si, //Pass startup info
 					   &pi))//Pass process info pointer. Data is written to pi
 	{ 
-		std::cerr << "GraphicsConsole: CreateProcess() Fail: " << GetLastError();
+		std::cerr << "GraphicsWindowHandler: CreateProcess() Fail: " << GetLastError();
 		return 0;
 	}
 
@@ -142,10 +141,26 @@ int GraphicsConsole::initializeWindow(int width, int height){
 
 	CloseHandle(pi.hThread);
 
+	delete[] graphicConsoleArguments;
+
 	return 1;
 }
 
-bool GraphicsConsole::updateConsole() { 
+int GraphicsWindowHandler::closeWindow(){
+
+	bool success = true;
+
+	success &= TerminateProcess(hProcessGraphics, 0);
+
+	success &= DisconnectNamedPipe(g_hChildStd_IN_Rd);
+
+	success &= UnmapViewOfFile(sharedGraphicsArray);
+
+	return success;
+
+}
+
+bool GraphicsWindowHandler::updateConsole() { 
 
 	//Writing any character on pipe causes a console screen buffer update
 
@@ -159,19 +174,19 @@ bool GraphicsConsole::updateConsole() {
 	return bSuccess;
 } 
 
-int GraphicsConsole::getWidth(){
+int GraphicsWindowHandler::getWidth(){
 	return this->width;
 }
 
-int GraphicsConsole::getHeigth(){
+int GraphicsWindowHandler::getHeigth(){
 	return this->height;
 }
 
-int GraphicsConsole::getGraphicArraySize(){
+int GraphicsWindowHandler::getGraphicArraySize(){
 	return this->graphicArraySize;
 }
 
-bool GraphicsConsole::drawOnConsole(CHAR_INFO * graphicsArray){
+bool GraphicsWindowHandler::drawOnConsole(CHAR_INFO * graphicsArray){
 	CopyMemory(this->sharedGraphicsArray, graphicsArray, this->graphicArraySize*sizeof(CHAR_INFO));
 
 	return this->updateConsole();

@@ -1,6 +1,6 @@
 /*
 This file compiles to a seperate executable file, whcih the is called by the
-GraphicsConsole class.
+GraphicsWindowHandler class.
 
 A shared memory file is used to pass the CHAR_INFO array used by WriteConsoleOutput()
 The stdin pipe is used to indicate a screen update.
@@ -23,7 +23,7 @@ int main(int argc,char **argv){
 
 	LPCSTR charInfoFileName = argv[0];
 
-	
+
 	const short kWidth = atoi(argv[1]);
 	const short kHeight = atoi(argv[2]);
  
@@ -34,6 +34,10 @@ int main(int argc,char **argv){
 	HANDLE hStdIn = GetStdHandle(STD_INPUT_HANDLE);
 	HWND  hWndConsole = GetConsoleWindow();
  
+	//Set window title to shared memory string
+
+	SetWindowText(hWndConsole, charInfoFileName);
+
 	//Set window to max size
 
 	SetWindowPos(hWndConsole, NULL, 0, 0, 1920, 1080, SWP_NOMOVE);
@@ -73,11 +77,10 @@ int main(int argc,char **argv){
 		(prev_mode & ~ENABLE_QUICK_EDIT_MODE & ~ENABLE_LINE_INPUT));
 
 
-
 	HANDLE hCharInfoFile = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, charInfoFileName);
 
 	if (hCharInfoFile == NULL){
-		std::cerr << "GraphicsConsole Process: OpenFileMapping() Fail: " << GetLastError();
+		std::cerr << "GraphicsWindowHandler Process: OpenFileMapping() Fail: " << GetLastError();
 		return 1;
 	}
 

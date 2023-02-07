@@ -7,42 +7,105 @@
 #include <chrono>
 #include <time.h>
 
-#include "graphics.h"
 #include "performance.h"
 #include "positioning.h"
 #include "eval.h"
-
+#include "search.h"
+#include "game.h"
 
 int main(){
+	//srand(time(NULL));
 
-	srand(time(NULL));
+	positioning::init();
 
-	using namespace positioning;
-
-	init();
+	Game game(DistanceEval::eval, RandomMoveSearch::search);
 	
-	std::cout << "Enter PGN:";
+	game.create_graphics_window();
 
-	std::string pgn_str;
 
-	std::getline(std::cin, pgn_str);
+	std::string movement_str;
 
-	graphics::init_graphics_console();
+	Player winner = game.get_winner();
 
-	game_state state = pgn_game_state(pgn_str);
-
-	while(1){
+	while(winner == Player::none){
 		
-		graphics::draw_on_console(state);
+		Player turn = game.get_turn();
 
-		std::string movement_str;
+		if(turn == Player::red){
+			std::cout << "Enter red move: ";
+			std::cin >> movement_str;
+			
+			if(movement_str == "undo"){
+				game.undo_moves(2);	
+			}
+			else{
+				positioning::move player_move = positioning::parse_movement_str(movement_str);
+				game.apply_move(player_move);
+			}
+		}
+		else if(turn == Player::blue){
+			positioning::move best_move = game.search();
 
-		std::cin >> movement_str;
+			std::cout << "Blue Moves: " << positioning::get_move_str(best_move) << std::endl;
 
-		state = apply_move_pgn(state, movement_str);
+			game.apply_move(best_move);
 
+		}
+
+		winner = game.get_winner();
 	}
+
+	if(winner == Player::red){
+		std::cout << "Winner: Red" << std::endl;
+	}
+	else if(winner == Player::blue){
+		std::cout << "Winner: Blue" << std::endl;
+	}
+
+	std::cin.ignore();
+	std::cin.get();
+
+	return 0;
+
 }
+
+
+// int main(){
+
+// 	Game game;
+// 	game.set_evaluator_function(DistanceEval::eval);
+// 	game.set_search_function(RandomMoveSearch::search);
+
+
+// 	getchar();
+
+// 	positioning::init();
+
+// 	positioning::game_state states[100];
+
+// 	for(int i = 0; i < 100; i++)
+// 		states[i] = positioning::random_game_state();
+	
+
+// 	positioning::game_state initstate = positioning::initial_game_state();
+
+//     using std::chrono::high_resolution_clock;
+//     using std::chrono::duration_cast;
+//     using std::chrono::duration;
+//     using std::chrono::milliseconds;
+
+// 	auto t1 = high_resolution_clock::now();
+
+// 	positioning::move arr[100];
+
+// 	for(int i = 0; i < 10000000; i++)
+// 		//RandomMoveSearch::search(initstate);
+// 		game.search();
+//     auto t2 = high_resolution_clock::now();
+//     duration<double, std::milli> ms_double = t2 - t1;
+//     std::cout << ms_double.count() << "ms\n";
+// 	getchar();
+// }
 
 
 // int main()
@@ -61,7 +124,7 @@ int main(){
 
 // 		graphics::draw_on_console(state);
 
-// 		positioning::all_possible_movements moves = positioning::get_movements(state);
+// 		positioning::all_possible_moves_t moves = positioning::get_moves(state);
 
 // 		if(state.turn == positioning::Team::red){
 // 			std::cout << "Turn: Red" << std::endl;
@@ -115,34 +178,34 @@ int main(){
 // }
 
 
-/*
-int main(){
 
-	getchar();
+// int main(){
 
-	positioning::init();
+// 	getchar();
 
-	positioning::game_state states[100];
+// 	positioning::init();
 
-	for(int i = 0; i < 100; i++)
-		states[i] = positioning::random_game_state();
+// 	positioning::game_state states[100];
 
-    using std::chrono::high_resolution_clock;
-    using std::chrono::duration_cast;
-    using std::chrono::duration;
-    using std::chrono::milliseconds;
+// 	for(int i = 0; i < 100; i++)
+// 		states[i] = positioning::random_game_state();
 
-	auto t1 = high_resolution_clock::now();
+//     using std::chrono::high_resolution_clock;
+//     using std::chrono::duration_cast;
+//     using std::chrono::duration;
+//     using std::chrono::milliseconds;
 
-	for(int i = 0; i < 10000000; i++)
-		positioning::get_movements(states[i%100]);
+// 	auto t1 = high_resolution_clock::now();
+
+// 	for(int i = 0; i < 10000000; i++)
+// 		positioning::get_moves(states[i%100]);
 			
-    auto t2 = high_resolution_clock::now();
-    duration<double, std::milli> ms_double = t2 - t1;
-    std::cout << ms_double.count() << "ms\n";
-	getchar();
-}
-*/
+//     auto t2 = high_resolution_clock::now();
+//     duration<double, std::milli> ms_double = t2 - t1;
+//     std::cout << ms_double.count() << "ms\n";
+// 	getchar();
+// }
+
 
 /*
 int main(){
@@ -176,7 +239,7 @@ int main(){
 	char occupancy[3][3];
 
 	for(int addr = 0x00; addr <= 0xFF; addr++){
-		positioning::possible_movements_t moves = positioning::movement_lookup_c[addr];
+		positioning::possible_moves_t moves = positioning::movement_lookup_c[addr];
 
 		occupancy[0][2] = addr&0x01 ? 'x' : '.';
 		occupancy[0][1] = addr&0x02 ? 'x' : '.';
