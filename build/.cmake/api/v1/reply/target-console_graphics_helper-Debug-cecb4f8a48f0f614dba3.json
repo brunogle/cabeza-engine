@@ -76,7 +76,7 @@
 				"role" : "flags"
 			},
 			{
-				"fragment" : "-static-libgcc -static-libstdc++",
+				"fragment" : "",
 				"role" : "flags"
 			},
 			{

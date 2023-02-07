@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
  
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+#set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}\\bin)
 
@@ -32,3 +32,5 @@ target_sources(console_graphics_helper
     PRIVATE 
         src/console_graphics_helper.cpp
 )
+
+add_dependencies(cabeza console_graphics_helper)

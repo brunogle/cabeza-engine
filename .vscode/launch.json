@@ -2,16 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(lldb) Launch",
-            "type": "lldb",
+            "type": "by-gdb",
             "request": "launch",
+            "name": "(gdb) Launch Beyond Debugger",
             "program": "${command:cmake.launchTargetPath}",
-            "args": [],
-            "cwd": "${workspaceFolder}\\build\\bin",
+            "cwd": "${workspaceFolder}\\build\\bin"
         },
-        
         {
-            "name": "(gdb) Launch",
+            "name": "(gdb) Launch MS C/C++ Extension",
             "type": "cppdbg",
             "request": "launch",
             // Resolved by CMake Tools:
