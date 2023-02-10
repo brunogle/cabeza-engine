@@ -1,12 +1,14 @@
 # ninja log v5
-5	1857	6975026554697668	CMakeFiles/console_graphics_helper.dir/src/console_graphics_helper.cpp.obj	985d84faaf330874
-1863	2193	6975026558776762	bin/console_graphics_helper.exe	2f20aaaba7a7cfc5
-2208	5271	6975026588318845	CMakeFiles/cabeza.dir/src/search.cpp.obj	b36637c5e94ce76f
-2199	5325	6975026588846381	CMakeFiles/cabeza.dir/src/eval.cpp.obj	c12f8c6ddd3bb1f1
-2197	5836	6975026594461368	CMakeFiles/cabeza.dir/src/positioning.cpp.obj	86e5a8f6c0c22539
-2202	6658	6975026602689373	CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj	4e34cdbcac0d10ab
-2206	7158	6975026606409424	CMakeFiles/cabeza.dir/src/game.cpp.obj	c684d58a4cf37d0e
-2194	7334	6975026608074967	CMakeFiles/cabeza.dir/src/main.cpp.obj	1dd8e88d6126da3d
-2204	7384	6975026608872833	CMakeFiles/cabeza.dir/src/performance.cpp.obj	226a9a1ec034e52
-2195	7434	6975026609880140	CMakeFiles/cabeza.dir/src/graphics.cpp.obj	5e32db9f983b2b24
-7434	7897	6975026615794329	bin/cabeza.exe	f18ed44fd5141f24
+27	4378	6976363042010308	CMakeFiles/console_graphics_helper.dir/src/console_graphics_helper.cpp.obj	7bd87a7cb372bf4d
+4688	17562	6976363173046921	CMakeFiles/cabeza.dir/src/graphics.cpp.obj	8b4e4c938265125b
+4383	4683	6976363045120260	bin/console_graphics_helper.exe	7df29dfb0f8ba6ab
+12685	16859	6976363164975415	CMakeFiles/cabeza.dir/src/search.cpp.obj	9c85c02debf0e887
+4683	18228	6976363180167363	CMakeFiles/cabeza.dir/src/main.cpp.obj	dd9aa5560529ff9d
+4694	9700	6976363094484965	CMakeFiles/cabeza.dir/src/eval.cpp.obj	69ec85a6eea3a87c
+4699	14782	6976363145330148	CMakeFiles/cabeza.dir/src/graphics_console.cpp.obj	ec05575e8400f90b
+4691	12684	6976363124330150	CMakeFiles/cabeza.dir/src/positioning.cpp.obj	7c4da7fa57e2e0ab
+4718	18038	6976363177216979	CMakeFiles/cabeza.dir/src/performance.cpp.obj	b336e5636a33f19a
+9700	19761	6976363195799053	CMakeFiles/cabeza.dir/src/game.cpp.obj	26f01f24cc1ff3ed
+19762	20260	6976363200890481	bin/cabeza.exe	d00514d8dcb35b90
+16	28	0	clean	cafba08db88fd1fc
+22	2913	6976376869096582	CMakeFiles/console_graphics_helper.dir/src/console_graphics_helper.cpp.obj	7bd87a7cb372bf4d

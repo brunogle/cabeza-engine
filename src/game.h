@@ -6,6 +6,7 @@
 
 
 #include "eval.h"
+#include "search.h"
 #include "positioning.h"
 #include "graphics.h"
 
@@ -19,7 +20,7 @@ class Game{
 
     public:
 
-    Game(std::function<int(positioning::game_state)> evaluator_function, std::function<positioning::move(positioning::game_state)> search_function);
+    Game(eval_func_t evaluator_function, search_func_t search_function);
 
     int create_graphics_window();     //Creates a graphics window to display game
     int terminate_graphics_window();  //Terminates graphics window associated to the game
@@ -48,8 +49,8 @@ class Game{
 
     void check_if_win();
 
-    std::function<int(positioning::game_state)> evaluator_function;
-    std::function<positioning::move(positioning::game_state)> search_function;
+    eval_func_t evaluator_function;
+    search_func_t search_function;
 
     positioning::game_state current_game_state; //Current game state (piece possitions and turn)
 

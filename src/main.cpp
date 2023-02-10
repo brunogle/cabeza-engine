@@ -18,7 +18,7 @@ int main(){
 
 	positioning::init();
 
-	Game game(DistanceEval::eval, RandomMoveSearch::search);
+	Game game(DistanceEval::eval, AlphaBetaSearch::search);
 	
 	game.create_graphics_window();
 

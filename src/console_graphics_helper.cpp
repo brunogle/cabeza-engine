@@ -16,16 +16,16 @@ The stdin pipe is used to indicate a screen update.
 int main(int argc,char **argv){
 
 
-	if(argc != 3){
+	if(argc != 4){
 		std::cerr << "Wrong number of arguments given (" << argc << ")";
 		return 1; 
 	}
 
-	LPCSTR charInfoFileName = argv[0];
+	LPCSTR charInfoFileName = argv[1];
 
 
-	const short kWidth = atoi(argv[1]);
-	const short kHeight = atoi(argv[2]);
+	const short kWidth = atoi(argv[2]);
+	const short kHeight = atoi(argv[3]);
  
 
 	const int kCharInfoArraySize = kWidth*kHeight;

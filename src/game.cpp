@@ -4,7 +4,7 @@
 
 
 
-Game::Game(std::function<int(positioning::game_state)> evaluator_function, std::function<positioning::move(positioning::game_state)> search_function){
+Game::Game(eval_func_t evaluator_function, search_func_t search_function){
     this->current_game_state = positioning::initial_game_state();
     this->evaluator_function = evaluator_function;
     this->graphics_window.set_evaluator_function(evaluator_function);
@@ -133,5 +133,5 @@ Player Game::get_turn(){
 }
 
 positioning::move Game::search(){
-    return search_function(this->current_game_state);
+    return search_function(this->current_game_state, this->evaluator_function);
 }
