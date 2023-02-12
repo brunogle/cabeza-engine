@@ -326,7 +326,7 @@ int GraphicsWindow::draw_eval_meter(positioning::game_state state, vector<vector
 
 		}
 	}
-
+	
 	for(int j = 0; j < kEvaluationMeterValueCharNum; j++){
 
 		int x_coord = kEvaluationMeterX + kEvaluationMeterBarGraphWidth + j + 1;
@@ -356,7 +356,7 @@ int GraphicsWindow::draw_eval_meter(positioning::game_state state, vector<vector
 			image_drawing[bar_graph_top][x_coord].Attributes = FOREGROUND_BLUE;
 		}
 	}
-
+	
 	return 0;
 }
 
@@ -380,7 +380,7 @@ int GraphicsWindow::generate_unicode_board(positioning::game_state state, CHAR_I
 
 	draw_board_turn_label(state, final_drawing);
 	
-	draw_eval_meter(state, final_drawing);
+	//draw_eval_meter(state, final_drawing);
 
 	//Draw evaluation score meter
 

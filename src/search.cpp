@@ -68,7 +68,7 @@ namespace AlphaBetaSearch{
 
     const int max_search_depth = 10;
 
-    const int max_seconds = 10;
+    const int max_seconds = 20;
 
     int iter_depth;
 
@@ -76,7 +76,7 @@ namespace AlphaBetaSearch{
 
     bool time_over = false;
 
-    move pv_table[max_search_depth][max_search_depth];
+    move pv_table[max_search_depth+1][max_search_depth+1];
 
     move killer_moves[2][max_search_depth];
 
