@@ -1,8 +1,8 @@
 #ifndef EVAL_H
 #define EVAL_H
 
-#define MAX_INT std::numeric_limits<int>::max()
-#define MIN_INT -std::numeric_limits<int>::max()
+#define MAX_INT (std::numeric_limits<int>::max() >> 2)
+#define MIN_INT (-std::numeric_limits<int>::max() >> 2)
 
 
 #include "positioning.h"

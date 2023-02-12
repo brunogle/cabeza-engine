@@ -103,10 +103,10 @@ namespace DistanceEval{
         if(check_for_win(state)){
             switch (state.turn){
             case Team::red:
-                return -std::numeric_limits<int>::max();
+                return -MAX_INT;
                 break;
             case Team::blue:
-                return std::numeric_limits<int>::max();
+                return -MAX_INT;
                 break;
             default:
                 return 0;
@@ -124,8 +124,10 @@ namespace DistanceEval{
 
         eval += 1*(eval_cabeza_distance_to_pieces(state, Team::blue, Team::blue) - eval_cabeza_distance_to_pieces(state, Team::red, Team::red));
 
-
-        return eval;
+        if(state.turn == Team::blue)
+            return -eval;
+        else
+            return eval;
     }
 
 }

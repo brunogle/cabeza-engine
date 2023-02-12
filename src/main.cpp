@@ -22,6 +22,8 @@ int main(){
 	
 	game.create_graphics_window();
 
+	//game.apply_pgn("on,os,cnnww,fss,cnn");
+
 
 	std::string movement_str;
 
@@ -61,6 +63,9 @@ int main(){
 	else if(winner == Player::blue){
 		std::cout << "Winner: Blue" << std::endl;
 	}
+
+	std::cout << "Game PGN string:" << std::endl;
+	std::cout << game.get_game_pgn() << std::endl;
 
 	std::cin.ignore();
 	std::cin.get();

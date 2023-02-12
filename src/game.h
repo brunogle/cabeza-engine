@@ -40,6 +40,7 @@ class Game{
 
     positioning::move search();
     
+    std::string get_game_pgn();
 
     private:
 

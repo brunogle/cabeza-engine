@@ -47,7 +47,7 @@
 #define MOVEMENT_NWW    0x2000000
 #define MOVEMENT_NNWW   0x4000000
 #define MOVEMENT_NNW    0x8000000
-
+#define MOVEMENT_T
 
 
 namespace positioning{

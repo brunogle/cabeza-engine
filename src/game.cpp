@@ -62,8 +62,6 @@ int Game::apply_move(positioning::move move){
         
         this->update_graphics();
 
-        this->move_history.push_back(move);
-
         return success;
     }
 
@@ -130,6 +128,19 @@ Player Game::get_turn(){
     else{
         return Player::blue;
     }
+}
+
+std::string Game::get_game_pgn(){
+
+    std::string ret = "";
+
+    for(positioning::move m : this->move_history){
+        ret += positioning::get_move_str(m) + ",";
+    }
+
+    ret.pop_back();
+
+    return ret;
 }
 
 positioning::move Game::search(){
