@@ -1,47 +1,47 @@
 [
 {
   "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
-  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles\\console_graphics_helper.dir\\src\\console_graphics_helper.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\console_graphics_helper.cpp",
-  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/console_graphics_helper.cpp"
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -g -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\main.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\main.cpp",
+  "file": "C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\main.cpp"
 },
 {
   "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
-  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\main.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\main.cpp",
-  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/main.cpp"
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -g -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\graphics.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\graphics.cpp",
+  "file": "C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\graphics.cpp"
 },
 {
   "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
-  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\graphics.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\graphics.cpp",
-  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics.cpp"
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -g -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\positioning.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\positioning.cpp",
+  "file": "C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\positioning.cpp"
 },
 {
   "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
-  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\positioning.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\positioning.cpp",
-  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/positioning.cpp"
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -g -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\eval.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\eval.cpp",
+  "file": "C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\eval.cpp"
 },
 {
   "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
-  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\eval.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\eval.cpp",
-  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/eval.cpp"
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -g -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\graphics_console.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\graphics_console.cpp",
+  "file": "C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\graphics_console.cpp"
 },
 {
   "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
-  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\graphics_console.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\graphics_console.cpp",
-  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics_console.cpp"
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -g -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\performance.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\performance.cpp",
+  "file": "C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\performance.cpp"
 },
 {
   "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
-  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\performance.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\performance.cpp",
-  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/performance.cpp"
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -g -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\game.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\game.cpp",
+  "file": "C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\game.cpp"
 },
 {
   "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
-  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\game.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\game.cpp",
-  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/game.cpp"
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -g -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\search.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\search.cpp",
+  "file": "C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\search.cpp"
 },
 {
   "directory": "C:/Users/Bruno/Documents/Projects/Cabeza/build",
-  "command": "C:\\Portable\\mingw64\\bin\\g++.exe   -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles\\cabeza.dir\\src\\search.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\search.cpp",
-  "file": "C:/Users/Bruno/Documents/Projects/Cabeza/src/search.cpp"
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -g -std=gnu++20 -o CMakeFiles\\console_graphics_helper.dir\\src\\console_graphics_helper.cpp.obj -c C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\console_graphics_helper.cpp",
+  "file": "C:\\Users\\Bruno\\Documents\\Projects\\Cabeza\\src\\console_graphics_helper.cpp"
 }
 ]

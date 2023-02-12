@@ -144,13 +144,14 @@ namespace positioning{
     Index represents rotation number.
     */
 
+
     const std::string zone_mask_drawing_cabeza[] = {"025136P47", "P10432765", "74P631520", "56723401P"};
 
     const std::string zone_mask_drawing_mini[] = {".0.123.P.", ".1.P20.3.", ".P.321.0.", ".3.02P.1."};
 
     const std::string zone_mask_drawing_flaco_flat[] = {".0..123.123..P..", ".11.P220.33.....", ".P..321.321..0..", ".33.022P.11....."};
 
-    const std::string zone_mask_drawing_flaco_horizontal[] = {".00.1223.P......", "..1....1..P.200..3....3..", ".....P..3221.00.", ".3....3...02P...1....1..."};
+    const std::string zone_mask_drawing_flaco_horizontal[] = {".00.1223.P......", "..1....1..P.200..3....3..", ".....P..3221.00.", "..3....3..002P...1....1.."};
 
     const std::string zone_mask_drawing_flaco_vertical[] = {"..0....0..11233.......P..", ".1...20.P20..3..", ".......P..33211..0....0..", ".3..02..02P..1.."};
 

@@ -1,3 +1,0 @@
-C:\Portable\cmake-3.25.1-windows-x86_64\bin\cmake.exe -E rm -f CMakeFiles\console_graphics_helper.dir/objects.a
-C:\Portable\mingw64\bin\ar.exe qc CMakeFiles\console_graphics_helper.dir/objects.a @CMakeFiles\console_graphics_helper.dir\objects1
-C:\Portable\mingw64\bin\g++.exe -O3 -DNDEBUG --static -Wl,--whole-archive CMakeFiles\console_graphics_helper.dir/objects.a -Wl,--no-whole-archive -o bin\console_graphics_helper.exe -Wl,--out-implib,bin\libconsole_graphics_helper.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\console_graphics_helper.dir\linkLibs.rsp

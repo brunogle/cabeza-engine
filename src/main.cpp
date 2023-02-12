@@ -29,29 +29,28 @@ int main(){
 
 	Player winner = game.get_winner();
 
+	//game.apply_pgn("fNN,fSS,oN,oS,hN,cSSEE,cNNWW,hSW,fWN,cES,hEN,cWN,mNN,fE,cNNW,mSS,mEE,fW,mW,fE,mNE,cWW,mNN,cSSW,cWN,mWW,oW,fNN,mNN,mE,hN,fWW,hWS,fWW,mSS,mSW,oW,hW,hW,fW,fN,fWS,cE,fN,mS,fS,hSE,mNN,mN,cSSE,hE");
+
 	while(winner == Player::none){
 		
 		Player turn = game.get_turn();
 
-		if(turn == Player::red){
-			std::cout << "Enter red move: ";
-			std::cin >> movement_str;
-			
-			if(movement_str == "undo"){
-				game.undo_moves(2);	
-			}
-			else{
+
+		std::cin >> movement_str;
+
+		if(movement_str == "undo" || movement_str == "u"){
+			game.undo_moves(1);	
+		}
+		else if(movement_str == "search" || movement_str == "s"){
+			positioning::move best_move = game.search();
+		}
+		else if(movement_str == "play" || movement_str == "p"){
+			positioning::move best_move = game.search();
+			game.apply_move(best_move);
+		}
+		else{
 				positioning::move player_move = positioning::parse_movement_str(movement_str);
 				game.apply_move(player_move);
-			}
-		}
-		else if(turn == Player::blue){
-			positioning::move best_move = game.search();
-
-			std::cout << "Blue Moves: " << positioning::get_move_str(best_move) << std::endl;
-
-			game.apply_move(best_move);
-
 		}
 
 		winner = game.get_winner();
