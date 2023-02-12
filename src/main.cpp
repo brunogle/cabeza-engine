@@ -22,7 +22,7 @@ int main(){
 	
 	game.create_graphics_window();
 
-	//game.apply_pgn("hEE,oS,oE,fEE,cEE,fSS,cE,mEE,mNN,mSS,mEN,mSS,mEE,mSE,mES,oS,mS,hSS,fNE,mSS,fSS,oS,fE,fES,oN,fS,oS,cSSEE,oN,cSSEE,oS,hEE,fW,cSS,fE,hE");
+	//game.apply_pgn("fnn,fSS,on,oS,fnn,cSSEE,cww,mSS,hn,cSSE,hen,cNNW,os,hWS,hnn,hSS,ow,fE,fne");
 
 
 	std::string movement_str;

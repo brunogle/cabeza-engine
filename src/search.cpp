@@ -304,25 +304,30 @@ namespace AlphaBetaSearch{
                     std::cout << hue::reset;
                 }
             }
+
+
+            std::cout << "(" << nodes_searched << " nodes, ";
+
             if(abs(score) > MAX_INT - 100 && !time_over){
                 if(pv_print_turn == Team::blue)
-                    std::cout << "(red can force win)" << std::endl;
+                    std::cout << hue::light_red << "red can force win" << hue::reset << ", ";
                 else 
-                    std::cout << "(blue can force win)" << std::endl;
+                    std::cout << hue::light_blue << "blue can force win" << hue::reset << ", ";
             }
             
 
             if(time_over){
-                std::cout << "(timeout)" << std::endl;
+                std::cout << "timeout)" << std::endl;
                 break;
             }
 
-            std::cout << std::endl;
+            std::cout << "\b\b) " << std::endl;
             if(abs(score) > MAX_INT - 100){
                 break;
             }
         }
         
+        std::cout << std::endl;
 
         move best_move = pv_table[0][0];
 

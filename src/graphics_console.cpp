@@ -42,8 +42,8 @@ int GraphicsWindowHandler::initializeWindow(int width, int height){
 
 	wcscpy(charInfoFileName, charInfoFileNameStr.c_str());
 
-	std::wstring graphicConsoleArgumentsWstring = L"";
-	graphicConsoleArgumentsWstring += L" /k \"console_graphics_helper.exe " + charInfoFileNameStr + L" " + std::to_wstring(width) + L" " + std::to_wstring(height) + L"\"";
+	std::wstring graphicConsoleArgumentsWstring = L" ";
+	graphicConsoleArgumentsWstring += charInfoFileNameStr + L" " + std::to_wstring(width) + L" " + std::to_wstring(height) + L"\"";
 
 	LPWSTR graphicConsoleArguments;
 
@@ -114,7 +114,7 @@ int GraphicsWindowHandler::initializeWindow(int width, int height){
 	si.dwFlags |= STARTF_USESHOWWINDOW;
 	si.wShowWindow = SW_SHOWNOACTIVATE;
 
-	LPCWSTR graphicConsoleExecutableName = L"C:\\Windows\\System32\\cmd.exe";
+	LPCWSTR graphicConsoleExecutableName = L"console_graphics_helper.exe";
 
 	//Create graphics console process
 	if(!CreateProcessW(graphicConsoleExecutableName, //Executable name
