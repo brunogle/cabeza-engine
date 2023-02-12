@@ -145,7 +145,7 @@ namespace AlphaBetaSearch{
 
     }
 
-    int negamax(game_state prev_node_state, int alpha, int beta, int depth) {
+    int pv_search(game_state prev_node_state, int alpha, int beta, int depth) {
         nodes_searched++;
 
         //Leaf node conditions
@@ -182,10 +182,18 @@ namespace AlphaBetaSearch{
 
         reorder_moves(possible_moves, num_moves, ply);
 
+        bool search_pv = true;
         for(int i = 0; i < num_moves; i++){
             game_state node_state = apply_move(prev_node_state, possible_moves[i]);
 
-            int score = -negamax(node_state, -beta, -alpha, depth - 1);
+            int score;
+            if(search_pv)
+                score = -pv_search(node_state, -beta, -alpha, depth - 1);
+            else{
+                score = -pv_search(node_state, -alpha - 1, - alpha, depth - 1);
+                if(score > alpha)
+                    score = -pv_search(node_state, -beta, -alpha, depth - 1);
+            }
 
             if(time_over)
                 return 0;
@@ -193,7 +201,7 @@ namespace AlphaBetaSearch{
             //Update alpha (better child node has been found)
             if(score > alpha){
                 alpha = score;
-                
+                search_pv = false;
                 update_pv_table(possible_moves[i], ply, score == MAX_INT);
                 
                 if(score >= beta){
@@ -226,19 +234,26 @@ namespace AlphaBetaSearch{
         int num_moves = get_moves_as_list(prev_node_state, possible_moves);
 
         reorder_moves(possible_moves, num_moves, ply);
-
+        bool search_pv = true;
         for(int i = 0; i < num_moves; i++){
             game_state node_state = apply_move(prev_node_state, possible_moves[i]);
 
-            int score = -negamax(node_state, -beta, -alpha, depth - 1);
-            
+            int score;
+
+            if(search_pv)
+                score = -pv_search(node_state, -beta, -alpha, depth - 1);
+            else{
+                score = -pv_search(node_state, -alpha - 1, - alpha, depth - 1);
+                if(score > alpha)
+                    score = -pv_search(node_state, -beta, -alpha, depth - 1);
+            }            
             if(time_over)
                 break;
 
             //Update alpha (better child node has been found)
             if(score > alpha){
                 alpha = score;
-
+                search_pv = false;
                 update_pv_table(possible_moves[i], ply, score == MAX_INT);
 
                 if(score >= beta){
