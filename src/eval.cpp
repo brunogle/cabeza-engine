@@ -101,17 +101,7 @@ namespace DistanceEval{
         int eval = 0;
 
         if(check_for_win(state)){
-            switch (state.turn){
-            case Team::red:
-                return -MAX_INT;
-                break;
-            case Team::blue:
-                return -MAX_INT;
-                break;
-            default:
-                return 0;
-                break;
-            }
+            return -MAX_INT;
         }
         //Distance from cabezas to end
         eval += 16.0*(eval_cabeza_distance_to_win(state, Team::red) - eval_cabeza_distance_to_win(state, Team::blue));

@@ -64,13 +64,21 @@ namespace AlphaBetaSearch{
 
     using namespace positioning;
 
-    int x = 0;
+    int nodes_searched = 0;
 
-    const int search_depth = 8;
+    const int max_search_depth = 10;
 
-    int searching_depth;
+    const int max_seconds = 10;
 
-    move pv_table[search_depth][search_depth];
+    int iter_depth;
+
+    int search_start_time = 0;
+
+    bool time_over = false;
+
+    move pv_table[max_search_depth][max_search_depth];
+
+    move killer_moves[2][max_search_depth];
 
     int (*const* eval_func)(game_state);
 
@@ -81,27 +89,64 @@ namespace AlphaBetaSearch{
             pv_table[ply][ply + 1].move = -1; //If move bitarray is set to -1, this is a terminal node used ony for killer moves.     
         }
         else{
-            for(int j = ply + 1; j < searching_depth; j++){
+            for(int j = ply + 1; j < iter_depth; j++){
                 pv_table[ply][j] = pv_table[ply+1][j];
             }
         }
     }
 
-
     void reorder_moves(move possible_moves[MAX_POSSIBLE_MOVEMENTS], int num_moves, int ply){
-        for(int i = 0; i < num_moves; i++){
-            move killer_move = pv_table[0][ply];
 
-            if(possible_moves[i].move == killer_move.move && possible_moves[i].piece == killer_move.piece){
+        for(int i = 0; i < num_moves; i++){
+            move pv_move = pv_table[0][ply];
+
+            if(possible_moves[i].move == pv_move.move && possible_moves[i].piece == pv_move.piece){
                 move temp = possible_moves[0];
-                possible_moves[0] = killer_move;
+                possible_moves[0] = possible_moves[i];
                 possible_moves[i] = temp;
             }
+
         }
+
+        for(int i = 0; i < num_moves; i++){
+            move killer_move = killer_moves[0][ply];
+
+            if(possible_moves[i].move == killer_move.move && possible_moves[i].piece == killer_move.piece){
+                move temp = possible_moves[1];
+                possible_moves[1] = possible_moves[i];
+                possible_moves[i] = temp;
+            }
+
+        }
+        
+        for(int i = 0; i < num_moves; i++){
+            move killer_move = killer_moves[1][ply];
+
+            if(possible_moves[i].move == killer_move.move && possible_moves[i].piece == killer_move.piece){
+                move temp = possible_moves[2];
+                possible_moves[2] = possible_moves[i];
+                possible_moves[i] = temp;
+            }
+
+        }
+        
+    }
+
+    void set_killer_move(move m, int ply) {
+
+
+        /* make sure killer moves will be different
+        before saving secondary killer move */
+        if (m.move != killer_moves[0][ply].move || m.piece != killer_moves[0][ply].piece)
+            killer_moves[1][ply] = killer_moves[0][ply];
+
+        /* save primary killer move */
+        killer_moves[0][ply] = m;
+
     }
 
     int negamax(game_state prev_node_state, int alpha, int beta, int depth) {
-        x++;
+        nodes_searched++;
 
         //Leaf node conditions
 
@@ -111,9 +156,16 @@ namespace AlphaBetaSearch{
         if(check_for_win(prev_node_state)){
             return -MAX_INT;
         }
+        if((nodes_searched & 0x7fff) == 0){
+            
+            if(time(NULL) > search_start_time + max_seconds){
+                time_over = true;
+                
+                return 0;
+            }
+        }
 
-
-        int ply = searching_depth - depth;
+        int ply = iter_depth - depth;
 
         int win_score = -MAX_INT + ply; //Further into the tree, the lower the win_score is
 
@@ -135,16 +187,21 @@ namespace AlphaBetaSearch{
 
             int score = -negamax(node_state, -beta, -alpha, depth - 1);
 
+            if(time_over)
+                return 0;
+
             //Update alpha (better child node has been found)
             if(score > alpha){
                 alpha = score;
                 
                 update_pv_table(possible_moves[i], ply, score == MAX_INT);
-
+                
                 if(score >= beta){
                     //If condition is met, this node is garanteed to have a score smaller than
                     //another previously searched sibling node
-                    
+
+                    set_killer_move(possible_moves[i], ply);
+
                     return beta;
                 }
             }
@@ -174,9 +231,9 @@ namespace AlphaBetaSearch{
             game_state node_state = apply_move(prev_node_state, possible_moves[i]);
 
             int score = -negamax(node_state, -beta, -alpha, depth - 1);
-
-            //Beta cut-off
-
+            
+            if(time_over)
+                break;
 
             //Update alpha (better child node has been found)
             if(score > alpha){
@@ -200,7 +257,7 @@ namespace AlphaBetaSearch{
 
         eval_func = eval_func_.target<int(*)(game_state)>();
 
-        x = 0;
+        nodes_searched = 0;
         move possible_moves[MAX_POSSIBLE_MOVEMENTS];
 
         int num_moves = get_moves_as_list(state, possible_moves);
@@ -208,17 +265,59 @@ namespace AlphaBetaSearch{
         int scores[MAX_POSSIBLE_MOVEMENTS];
 
         int score;
+        
+        search_start_time = time(NULL);
 
-        for(int i = 0; i < search_depth; i++){
-            for(int j = 0; j < search_depth; j++){
+        time_over = false;
+
+        for(int i = 0; i < max_search_depth; i++){
+            killer_moves[0][i].move = - 1;
+            killer_moves[1][i].move = - 1;
+            for(int j = 0; j < max_search_depth; j++){
                 pv_table[i][j].move = -1;
-            }            
+            }
         }
 
-        for(int depth = 2; depth <= search_depth; depth++){
-            std::cout << "searching depth " << depth << std::endl;
-            searching_depth = depth;
+        for(int depth = 1; depth <= max_search_depth; depth++){
+            std::cout << "depth " << depth << " ";
+            iter_depth = depth;
             score =  root_search(state, depth);
+            std::cout << "pv: ";
+            Team pv_print_turn = state.turn;
+
+            for(int i = 0; i < max_search_depth; i++){
+                if(pv_table[0][i].move == -1){
+                    break;
+                }
+                else{
+                    if(pv_print_turn == Team::red){
+                        std::cout << hue::light_red;
+                        pv_print_turn = Team::blue;
+                    }
+                    else{
+                        std::cout << hue::light_blue;
+                        pv_print_turn = Team::red;
+                    }
+                    
+                    std::cout << get_move_str(pv_table[0][i]) << " ";
+
+                    std::cout << hue::reset;
+                }
+            }
+            if(abs(score) > MAX_INT - 100 && !time_over){
+                if(pv_print_turn == Team::blue)
+                    std::cout << "(red can force win)" << std::endl;
+                else 
+                    std::cout << "(blue can force win)" << std::endl;
+            }
+            
+
+            if(time_over){
+                std::cout << "(timeout)" << std::endl;
+                break;
+            }
+
+            std::cout << std::endl;
             if(abs(score) > MAX_INT - 100){
                 break;
             }
@@ -226,39 +325,6 @@ namespace AlphaBetaSearch{
         
 
         move best_move = pv_table[0][0];
-
-        std::cout << "pv: ";
-
-
-        Team pv_print_turn = state.turn;
-        for(int i = 0; i < search_depth; i++){
-            if(pv_table[0][i].move == -1){
-                break;
-            }
-            else{
-                if(pv_print_turn == Team::red){
-                    std::cout << hue::light_red;
-                    pv_print_turn = Team::blue;
-                }
-                else{
-                    std::cout << hue::light_blue;
-                    pv_print_turn = Team::red;
-                }
-                
-                std::cout << get_move_str(pv_table[0][i]) << " ";
-
-                std::cout << hue::reset;
-            }
-        }
-
-        if(abs(score) > MAX_INT - 100){
-            if(pv_print_turn == Team::blue)
-                std::cout << "(red can force win)" << std::endl;
-            else 
-                std::cout << "(blue can force win)" << std::endl;
-        }
-
-        std::cout << std::endl;
 
         /*
         if(node_val > MAX_INT - 100){

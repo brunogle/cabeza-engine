@@ -29,13 +29,11 @@ int main(){
 
 	Player winner = game.get_winner();
 
-	//game.apply_pgn("fNN,fSS,oN,oS,hN,cSSEE,cNNWW,hSW,fWN,cES,hEN,cWN,mNN,fE,cNNW,mSS,mEE,fW,mW,fE,mNE,cWW,mNN,cSSW,cWN,mWW,oW,fNN,mNN,mE,hN,fWW,hWS,fWW,mSS,mSW,oW,hW,hW,fW,fN,fWS,cE,fN,mS,fS,hSE,mNN,mN,cSSE,hE");
-
 	while(winner == Player::none){
 		
 		Player turn = game.get_turn();
 
-
+		std::cout << "> ";
 		std::cin >> movement_str;
 
 		if(movement_str == "undo" || movement_str == "u"){
