@@ -23,6 +23,7 @@ target_sources(cabeza
         src/performance.cpp
         src/game.cpp
         src/search.cpp
+        src/transposition.cpp
 )
 
 

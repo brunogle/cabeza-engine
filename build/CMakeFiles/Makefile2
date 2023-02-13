@@ -82,12 +82,12 @@ clean: CMakeFiles/console_graphics_helper.dir/clean
 CMakeFiles/cabeza.dir/all: CMakeFiles/console_graphics_helper.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9 "Built target cabeza"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target cabeza"
 .PHONY : CMakeFiles/cabeza.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/cabeza.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles 11
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles 12
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/cabeza.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles 0
 .PHONY : CMakeFiles/cabeza.dir/rule
@@ -108,7 +108,7 @@ CMakeFiles/cabeza.dir/clean:
 CMakeFiles/console_graphics_helper.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\console_graphics_helper.dir\build.make CMakeFiles/console_graphics_helper.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\console_graphics_helper.dir\build.make CMakeFiles/console_graphics_helper.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles --progress-num=10,11 "Built target console_graphics_helper"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Bruno\Documents\Projects\Cabeza\build\CMakeFiles --progress-num=11,12 "Built target console_graphics_helper"
 .PHONY : CMakeFiles/console_graphics_helper.dir/all
 
 # Build rule for subdir invocation for target.

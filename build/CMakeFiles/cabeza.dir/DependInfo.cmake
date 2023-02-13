@@ -16,6 +16,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/Bruno/Documents/Projects/Cabeza/src/performance.cpp" "CMakeFiles/cabeza.dir/src/performance.cpp.obj" "gcc" "CMakeFiles/cabeza.dir/src/performance.cpp.obj.d"
   "C:/Users/Bruno/Documents/Projects/Cabeza/src/positioning.cpp" "CMakeFiles/cabeza.dir/src/positioning.cpp.obj" "gcc" "CMakeFiles/cabeza.dir/src/positioning.cpp.obj.d"
   "C:/Users/Bruno/Documents/Projects/Cabeza/src/search.cpp" "CMakeFiles/cabeza.dir/src/search.cpp.obj" "gcc" "CMakeFiles/cabeza.dir/src/search.cpp.obj.d"
+  "C:/Users/Bruno/Documents/Projects/Cabeza/src/transposition.cpp" "CMakeFiles/cabeza.dir/src/transposition.cpp.obj" "gcc" "CMakeFiles/cabeza.dir/src/transposition.cpp.obj.d"
   )
 
 # Targets to which this target links.

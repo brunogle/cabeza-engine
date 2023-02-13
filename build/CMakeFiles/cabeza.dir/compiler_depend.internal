@@ -313,6 +313,7 @@ CMakeFiles/cabeza.dir/src/game.cpp.obj
  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_map.h
  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_multimap.h
  C:/Users/Bruno/Documents/Projects/Cabeza/src/search.h
+ C:/Users/Bruno/Documents/Projects/Cabeza/src/transposition.h
  C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics.h
  C:/Portable/mingw64/x86_64-w64-mingw32/include/windows.h
  C:/Portable/mingw64/x86_64-w64-mingw32/include/sdkddkver.h
@@ -1723,6 +1724,7 @@ CMakeFiles/cabeza.dir/src/main.cpp.obj
  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_tempbuf.h
  C:/Portable/mingw64/include/c++/12.2.0/bits/uniform_int_dist.h
  C:/Users/Bruno/Documents/Projects/Cabeza/src/search.h
+ C:/Users/Bruno/Documents/Projects/Cabeza/src/transposition.h
  C:/Users/Bruno/Documents/Projects/Cabeza/src/game.h
  C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics.h
  C:/Users/Bruno/Documents/Projects/Cabeza/src/graphics_console.h
@@ -2463,6 +2465,7 @@ CMakeFiles/cabeza.dir/src/search.cpp.obj
  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_heap.h
  C:/Portable/mingw64/include/c++/12.2.0/bits/stl_tempbuf.h
  C:/Portable/mingw64/include/c++/12.2.0/bits/uniform_int_dist.h
+ C:/Users/Bruno/Documents/Projects/Cabeza/src/transposition.h
  C:/Portable/mingw64/include/c++/12.2.0/limits
  C:/Portable/mingw64/include/c++/12.2.0/iostream
  C:/Portable/mingw64/include/c++/12.2.0/ostream
@@ -2750,4 +2753,149 @@ CMakeFiles/cabeza.dir/src/search.cpp.obj
  C:/Portable/mingw64/x86_64-w64-mingw32/include/winsvc.h
  C:/Portable/mingw64/x86_64-w64-mingw32/include/mcx.h
  C:/Portable/mingw64/x86_64-w64-mingw32/include/imm.h
+
+CMakeFiles/cabeza.dir/src/transposition.cpp.obj
+ C:/Users/Bruno/Documents/Projects/Cabeza/src/transposition.cpp
+ C:/Users/Bruno/Documents/Projects/Cabeza/src/transposition.h
+ C:/Users/Bruno/Documents/Projects/Cabeza/src/positioning.h
+ C:/Portable/mingw64/include/c++/12.2.0/cstdint
+ C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h
+ C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h
+ C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/cpu_defines.h
+ C:/Portable/mingw64/include/c++/12.2.0/pstl/pstl_config.h
+ C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/stdint.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/stdint.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/crtdefs.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/corecrt.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/_mingw.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/_mingw_mac.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/_mingw_secapi.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/vadefs.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h
+ C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/stddef.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/stddef.h
+ C:/Portable/mingw64/include/c++/12.2.0/string
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stringfwd.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/memoryfwd.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/char_traits.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/postypes.h
+ C:/Portable/mingw64/include/c++/12.2.0/cwchar
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/wchar.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/corecrt_stdio_config.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/corecrt_wstdlib.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/_mingw_off_t.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/_mingw_stat64.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/swprintf.inl
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/sec_api/wchar_s.h
+ C:/Portable/mingw64/include/c++/12.2.0/type_traits
+ C:/Portable/mingw64/include/c++/12.2.0/compare
+ C:/Portable/mingw64/include/c++/12.2.0/concepts
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stl_construct.h
+ C:/Portable/mingw64/include/c++/12.2.0/new
+ C:/Portable/mingw64/include/c++/12.2.0/bits/exception.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/move.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_types.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/iterator_concepts.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/ptr_traits.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_cmp.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator_base_funcs.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/concept_check.h
+ C:/Portable/mingw64/include/c++/12.2.0/debug/assertions.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/allocator.h
+ C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++allocator.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/new_allocator.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/functexcept.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/exception_defines.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/cpp_type_traits.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/localefwd.h
+ C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++locale.h
+ C:/Portable/mingw64/include/c++/12.2.0/clocale
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/locale.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/stdio.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/sec_api/stdio_s.h
+ C:/Portable/mingw64/include/c++/12.2.0/iosfwd
+ C:/Portable/mingw64/include/c++/12.2.0/cctype
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/ctype.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/ostream_insert.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/cxxabi_forced.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stl_iterator.h
+ C:/Portable/mingw64/include/c++/12.2.0/ext/type_traits.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stl_function.h
+ C:/Portable/mingw64/include/c++/12.2.0/backward/binders.h
+ C:/Portable/mingw64/include/c++/12.2.0/ext/numeric_traits.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stl_algobase.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stl_pair.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/utility.h
+ C:/Portable/mingw64/include/c++/12.2.0/debug/debug.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/predefined_ops.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/refwrap.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/invoke.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/range_access.h
+ C:/Portable/mingw64/include/c++/12.2.0/initializer_list
+ C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.h
+ C:/Portable/mingw64/include/c++/12.2.0/ext/alloc_traits.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/alloc_traits.h
+ C:/Portable/mingw64/include/c++/12.2.0/string_view
+ C:/Portable/mingw64/include/c++/12.2.0/bits/functional_hash.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/hash_bytes.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/ranges_base.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/max_size_type.h
+ C:/Portable/mingw64/include/c++/12.2.0/numbers
+ C:/Portable/mingw64/include/c++/12.2.0/bits/string_view.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/ext/string_conversions.h
+ C:/Portable/mingw64/include/c++/12.2.0/cstdlib
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/stdlib.h
+ C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include-fixed/limits.h
+ C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include-fixed/syslimits.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/limits.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/sec_api/stdlib_s.h
+ C:/Portable/mingw64/include/c++/12.2.0/stdlib.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/malloc.h
+ C:/Portable/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/mm_malloc.h
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/errno.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/std_abs.h
+ C:/Portable/mingw64/include/c++/12.2.0/cstdio
+ C:/Portable/mingw64/include/c++/12.2.0/cerrno
+ C:/Portable/mingw64/include/c++/12.2.0/bits/charconv.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/basic_string.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/map
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stl_tree.h
+ C:/Portable/mingw64/include/c++/12.2.0/ext/aligned_buffer.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/node_handle.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stl_map.h
+ C:/Portable/mingw64/include/c++/12.2.0/tuple
+ C:/Portable/mingw64/include/c++/12.2.0/bits/uses_allocator.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stl_multimap.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/erase_if.h
+ C:/Portable/mingw64/include/c++/12.2.0/random
+ C:/Portable/mingw64/include/c++/12.2.0/cmath
+ C:/Portable/mingw64/x86_64-w64-mingw32/include/math.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/specfun.h
+ C:/Portable/mingw64/include/c++/12.2.0/limits
+ C:/Portable/mingw64/include/c++/12.2.0/tr1/gamma.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/tr1/special_function_util.h
+ C:/Portable/mingw64/include/c++/12.2.0/tr1/bessel_function.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/tr1/beta_function.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/tr1/ell_integral.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/tr1/exp_integral.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/tr1/hypergeometric.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/tr1/legendre_function.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/tr1/modified_bessel_func.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/tr1/poly_hermite.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/tr1/poly_laguerre.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/tr1/riemann_zeta.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/bits/random.h
+ C:/Portable/mingw64/include/c++/12.2.0/vector
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stl_uninitialized.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stl_vector.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stl_bvector.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/vector.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/bits/uniform_int_dist.h
+ C:/Portable/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/opt_random.h
+ C:/Portable/mingw64/include/c++/12.2.0/bits/random.tcc
+ C:/Portable/mingw64/include/c++/12.2.0/numeric
+ C:/Portable/mingw64/include/c++/12.2.0/bits/stl_numeric.h
+ C:/Portable/mingw64/include/c++/12.2.0/bit
+ C:/Portable/mingw64/include/c++/12.2.0/pstl/glue_numeric_defs.h
+ C:/Portable/mingw64/include/c++/12.2.0/pstl/execution_defs.h
 

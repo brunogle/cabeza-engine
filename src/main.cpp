@@ -22,7 +22,7 @@ int main(){
 	
 	game.create_graphics_window();
 
-	//game.apply_pgn("fnn,fSS,on,oS,fnn,cSSEE,cww,mSS,hn,cSSE,hen,cNNW,os,hWS,hnn,hSS,ow,fE,fne");
+	game.apply_pgn("hNN,hSS,oN,cSSW,fNW,oS,fNN,fES,fNN,cEE,fNE,cNEE,fEN,mES,fNE,cSSEE,hE,fE,cNNEE,hNN,fWS");
 
 
 	std::string movement_str;
@@ -45,6 +45,9 @@ int main(){
 		else if(movement_str == "play" || movement_str == "p"){
 			positioning::move best_move = game.search();
 			game.apply_move(best_move);
+		}
+		else if(movement_str == "hash"){
+			std::cout << std::hex << AlphaBetaSearch::transposition_table.get_hash(game.current_game_state) << std::endl;
 		}
 		else{
 				positioning::move player_move = positioning::parse_movement_str(movement_str);

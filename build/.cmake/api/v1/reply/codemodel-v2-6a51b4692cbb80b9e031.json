@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Release-d0094a50bb2071803777.json",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.25.1"
@@ -20,7 +20,7 @@
 					]
 				}
 			],
-			"name" : "Release",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -41,14 +41,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "cabeza::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-cabeza-Release-7518990caf619629c845.json",
+					"jsonFile" : "target-cabeza-Debug-a993d7eaa48a8963ce43.json",
 					"name" : "cabeza",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "console_graphics_helper::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-console_graphics_helper-Release-58c2fb63572f14030c8e.json",
+					"jsonFile" : "target-console_graphics_helper-Debug-ae9353f6bbc63724af93.json",
 					"name" : "console_graphics_helper",
 					"projectIndex" : 0
 				}

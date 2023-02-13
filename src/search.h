@@ -3,7 +3,7 @@
 
 #include "positioning.h"
 #include "eval.h"
-
+#include "transposition.h"
 
 typedef std::function<positioning::move(positioning::game_state, eval_func_t)> search_func_t;
 
@@ -20,6 +20,12 @@ namespace SimpleMoveSearch{
     using namespace positioning;
 
     move search(game_state state, eval_func_t eval_func);
+
+}
+
+namespace AlphaBetaSearch{
+    
+    extern TranspositionTable transposition_table;
 
 }
 

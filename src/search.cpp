@@ -3,6 +3,7 @@
 #include <limits>
 #include <iostream>
 #include "color.hpp"
+#include "transposition.h"
 
 namespace RandomMoveSearch{
 
@@ -82,6 +83,8 @@ namespace AlphaBetaSearch{
 
     int (*const* eval_func)(game_state);
 
+    TranspositionTable transposition_table = TranspositionTable(1000);
+
     void update_pv_table(move new_best_move, int ply, bool is_leaf_node){
 
         pv_table[ply][ply] = new_best_move;
@@ -144,6 +147,8 @@ namespace AlphaBetaSearch{
         killer_moves[0][ply] = m;
 
     }
+
+
 
     int pv_search(game_state prev_node_state, int alpha, int beta, int depth) {
         nodes_searched++;

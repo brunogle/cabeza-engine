@@ -15,6 +15,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/cabeza.dir/src/positioning.cpp.obj.d"
   "CMakeFiles/cabeza.dir/src/search.cpp.obj"
   "CMakeFiles/cabeza.dir/src/search.cpp.obj.d"
+  "CMakeFiles/cabeza.dir/src/transposition.cpp.obj"
+  "CMakeFiles/cabeza.dir/src/transposition.cpp.obj.d"
   "bin/cabeza.exe"
   "bin/cabeza.exe.manifest"
   "bin/cabeza.pdb"

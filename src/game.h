@@ -42,6 +42,9 @@ class Game{
     
     std::string get_game_pgn();
 
+    positioning::game_state current_game_state; //Current game state (piece possitions and turn)
+
+
     private:
 
     void update_win_flag();
@@ -53,7 +56,6 @@ class Game{
     eval_func_t evaluator_function;
     search_func_t search_function;
 
-    positioning::game_state current_game_state; //Current game state (piece possitions and turn)
 
     bool graphics_enabled = false; //Graphics window enabled flag
 

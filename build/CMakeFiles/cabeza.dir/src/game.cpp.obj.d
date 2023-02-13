@@ -132,6 +132,7 @@ CMakeFiles/cabeza.dir/src/game.cpp.obj: \
  c:\portable\mingw64\include\c++\12.2.0\bits\stl_map.h \
  c:\portable\mingw64\include\c++\12.2.0\bits\stl_multimap.h \
  C:\Users\Bruno\Documents\Projects\Cabeza\src\search.h \
+ C:\Users\Bruno\Documents\Projects\Cabeza\src\transposition.h \
  C:\Users\Bruno\Documents\Projects\Cabeza\src\graphics.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\windows.h \
  c:\portable\mingw64\x86_64-w64-mingw32\include\sdkddkver.h \

@@ -357,6 +357,30 @@ src/search.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/search.cpp.s
 .PHONY : src/search.cpp.s
 
+src/transposition.obj: src/transposition.cpp.obj
+.PHONY : src/transposition.obj
+
+# target to build an object file
+src/transposition.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/transposition.cpp.obj
+.PHONY : src/transposition.cpp.obj
+
+src/transposition.i: src/transposition.cpp.i
+.PHONY : src/transposition.i
+
+# target to preprocess a source file
+src/transposition.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/transposition.cpp.i
+.PHONY : src/transposition.cpp.i
+
+src/transposition.s: src/transposition.cpp.s
+.PHONY : src/transposition.s
+
+# target to generate assembly for a file
+src/transposition.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cabeza.dir\build.make CMakeFiles/cabeza.dir/src/transposition.cpp.s
+.PHONY : src/transposition.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -394,6 +418,9 @@ help:
 	@echo ... src/search.obj
 	@echo ... src/search.i
 	@echo ... src/search.s
+	@echo ... src/transposition.obj
+	@echo ... src/transposition.i
+	@echo ... src/transposition.s
 .PHONY : help
 
 

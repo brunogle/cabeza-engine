@@ -131,6 +131,7 @@ CMakeFiles/cabeza.dir/src/search.cpp.obj: \
  c:\portable\mingw64\include\c++\12.2.0\bits\stl_heap.h \
  c:\portable\mingw64\include\c++\12.2.0\bits\stl_tempbuf.h \
  c:\portable\mingw64\include\c++\12.2.0\bits\uniform_int_dist.h \
+ C:\Users\Bruno\Documents\Projects\Cabeza\src\transposition.h \
  c:\portable\mingw64\include\c++\12.2.0\limits \
  c:\portable\mingw64\include\c++\12.2.0\iostream \
  c:\portable\mingw64\include\c++\12.2.0\ostream \
