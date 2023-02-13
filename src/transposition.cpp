@@ -9,17 +9,23 @@ TranspositionTable::TranspositionTable(int size){
         }
     }
 
-    zobrist_blue_turn = this->get_rand_64();
+    this->zobrist_blue_turn = this->get_rand_64();
 
     
 
     this->transposition_table_size = 1;
-    for(int i = 0; size != 0; i++)
-        transposition_table_size <<= 1;
+    for(; size != 1; size >>= 1)
+        this->transposition_table_size <<= 1;
 
+    
+    this->hash_key_mask = this->transposition_table_size - 1;
 
+    this->transposition_table = new tt_entry[hash_key_mask];
 
+}
 
+TranspositionTable::~TranspositionTable(){
+    delete[] this->transposition_table;
 }
 
 uint64_t TranspositionTable::get_rand_64(){
@@ -42,3 +48,4 @@ uint64_t TranspositionTable::get_hash(positioning::game_state state){
 
     return hash;
 }
+

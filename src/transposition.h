@@ -22,6 +22,7 @@ class TranspositionTable{
 
     public:
         TranspositionTable(int size);
+        ~TranspositionTable();
 
         uint64_t zobrist_piece_pos[10][100]; //100 position for 10 pieces
         uint64_t zobrist_blue_turn;
@@ -29,6 +30,10 @@ class TranspositionTable{
         uint64_t get_rand_64();
 
         uint64_t get_hash(positioning::game_state state);
+
+        void save(game_state state){
+            
+        }     
 
         tt_entry * transposition_table;
 
