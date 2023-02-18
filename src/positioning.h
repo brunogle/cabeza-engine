@@ -62,7 +62,7 @@ namespace positioning{
     28 bit Variable type that can encode all possible movements any piece can make  (7 bit rotational symmetry)
     */
     typedef uint32_t possible_moves_t; //Used for Cabeza
-    const std::string kMovementBitName[] = {"N","NN","NE","EN","NNE","NNEE","NEE","E","EE","ES","SE","SEE","SSEE","SSE","S","SS","SW","WS","SSW","SSWW","SWW","W","WW","WN","NW","NWW","NNWW","NNW"};
+    const std::string kMovementBitName[] = {"n","nn","ne","en","nne","nnee","nee","e","ee","es","se","see","ssee","sse","s","ss","sw","ws","ssw","ssww","sww","w","ww","wn","nw","nww","nnww","nnw"};
 
 
     /*

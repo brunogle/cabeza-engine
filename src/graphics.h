@@ -4,6 +4,7 @@
 #include <windows.h>
 #include "positioning.h"
 #include "graphics_console.h"
+#include "eval.h"
 
 #include <functional>
 #include <vector>
@@ -71,7 +72,7 @@ class GraphicsWindow{
     */
     int generate_unicode_board(positioning::game_state state, CHAR_INFO drawing[consts::kGraphicArraySize]);
 
-    std::function<int(positioning::game_state)> evaluator_function;
+    eval_func_t evaluator_function;
 
     public:
 
@@ -86,7 +87,7 @@ class GraphicsWindow{
 
     int stop_graphics_console();
 
-    int set_evaluator_function(std::function<int(positioning::game_state)> evaluator_function);
+    int set_evaluator_function(eval_func_t evaluator_function);
 
 };
 

@@ -6,6 +6,7 @@
 #include <bitset>
 #include <chrono>
 #include <time.h>
+#include <sstream>
 
 #include "performance.h"
 #include "positioning.h"
@@ -13,19 +14,25 @@
 #include "search.h"
 #include "game.h"
 
+//   6F3/10/8ff/2hhoo1mc1/2hhoo1HH1/4OO1HH1/4OO1M2/7C2/10/10,r,0
+
+
 int main(){
 	//srand(time(NULL));
 
 	positioning::init();
 
-	Game game(DistanceEval::eval, AlphaBetaSearch::search);
+	AllSearch search_engine(DistanceEval::eval, 60000, 10);
+
+	Game game(DistanceEval::eval, &search_engine);
 	
 	game.create_graphics_window();
 
-	game.apply_pgn("hNN,hSS,oN,cSSW,fNW,oS,fNN,fES,fNN,cEE,fNE,cNEE,fEN,mES,fNE,cSSEE,hE,fE,cNNEE,hNN,fWS");
+	//game.apply_pgn("hNN,hSS,oN,cSSW,fNW,oS,fNN,fES,fNN,cEE,fNE,cNEE,fEN,mES,fNE,cSSEE,hE,fE,cNNEE,hNN,fWS,mSS,fNE,hES,fS,mE,mNE,hWS,mNE,hS,mNE,cW,mEE");
 
+	
 
-	std::string movement_str;
+	std::string input_str;
 
 	Player winner = game.get_winner();
 
@@ -34,24 +41,58 @@ int main(){
 		Player turn = game.get_turn();
 
 		std::cout << "> ";
-		std::cin >> movement_str;
+		std::getline(std::cin, input_str);
 
-		if(movement_str == "undo" || movement_str == "u"){
+		std::stringstream input_ss(input_str);
+
+
+		std::string command_token;
+		getline(input_ss, command_token, ' ');
+
+
+		if(command_token == "undo" || command_token == "u"){
 			game.undo_moves(1);	
 		}
-		else if(movement_str == "search" || movement_str == "s"){
+		else if(command_token == "search" || command_token == "s"){
 			positioning::move best_move = game.search();
 		}
-		else if(movement_str == "play" || movement_str == "p"){
+		else if(command_token == "play" || command_token == "p"){
 			positioning::move best_move = game.search();
 			game.apply_move(best_move);
 		}
-		else if(movement_str == "hash"){
-			std::cout << std::hex << AlphaBetaSearch::transposition_table.get_hash(game.current_game_state) << std::endl;
+		else if(command_token == "pgn"){
+			std::string pgn_token;
+
+			getline(input_ss, pgn_token, ' ');
+			
+			if(pgn_token == ""){
+				continue;
+			}
+			
+			game.apply_pgn(pgn_token);
+
+		}
+		else if(command_token == "fen"){
+			std::string fen_token;
+
+			getline(input_ss, fen_token, ' ');
+			
+			if(fen_token == ""){
+				continue;
+			}
+			
+			game.set_fen(fen_token);
+
+		}
+		else if(command_token == "reset"){
+			game.reset();
+		}
+		else if(command_token == "rand"){
+			game.current_game_state = positioning::random_game_state();
+			game.update_graphics();
 		}
 		else{
-				positioning::move player_move = positioning::parse_movement_str(movement_str);
-				game.apply_move(player_move);
+			game.apply_move_str(command_token);
 		}
 
 		winner = game.get_winner();

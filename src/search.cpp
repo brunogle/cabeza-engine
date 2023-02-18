@@ -2,368 +2,454 @@
 #include <functional>
 #include <limits>
 #include <iostream>
+#include <iomanip>
+#include <assert.h>     /* assert */
+
 #include "color.hpp"
 #include "transposition.h"
+#include "util.h"
 
-namespace RandomMoveSearch{
+using namespace positioning;
 
-    positioning::move search(positioning::game_state state, eval_func_t eval_func){
 
-        positioning::move movements[MAX_POSSIBLE_MOVEMENTS];
+Search::Search(eval_func_t eval_func_){
+    this->eval_func = eval_func_;
+}
 
-        int number_moves = get_moves_as_list(state, movements);
+Search::Search(){
+    this->eval_func = nullptr;
+}
 
-        return movements[rand()%number_moves];
+move Search::search(game_state state){
+    return (move)0;
+}
 
+AllSearch::AllSearch(eval_func_t eval_func, int max_seconds, int max_search_depth) : Search(eval_func), transposition_table(32*1024*1024){
+    this->max_search_depth = max_search_depth;
+    this->max_seconds = max_seconds;
+
+    //Initialize caches
+    
+    this->pv_table = new move* [max_search_depth + 1];
+    for(int i = 0; i < max_search_depth + 1; i++)
+        this->pv_table[i] = new move[max_search_depth + 1];
+        
+    this->killer_moves = new move[max_search_depth][2];
+
+    for(int i = 0; i < max_search_depth; i++){
+        this->killer_moves[i][0].move = - 1;
+        this->killer_moves[i][1].move = - 1;
     }
+    
+    for(int i = 0; i < max_search_depth + 1; i++){
+        for(int j = 0; j < max_search_depth + 1; j++){
+            pv_table[i][j].move = -1;
+        }
+    }
+
 
 }
 
-namespace SimpleMoveSearch{
 
-    positioning::move search(positioning::game_state state, eval_func_t eval_func){
-
-        positioning::move movements[MAX_POSSIBLE_MOVEMENTS];
-
-        int number_moves = get_moves_as_list(state, movements);
-
-        positioning::move best_move;
-
-        int best_move_score;
-
-        if(state.turn == positioning::Team::red)
-            best_move_score = -100000;
-        else
-            best_move_score = 100000;
-
-        for(int i = 0; i < number_moves; i++){
-            positioning::game_state test_game_state = positioning::apply_move(state, movements[i]);
-
-            int score = eval_func(test_game_state);
-            
-            if(state.turn == positioning::Team::red){
-                if(score > best_move_score){
-                    best_move_score = score;
-                    best_move = movements[i];
-                }
-            }
-            else{
-                if(score < best_move_score){
-                    best_move_score = score;
-                    best_move = movements[i];
-                }                
-            }
-        }
-
-        return best_move;
-
-    }
+AllSearch::~AllSearch(){
+    
+    for(int i = 0; i < max_search_depth; i++)
+        delete[] this->pv_table[i];
+    delete[] this->pv_table;
+    
+    delete[] this->killer_moves;
 
 }
 
-namespace AlphaBetaSearch{
 
-    using namespace positioning;
+void AllSearch::update_pv_table(move new_best_move, int ply, bool is_leaf_node){
 
-    int nodes_searched = 0;
-
-    const int max_search_depth = 10;
-
-    const int max_seconds = 20;
-
-    int iter_depth;
-
-    int search_start_time = 0;
-
-    bool time_over = false;
-
-    move pv_table[max_search_depth+1][max_search_depth+1];
-
-    move killer_moves[2][max_search_depth];
-
-    int (*const* eval_func)(game_state);
-
-    TranspositionTable transposition_table = TranspositionTable(1000);
-
-    void update_pv_table(move new_best_move, int ply, bool is_leaf_node){
-
-        pv_table[ply][ply] = new_best_move;
-        if(is_leaf_node){//If node analyzed is a terminal node
-            pv_table[ply][ply + 1].move = -1; //If move bitarray is set to -1, this is a terminal node used ony for killer moves.     
-        }
-        else{
-            for(int j = ply + 1; j < iter_depth; j++){
-                pv_table[ply][j] = pv_table[ply+1][j];
-            }
+    this->pv_table[ply][ply] = new_best_move;
+    if(ply + 1 == this->iter_search_depth){
+        return;
+    }
+    if(is_leaf_node){//If node analyzed is a terminal node
+        //assert(ply + 1 < iter_search_depth);
+        this->pv_table[ply][ply + 1].move = -1; //If move bitarray is set to -1, this is a terminal node used ony for killer moves.     
+    }
+    else{
+        //assert(ply + 1 < iter_search_depth);
+        for(int j = ply + 1; j < this->iter_search_depth; j++){
+            this->pv_table[ply][j] = this->pv_table[ply+1][j];
         }
     }
+}
 
-    void reorder_moves(move possible_moves[MAX_POSSIBLE_MOVEMENTS], int num_moves, int ply){
+void AllSearch::score_moves(int move_scores[MAX_POSSIBLE_MOVEMENTS], move possible_moves[MAX_POSSIBLE_MOVEMENTS], int num_moves, int ply, move best_move_tt){
 
-        for(int i = 0; i < num_moves; i++){
-            move pv_move = pv_table[0][ply];
+    memset(move_scores, 0, MAX_POSSIBLE_MOVEMENTS * sizeof(int));
 
-            if(possible_moves[i].move == pv_move.move && possible_moves[i].piece == pv_move.piece){
-                move temp = possible_moves[0];
-                possible_moves[0] = possible_moves[i];
-                possible_moves[i] = temp;
-            }
+    for(int i = 0; i < num_moves; i++){
+        move pv_move = this->pv_table[0][ply];
+        move killer_move1 = this->killer_moves[ply][0];
+        move killer_move2 = this->killer_moves[ply][1];
 
+
+        if(possible_moves[i].move == pv_move.move && possible_moves[i].piece == pv_move.piece){
+            move_scores[i] += 100;
         }
-
-        for(int i = 0; i < num_moves; i++){
-            move killer_move = killer_moves[0][ply];
-
-            if(possible_moves[i].move == killer_move.move && possible_moves[i].piece == killer_move.piece){
-                move temp = possible_moves[1];
-                possible_moves[1] = possible_moves[i];
-                possible_moves[i] = temp;
-            }
-
+        if(possible_moves[i].move == killer_move1.move && possible_moves[i].piece == killer_move1.piece){
+            move_scores[i] += 80;
         }
+        if(possible_moves[i].move == killer_move2.move && possible_moves[i].piece == killer_move2.piece){
+            move_scores[i] += 80 - 1;
+        }
+        if(possible_moves[i].move == best_move_tt.move && possible_moves[i].piece == best_move_tt.piece){
+            move_scores[i] += 90;
+        }
+    }
+}
+
+void AllSearch::set_killer_move(move m, int ply) {
+
+
+    /* make sure killer moves will be different
+    before saving secondary killer move */
+    if (m.move != this->killer_moves[ply][0].move || m.piece != this->killer_moves[ply][0].piece)
+        this->killer_moves[ply][1] = this->killer_moves[ply][0];
+
+    /* save primary killer move */
+    this->killer_moves[ply][0] = m;
+
+}
+
+
+
+int AllSearch::pv_search(game_state node, int alpha, int beta, int depth, bool is_pv_node) {
+
+    this->nodes_searched++;
+    uint64_t node_hash = this->transposition_table.get_hash(node);
+
+    move best_move_tt;
+    int val_tt;
+
+    node_type tt_node = alpha_node;
+
+    //_mm_prefetch((char *)&this->transposition_table.transposition_table[node_hash & this->transposition_table.hash_key_mask], _MM_HINT_NTA);
+
+    //Leaf node conditions
+
+    if(depth == 0){
+        return DistanceEval::eval(node);
+    }
+    if(check_for_win(node)){
+        return -MAX_INT;
+    }
+
+    //get_ms() is slow, so check timeout condition every ~33k nodes analyzed.
+    if((this->nodes_searched & 0x7fff) == 0){
         
-        for(int i = 0; i < num_moves; i++){
-            move killer_move = killer_moves[1][ply];
-
-            if(possible_moves[i].move == killer_move.move && possible_moves[i].piece == killer_move.piece){
-                move temp = possible_moves[2];
-                possible_moves[2] = possible_moves[i];
-                possible_moves[i] = temp;
-            }
-
-        }
-        
-    }
-
-    void set_killer_move(move m, int ply) {
-
-
-        /* make sure killer moves will be different
-        before saving secondary killer move */
-        if (m.move != killer_moves[0][ply].move || m.piece != killer_moves[0][ply].piece)
-            killer_moves[1][ply] = killer_moves[0][ply];
-
-        /* save primary killer move */
-        killer_moves[0][ply] = m;
-
-    }
-
-
-
-    int pv_search(game_state prev_node_state, int alpha, int beta, int depth) {
-        nodes_searched++;
-
-        //Leaf node conditions
-
-        if(depth == 0){
-            return DistanceEval::eval(prev_node_state);
-        }
-        if(check_for_win(prev_node_state)){
-            return -MAX_INT;
-        }
-        if((nodes_searched & 0x7fff) == 0){
+        if(get_ms() > this->search_start_time + this->max_seconds){
+            this->timeout = true;
             
-            if(time(NULL) > search_start_time + max_seconds){
-                time_over = true;
-                
-                return 0;
-            }
+            return 0;
         }
-
-        int ply = iter_depth - depth;
-
-        int win_score = -MAX_INT + ply; //Further into the tree, the lower the win_score is
-
-        //If window is an infinite window, limit the values to win score
-        if (alpha < win_score) alpha = win_score;
-        if (beta > -win_score - 1) beta = -win_score - 1;
-        if (alpha >= beta){
-            return alpha;
-        } 
-
-        //Generate moves
-        move possible_moves[MAX_POSSIBLE_MOVEMENTS];
-        int num_moves = get_moves_as_list(prev_node_state, possible_moves);
-
-        reorder_moves(possible_moves, num_moves, ply);
-
-        bool search_pv = true;
-        for(int i = 0; i < num_moves; i++){
-            game_state node_state = apply_move(prev_node_state, possible_moves[i]);
-
-            int score;
-            if(search_pv)
-                score = -pv_search(node_state, -beta, -alpha, depth - 1);
-            else{
-                score = -pv_search(node_state, -alpha - 1, - alpha, depth - 1);
-                if(score > alpha)
-                    score = -pv_search(node_state, -beta, -alpha, depth - 1);
-            }
-
-            if(time_over)
-                return 0;
-
-            //Update alpha (better child node has been found)
-            if(score > alpha){
-                alpha = score;
-                search_pv = false;
-                update_pv_table(possible_moves[i], ply, score == MAX_INT);
-                
-                if(score >= beta){
-                    //If condition is met, this node is garanteed to have a score smaller than
-                    //another previously searched sibling node
-
-                    set_killer_move(possible_moves[i], ply);
-
-                    return beta;
-                }
-            }
-        }
-        return alpha;
-    
     }
 
-    int root_search(game_state prev_node_state, int depth) {
-
-        //Leaf node conditions
-
-        int ply = 0;
-        int alpha = -MAX_INT;
-        int beta = MAX_INT;
-
-        int win_score = MAX_INT - ply; //Further into the tree, the lower the win_score is
 
 
-        //Generate moves
-        move possible_moves[MAX_POSSIBLE_MOVEMENTS];
-        int num_moves = get_moves_as_list(prev_node_state, possible_moves);
+    int ply = this->iter_search_depth - depth; //Calculate ply (distance from root node)
 
-        reorder_moves(possible_moves, num_moves, ply);
-        bool search_pv = true;
-        for(int i = 0; i < num_moves; i++){
-            game_state node_state = apply_move(prev_node_state, possible_moves[i]);
 
-            int score;
 
-            if(search_pv)
-                score = -pv_search(node_state, -beta, -alpha, depth - 1);
-            else{
-                score = -pv_search(node_state, -alpha - 1, - alpha, depth - 1);
-                if(score > alpha)
-                    score = -pv_search(node_state, -beta, -alpha, depth - 1);
-            }            
-            if(time_over)
-                break;
 
-            //Update alpha (better child node has been found)
-            if(score > alpha){
-                alpha = score;
-                search_pv = false;
-                update_pv_table(possible_moves[i], ply, score == MAX_INT);
+    int win_score = -MAX_INT + ply; //Further into the tree, the lower the win_score should be
 
-                if(score >= beta){
-                    //If condition is met, this node is garanteed to have a score smaller than
-                    //another previously searched sibling node
+    //If window is unbounded, limit the values to win_score to ensure engine tries shortest possible win. 
+    if (alpha < win_score) alpha = win_score;
+    if (beta > -win_score - 1) beta = -win_score - 1;
 
-                    return beta;
-                }
-            }
-        }
+    //If alpha>=beta, node scoring is impossible for it to be greater than beta
+    if (alpha >= beta){
         return alpha;
-    
+    } 
+
+    if(this->transposition_table.probe(node_hash, depth, alpha, beta, &best_move_tt, &val_tt)){
+        //if(!is_pv_node){
+            return val_tt;
+        //}
     }
 
-    move search(game_state state, eval_func_t eval_func_){
+    //Generate moves
+    move possible_moves[MAX_POSSIBLE_MOVEMENTS];
+    int num_moves = get_moves_as_list(node, possible_moves);
+    
+    //Score moves
+    int move_scores[MAX_POSSIBLE_MOVEMENTS];
+    this->score_moves(move_scores, possible_moves, num_moves, ply, best_move_tt);
 
-        eval_func = eval_func_.target<int(*)(game_state)>();
+    bool evaluated_moves[MAX_POSSIBLE_MOVEMENTS];
+    memset(evaluated_moves, 0, MAX_POSSIBLE_MOVEMENTS * sizeof(bool));
 
-        nodes_searched = 0;
-        move possible_moves[MAX_POSSIBLE_MOVEMENTS];
+    bool search_pv = true; //Used for PVS
+    for(int i = 0; i < num_moves; i++){
 
-        int num_moves = get_moves_as_list(state, possible_moves);
+        //Get a node to analyze
 
-        int scores[MAX_POSSIBLE_MOVEMENTS];
+        int best_move_score = 0;
+        move testing_move = possible_moves[0];
+        int move_idx = 0;
+        for(int j = 0; j < num_moves; j++){
+            if(move_scores[j] >= best_move_score && !evaluated_moves[j]){
+                testing_move = possible_moves[j];
+                best_move_score = move_scores[j];
+                move_idx = j;
+            }
+        }
+        evaluated_moves[move_idx] = true;
+
+        game_state next_node = apply_move(node, testing_move); //Apply movement
+
+
+        //Principal-variation search.
 
         int score;
-        
-        search_start_time = time(NULL);
 
-        time_over = false;
-
-        for(int i = 0; i < max_search_depth; i++){
-            killer_moves[0][i].move = - 1;
-            killer_moves[1][i].move = - 1;
-            for(int j = 0; j < max_search_depth; j++){
-                pv_table[i][j].move = -1;
-            }
+        if(search_pv)
+            score = -this->pv_search(next_node, -beta, -alpha, depth - 1, is_pv_node);
+        else{
+            score = -this->pv_search(next_node, -alpha - 1, - alpha, depth - 1, false);
+            if(score > alpha)
+                score = -this->pv_search(next_node, -beta, -alpha, depth - 1, true);
         }
 
-        for(int depth = 1; depth <= max_search_depth; depth++){
-            std::cout << "depth " << depth << " ";
-            iter_depth = depth;
-            score =  root_search(state, depth);
-            std::cout << "pv: ";
-            Team pv_print_turn = state.turn;
-
-            for(int i = 0; i < max_search_depth; i++){
-                if(pv_table[0][i].move == -1){
-                    break;
-                }
-                else{
-                    if(pv_print_turn == Team::red){
-                        std::cout << hue::light_red;
-                        pv_print_turn = Team::blue;
-                    }
-                    else{
-                        std::cout << hue::light_blue;
-                        pv_print_turn = Team::red;
-                    }
-                    
-                    std::cout << get_move_str(pv_table[0][i]) << " ";
-
-                    std::cout << hue::reset;
-                }
-            }
+        //If timeout, return 0
+        if(this->timeout)
+            return 0;
 
 
-            std::cout << "(" << nodes_searched << " nodes, ";
-
-            if(abs(score) > MAX_INT - 100 && !time_over){
-                if(pv_print_turn == Team::blue)
-                    std::cout << hue::light_red << "red can force win" << hue::reset << ", ";
-                else 
-                    std::cout << hue::light_blue << "blue can force win" << hue::reset << ", ";
-            }
+        //If better child node has been found
+        if(score > alpha){
             
 
-            if(time_over){
-                std::cout << "timeout)" << std::endl;
+            search_pv = false;
+
+            //Because a better move as been found at this ply, update pv table.
+            this->update_pv_table(testing_move, ply, score == MAX_INT);
+
+            //If condition is met, this node is garanteed to have a score smaller than
+            //another previously searched sibling node  
+            if(score >= beta){
+
+                this->set_killer_move(testing_move, ply); //A cut-node has been found. Add to killer move array.
+
+                tt_node = beta_node;
+                alpha = beta;
                 break;
             }
 
-            std::cout << "\b\b) " << std::endl;
-            if(abs(score) > MAX_INT - 100){
-                break;
-            }
+            alpha = score; //Update alpha
+            tt_node = exact_node;
+
         }
         
-        std::cout << std::endl;
-
-        move best_move = pv_table[0][0];
-
-        /*
-        if(node_val > MAX_INT - 100){
-            if(state.turn == Team::red)
-                std::cout << "Red wins in " << MAX_INT - node_val << std::endl;
-            else
-                std::cout << "Blue wins in " << MAX_INT - node_val << std::endl;
-
-        }
-        */
-
-
-        return best_move;
-
     }
 
+    this->transposition_table.save(node_hash, alpha, tt_node, depth, this->pv_table[ply][ply]);
+
+    return alpha; //If all nodes have been search, this is an all node.
+
 }
+
+int AllSearch::root_search(game_state node, int depth) {
+
+    int ply = 0; //Root node has ply=0
+
+    int alpha = -MAX_INT; //Initial alpha beta parameters
+    int beta = MAX_INT;
+
+    uint64_t node_hash = this->transposition_table.get_hash(node);
+
+    move best_move_tt;
+    int val_tt;
+
+    if(this->transposition_table.probe(node_hash, depth, alpha, beta, &best_move_tt, &val_tt)){
+        if((val_tt > alpha && val_tt < beta)){
+            this->tt_cutoffs++;
+            return val_tt;
+        }
+    }
+
+
+
+    //Generate moves
+    move possible_moves[MAX_POSSIBLE_MOVEMENTS];
+    int num_moves = get_moves_as_list(node, possible_moves);
+
+    //Score moves
+    int move_scores[MAX_POSSIBLE_MOVEMENTS];
+    this->score_moves(move_scores, possible_moves, num_moves, ply, best_move_tt);
+
+    bool evaluated_moves[MAX_POSSIBLE_MOVEMENTS];
+    memset(evaluated_moves, 0, MAX_POSSIBLE_MOVEMENTS * sizeof(bool));
+    
+
+
+    bool search_pv = true; //Used for PVS
+
+        
+    for(int i = 0; i < num_moves; i++){
+        //Get a node to analyze
+
+        int best_move_score = 0;
+        move testing_move = possible_moves[0];
+        int move_idx = 0;
+        for(int j = 0; j < num_moves; j++){
+            if(move_scores[j] >= best_move_score && !evaluated_moves[j]){
+                testing_move = possible_moves[j];
+                best_move_score = move_scores[j];
+                move_idx = j;
+            }
+        }
+        evaluated_moves[move_idx] = true;
+
+        game_state next_node = apply_move(node, testing_move); //Apply movement
+
+        //Principal-variation search.
+        
+        int score;
+
+        if(search_pv)
+            score = -this->pv_search(next_node, -beta, -alpha, depth - 1, true);
+        else{
+            score = -this->pv_search(next_node, -alpha - 1, - alpha, depth - 1, false);
+            if(score > alpha)
+                score = -this->pv_search(next_node, -beta, -alpha, depth - 1, true);
+        }
+
+        //If timeout, return 0
+        if(this->timeout)
+            break;
+
+        //If better child node has been found
+        if(score > alpha){
+            alpha = score;//Update alpha
+
+            search_pv = false;
+
+            //Because a better move as been found at this ply, update pv table.
+            this->update_pv_table(testing_move, ply, score == MAX_INT);
+
+            //If condition is met, this node is garanteed to have a score smaller than
+            //another previously searched sibling node
+            if(score >= beta){
+                //If condition is met, this node is garanteed to have a score smaller than
+                //another previously searched sibling node
+
+                this->transposition_table.save(node_hash, beta, beta_node, depth, this->pv_table[ply][ply]);
+
+                return beta;
+            }
+
+            this->transposition_table.save(node_hash, score, alpha_node, depth, this->pv_table[ply][ply]);
+        }
+    }
+
+    this->transposition_table.save(node_hash, alpha, exact_node, depth, this->pv_table[ply][ply]);
+
+    return alpha;
+
+}
+
+move AllSearch::search(game_state state){
+
+    std::cout << "Searching hash " << std::setfill('0') << std::setw(16) << std::right << std::hex << this->transposition_table.get_hash(state) << std::endl;
+    std::cout << std::dec;
+
+    move possible_moves[MAX_POSSIBLE_MOVEMENTS];
+
+    //Reset pv table and killer moves between searches.
+    this->search_start_time = get_ms();
+    this->nodes_searched = 0;
+    this->timeout = false;
+    this->tt_cutoffs = 0;
+    this->transposition_table.clear();
+    
+    for(int i = 0; i < max_search_depth; i++){
+        this->killer_moves[i][0].move = - 1;
+        this->killer_moves[i][1].move = - 1;
+    }
+    
+    for(int i = 0; i < max_search_depth + 1; i++){
+        for(int j = 0; j < max_search_depth + 1; j++){
+            pv_table[i][j].move = -1;
+        }
+    }
+
+
+    //Iterative deepening loop
+    for(int depth = 1; depth <= max_search_depth; depth++){
+        std::cout << "depth " << depth << " ";
+
+        this->iter_search_depth = depth;
+
+        int score = root_search(state, depth); //Search root
+
+
+        //Print principal variation and additional data.
+
+        std::cout << "pv: ";
+
+        Team pv_print_turn = state.turn;
+
+        for(int i = 0; i < max_search_depth; i++){
+            if(pv_table[0][i].move == -1){
+                break;
+            }
+            else{
+                if(pv_print_turn == Team::red){
+                    std::cout << hue::light_red;
+                    pv_print_turn = Team::blue;
+                }
+                else{
+                    std::cout << hue::light_blue;
+                    pv_print_turn = Team::red;
+                }
+                
+                std::cout << get_move_str(pv_table[0][i]) << " ";
+
+                std::cout << hue::reset;
+            }
+        }
+
+        std::cout << "(" << nodes_searched << " nodes, ";
+
+        if(abs(score) > MAX_INT - 100 && !this->timeout){
+            if(pv_print_turn == Team::blue)
+                std::cout << hue::light_red << "red can force win" << hue::reset << ", ";
+            else 
+                std::cout << hue::light_blue << "blue can force win" << hue::reset << ", ";
+        }
+        
+
+        if(this->timeout){
+            std::cout << "timeout, ";
+        }
+
+        std::cout << "\b\b) " << std::endl;
+
+
+        if(this->timeout){
+            break; //Stop search if timeout
+        }
+
+        //If a forced win has been found, stop search
+        if(abs(score) > MAX_INT - 100){
+            break;
+        }
+    }
+    
+
+    std::cout << "time: " << get_ms() - this->search_start_time << std::endl;
+
+    move best_move = pv_table[0][0];
+
+    return best_move;
+
+}
+

@@ -18,7 +18,7 @@ int null_evaluator_function(positioning::game_state state){
 }
 
 GraphicsWindow::GraphicsWindow(){
-	this->evaluator_function = null_evaluator_function;
+	this->evaluator_function = &null_evaluator_function;
 }
 
 int GraphicsWindow::init_graphics_console(){
@@ -31,7 +31,7 @@ int GraphicsWindow::stop_graphics_console(){
 	return 1;
 }
 
-int GraphicsWindow::set_evaluator_function(std::function<int(positioning::game_state)> evaluator_function){
+int GraphicsWindow::set_evaluator_function(eval_func_t evaluator_function){
 	this->evaluator_function = evaluator_function;
 	return 1;
 }
@@ -275,7 +275,7 @@ int GraphicsWindow::draw_board_turn_label(positioning::game_state state, vector<
 }
 
 int GraphicsWindow::draw_eval_meter(positioning::game_state state, vector<vector<CHAR_INFO>> & image_drawing){
-	int score = this->evaluator_function(state);
+	int score = (*this->evaluator_function)(state);
 	float bounded_score = score;
 
 	if(bounded_score > kEvaluationGraphLimit)

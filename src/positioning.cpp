@@ -70,6 +70,8 @@ namespace positioning{
             if(piece_num == red_cabeza_idx || piece_num == red_mini_idx || piece_num == blue_cabeza_idx || piece_num == blue_mini_idx){//If piece is cabeza or mini
                 test_x = rand() % 10;
                 test_y = rand() % 10;
+
+                test_o = Orientation::flat;
             }
 
             else if(piece_num == red_flaco_idx || piece_num == blue_flaco_idx){//If piece is flaco
@@ -91,6 +93,8 @@ namespace positioning{
             else{ //If piece is gordo
                 test_x = rand() % 9;
                 test_y = rand() % 9;
+
+                test_o = Orientation::flat;
             }
             
             test_bitboard = generate_bitboard_for_piece(piece_num, test_o, test_x, test_y);
@@ -608,6 +612,10 @@ namespace positioning{
                                                             
     move parse_movement_str(std::string str){
         
+        if(str.length() < 2){
+            return (move)0;
+        }
+
         using namespace std;
 
         transform(str.begin(), str.end(), str.begin(), ::toupper); //Convert to upper case
@@ -680,6 +688,7 @@ namespace positioning{
         else{
             move.move = movement_str_dict[str];
         }
+
         
         return move;
         
@@ -757,7 +766,7 @@ namespace positioning{
 
         piece ret;
         ret.bitboard = moved_bitboard;
-
+        ret.o = p.o;
         return ret;
 
     }
@@ -797,7 +806,7 @@ namespace positioning{
 
         piece ret;
         ret.bitboard = moved_bitboard;
-
+        ret.o = p.o;
         return ret;
     }
 
@@ -1094,7 +1103,7 @@ namespace positioning{
 
         piece ret;
         ret.bitboard = moved_bitboard;
-
+        ret.o = p.o;
         return ret;
     }
 

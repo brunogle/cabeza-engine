@@ -8,7 +8,7 @@
 #include "positioning.h"
 #include <functional>
 
-typedef std::function<int(positioning::game_state)> eval_func_t;
+typedef int (* eval_func_t)(positioning::game_state);
 
 namespace DistanceEval{
 
@@ -19,15 +19,5 @@ namespace DistanceEval{
     //eval_func_t eval;
 }
 
-
-namespace AlphaBetaSearch{
-
-    using namespace positioning;
-
-    int alpha_beta(game_state state, int alpha, int beta, int depth, eval_func_t eval_func);
-
-    move search(game_state state, eval_func_t eval_func);
-
-}
 
 #endif
