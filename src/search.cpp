@@ -21,7 +21,9 @@ Search::Search(){
 }
 
 move Search::search(game_state state){
-    return (move)0;
+    (void)state;
+    move ret = {};
+    return ret;
 }
 
 AllSearch::AllSearch(eval_func_t eval_func, int max_seconds, int max_search_depth) : Search(eval_func), transposition_table(32*1024*1024){
@@ -70,7 +72,7 @@ void AllSearch::update_pv_table(move new_best_move, int ply, bool is_leaf_node){
     }
     if(is_leaf_node){//If node analyzed is a terminal node
         //assert(ply + 1 < iter_search_depth);
-        this->pv_table[ply][ply + 1].move = -1; //If move bitarray is set to -1, this is a terminal node used ony for killer moves.     
+        this->pv_table[ply][ply + 1].move = ~0u; //If move bitarray is set to -1, this is a terminal node used ony for killer moves.     
     }
     else{
         //assert(ply + 1 < iter_search_depth);
@@ -85,7 +87,7 @@ void AllSearch::score_moves(int move_scores[MAX_POSSIBLE_MOVEMENTS], move possib
     memset(move_scores, 0, MAX_POSSIBLE_MOVEMENTS * sizeof(int));
 
     for(int i = 0; i < num_moves; i++){
-        move pv_move = this->pv_table[0][ply];
+        move pv_move = this->pv_table[ply][ply];
         move killer_move1 = this->killer_moves[ply][0];
         move killer_move2 = this->killer_moves[ply][1];
 
@@ -361,8 +363,6 @@ move AllSearch::search(game_state state){
     std::cout << "Searching hash " << std::setfill('0') << std::setw(16) << std::right << std::hex << this->transposition_table.get_hash(state) << std::endl;
     std::cout << std::dec;
 
-    move possible_moves[MAX_POSSIBLE_MOVEMENTS];
-
     //Reset pv table and killer moves between searches.
     this->search_start_time = get_ms();
     this->nodes_searched = 0;
@@ -398,7 +398,7 @@ move AllSearch::search(game_state state){
         Team pv_print_turn = state.turn;
 
         for(int i = 0; i < max_search_depth; i++){
-            if(pv_table[0][i].move == -1){
+            if(pv_table[0][i].move == -1u){
                 break;
             }
             else{

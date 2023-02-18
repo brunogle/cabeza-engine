@@ -208,7 +208,7 @@ namespace positioning{
     /*
     Converts one of the zone_mask_drawings to a bitboard mask for a specific position, rotation and zone
     */
-    bitboard_t generate_zone_mask_from_string(std::string mask_drawing, int pos, int rot, int zone){
+    bitboard_t generate_zone_mask_from_string(std::string mask_drawing, int pos, int zone){
 
         int str_length = sqrt(mask_drawing.length());
 
@@ -222,7 +222,7 @@ namespace positioning{
 
         int zone_num_found_pos = mask_drawing.find(zone + '0');
 
-        while(zone_num_found_pos != std::string::npos){
+        while((unsigned long long)zone_num_found_pos != std::string::npos){
             
             int piece_x = pos%10;
             int piece_y = pos/10;
@@ -254,21 +254,21 @@ namespace positioning{
         for(int pos = 0; pos < 100; pos++){
             for(int rot = 0; rot < 4; rot++){
                 for(int zone = 0; zone < 8; zone++)
-                    zone_mask_cabeza[pos][rot][zone] = generate_zone_mask_from_string(zone_mask_drawing_cabeza[rot], pos, rot, zone);
+                    zone_mask_cabeza[pos][rot][zone] = generate_zone_mask_from_string(zone_mask_drawing_cabeza[rot], pos, zone);
 
                 for(int zone = 0; zone < 4; zone++){
                     
-                    zone_mask_mini[pos][rot][zone] = generate_zone_mask_from_string(zone_mask_drawing_mini[rot], pos, rot, zone);
-                    zone_mask_flaco[pos][rot][zone][0] = generate_zone_mask_from_string(zone_mask_drawing_flaco_flat[rot], pos, rot, zone);
-                    zone_mask_flaco[pos][rot][zone][1] = generate_zone_mask_from_string(zone_mask_drawing_flaco_horizontal[rot], pos, rot, zone);
-                    zone_mask_flaco[pos][rot][zone][2] = generate_zone_mask_from_string(zone_mask_drawing_flaco_vertical[rot], pos, rot, zone);
-                    zone_mask_chato[pos][rot][zone][0] = generate_zone_mask_from_string(zone_mask_drawing_chato_flat[rot], pos, rot, zone);
-                    zone_mask_chato[pos][rot][zone][1] = generate_zone_mask_from_string(zone_mask_drawing_chato_horizontal[rot], pos, rot, zone);
-                    zone_mask_chato[pos][rot][zone][2] = generate_zone_mask_from_string(zone_mask_drawing_chato_vertical[rot], pos, rot, zone);
+                    zone_mask_mini[pos][rot][zone] = generate_zone_mask_from_string(zone_mask_drawing_mini[rot], pos, zone);
+                    zone_mask_flaco[pos][rot][zone][0] = generate_zone_mask_from_string(zone_mask_drawing_flaco_flat[rot], pos, zone);
+                    zone_mask_flaco[pos][rot][zone][1] = generate_zone_mask_from_string(zone_mask_drawing_flaco_horizontal[rot], pos, zone);
+                    zone_mask_flaco[pos][rot][zone][2] = generate_zone_mask_from_string(zone_mask_drawing_flaco_vertical[rot], pos, zone);
+                    zone_mask_chato[pos][rot][zone][0] = generate_zone_mask_from_string(zone_mask_drawing_chato_flat[rot], pos, zone);
+                    zone_mask_chato[pos][rot][zone][1] = generate_zone_mask_from_string(zone_mask_drawing_chato_horizontal[rot], pos, zone);
+                    zone_mask_chato[pos][rot][zone][2] = generate_zone_mask_from_string(zone_mask_drawing_chato_vertical[rot], pos, zone);
 
                 }
 
-                zone_mask_gordo[pos][rot] =  generate_zone_mask_from_string(zone_mask_drawing_gordo[rot], pos, rot, 0);
+                zone_mask_gordo[pos][rot] =  generate_zone_mask_from_string(zone_mask_drawing_gordo[rot], pos, 0);
             }
         }
 
@@ -555,6 +555,7 @@ namespace positioning{
             }
         }
 
+
         return move_count;
 
     }
@@ -599,6 +600,11 @@ namespace positioning{
         all_possible_movements_.chato = get_chato_moves(occupancy_normal, get_pos_from_bitboard(state.pieces[piece_index_offset + 3].bitboard), state.pieces[piece_index_offset + 3].o);
         all_possible_movements_.gordo = get_gordo_moves(occupancy_normal, get_pos_from_bitboard(state.pieces[piece_index_offset + 4].bitboard));
 
+        all_possible_movements_.cabeza |= (all_possible_movements_.cabeza & (MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN)) << 1;
+        all_possible_movements_.cabeza &= ~(MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN);
+        all_possible_movements_.mini |= (all_possible_movements_.mini & (MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN)) << 1;
+        all_possible_movements_.mini &= ~(MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN);
+        
         return all_possible_movements_;
     }
 
@@ -613,7 +619,8 @@ namespace positioning{
     move parse_movement_str(std::string str){
         
         if(str.length() < 2){
-            return (move)0;
+            move ret = {};
+            return ret;
         }
 
         using namespace std;
@@ -1212,7 +1219,6 @@ namespace positioning{
         game_state new_state = state;
 
         while(move_token != NULL){
-            all_possible_moves_t possible_moves = get_moves(state);
 
             move move = parse_movement_str(move_token);
 

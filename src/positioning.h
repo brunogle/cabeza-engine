@@ -166,7 +166,7 @@ namespace positioning{
     /*
     Generates bitboard zone mask from string drawing for a given position, rotation and zone number
     */
-    bitboard_t generate_zone_mask_from_string(std::string mask_drawing, int pos, int rot, int zone);
+    bitboard_t generate_zone_mask_from_string(std::string mask_drawing, int pos, int zone);
 
     /*
     Initializes lookup arrays

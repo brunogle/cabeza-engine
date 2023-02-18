@@ -14,6 +14,7 @@ using namespace consts;
 
 
 int null_evaluator_function(positioning::game_state state){
+	(void)state;
     return 0;
 }
 
@@ -97,8 +98,8 @@ int GraphicsWindow::draw_board_graphic(positioning::game_state state, vector<vec
 					board_drawing[i][j].Char.UnicodeChar = L'│';
 				}
 				else{
-					int square_x = (j - 1)/(kInSquareWidth + 1);
-					int square_y = (i - 1)/(kInSquareHeight + 1);
+					//int square_x = (j - 1)/(kInSquareWidth + 1);
+					//int square_y = (i - 1)/(kInSquareHeight + 1);
 					board_drawing[i][j].Char.UnicodeChar = L' ';
 				}
 			}
@@ -299,11 +300,9 @@ int GraphicsWindow::draw_eval_meter(positioning::game_state state, vector<vector
 
 		for(int i = 0; i < kEvaluationMeterHeight; i++){
 
-			int y_coord = kEvaluationMeterY + i;
+			//int y_coord = kEvaluationMeterY + i;
 
 			float dist_from_center =  i - kBoardDrawingHeight/2;
-
-			float score_at_pos = 2.0*kEvaluationGraphLimit*dist_from_center/kBoardDrawingHeight;
 
 			if(bounded_score == 0){
 				if(dist_from_center == 0){
@@ -343,7 +342,7 @@ int GraphicsWindow::draw_eval_meter(positioning::game_state state, vector<vector
 		}
 
 		
-		if(j < score_str.length())
+		if((uint64_t)j < score_str.length())
 			image_drawing[bar_graph_top][x_coord].Char.UnicodeChar = score_str[j];
 		
 		if(score == 0){

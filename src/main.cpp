@@ -22,7 +22,7 @@ int main(){
 
 	positioning::init();
 
-	AllSearch search_engine(DistanceEval::eval, 60000, 10);
+	AllSearch search_engine(DistanceEval::eval, 30000, 15);
 
 	Game game(DistanceEval::eval, &search_engine);
 	
@@ -38,8 +38,6 @@ int main(){
 
 	while(winner == Player::none){
 		
-		Player turn = game.get_turn();
-
 		std::cout << "> ";
 		std::getline(std::cin, input_str);
 
@@ -54,7 +52,7 @@ int main(){
 			game.undo_moves(1);	
 		}
 		else if(command_token == "search" || command_token == "s"){
-			positioning::move best_move = game.search();
+			game.search();
 		}
 		else if(command_token == "play" || command_token == "p"){
 			positioning::move best_move = game.search();

@@ -91,7 +91,7 @@ bool Game::apply_move_str(std::string move_str){
 
     bool success;
 
-    positioning::Team move_color;
+    positioning::Team move_color = positioning::Team::red;
 
     if(move_str[0] == 'c' || move_str[0] == 'm' || move_str[0] == 'f' || move_str[0] == 'h' || move_str[0] == 'o'){
         move_color = positioning::Team::blue;
@@ -280,10 +280,10 @@ bool Game::set_fen(std::string fen){
     }
 
     if(fen_split[1] == "r"){
-        new_state.turn == positioning::Team::red;
+        new_state.turn = positioning::Team::red;
     }
     else if(fen_split[1] == "b"){
-        new_state.turn == positioning::Team::blue;
+        new_state.turn = positioning::Team::blue;
     }
 
     if( character_count[0] == 1 &&
@@ -309,7 +309,7 @@ bool Game::set_fen(std::string fen){
 
 int Game::undo_moves(int semimoves_to_undo){
 
-    if(this->game_state_history.size() > semimoves_to_undo){
+    if(this->game_state_history.size() > (uint64_t)semimoves_to_undo){
 
         for(int i = 0; i < semimoves_to_undo; i++){
             this->move_history.pop_back();

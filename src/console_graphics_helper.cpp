@@ -57,13 +57,6 @@ int main(int argc,char **argv){
 
 	//Set screen buffer size
 
-
-    COORD newSize;
-    newSize.X = kWidth + 1;
-    newSize.Y = kHeight + 1;
-
-    int Status = SetConsoleScreenBufferSize(hStdOut, newSize);
-
 	//Remove console coursor
     CONSOLE_CURSOR_INFO cursorInfo;
     GetConsoleCursorInfo(hStdOut, &cursorInfo);
@@ -94,8 +87,6 @@ int main(int argc,char **argv){
     	CloseHandle(hCharInfoFile);
     	return 1;
 	}
-
-	CHAR_INFO data[kCharInfoArraySize];
 
 	COORD size = {(SHORT)kWidth, (SHORT)kHeight};
 
