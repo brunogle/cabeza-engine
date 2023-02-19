@@ -23,7 +23,7 @@ int main(){
 	positioning::init();
 
 	AllSearch search_engine(DistanceEval::eval, 30000, 15);
-
+ 
 	Game game(DistanceEval::eval, &search_engine);
 	
 	game.create_graphics_window();
