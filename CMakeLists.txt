@@ -15,7 +15,6 @@ add_executable(cabeza)
 
 target_link_libraries(cabeza readline)
 
-
 target_sources(cabeza
     PRIVATE 
         src/main.cpp
@@ -25,4 +24,5 @@ target_sources(cabeza
         src/game.cpp
         src/search.cpp
         src/transposition.cpp
+        src/parsing.cpp
 )

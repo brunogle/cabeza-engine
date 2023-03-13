@@ -7,8 +7,10 @@
 #include <string.h>
 
 #include "color.hpp"
+#include "positioning.h"
 #include "transposition.h"
 #include "util.h"
+#include "parsing.h"
 
 using namespace positioning;
 
@@ -217,7 +219,7 @@ int AllSearch::pv_search(game_state node, int alpha, int beta, int depth, bool i
         evaluated_moves[move_idx] = true;
 
         game_state next_node = apply_move(node, testing_move); //Apply movement
-
+        switch_team(next_node);
 
         //Principal-variation search.
 
@@ -322,7 +324,8 @@ int AllSearch::root_search(game_state node, int depth) {
         evaluated_moves[move_idx] = true;
 
         game_state next_node = apply_move(node, testing_move); //Apply movement
-
+        switch_team(next_node);
+        
         //Principal-variation search.
         
         int score;
@@ -406,23 +409,23 @@ move AllSearch::search(game_state state){
 
         std::cout << "pv: ";
 
-        Team pv_print_turn = state.turn;
+        Player pv_print_turn = state.turn;
 
         for(int i = 0; i < max_search_depth; i++){
             if(pv_table[0][i].move == -1u){
                 break;
             }
             else{
-                if(pv_print_turn == Team::red){
+                if(pv_print_turn == Player::red){
                     std::cout << COLOR_RED;
-                    pv_print_turn = Team::blue;
+                    pv_print_turn = Player::blue;
                 }
                 else{
                     std::cout << COLOR_BLUE;
-                    pv_print_turn = Team::red;
+                    pv_print_turn = Player::red;
                 }
                 
-                std::cout << get_move_str(pv_table[0][i]) << " ";
+                std::cout << parsing::get_move_str(pv_table[0][i]) << " ";
 
                 std::cout << COLOR_RESET;
             }
@@ -431,7 +434,7 @@ move AllSearch::search(game_state state){
         std::cout << "(" << nodes_searched << " nodes, ";
 
         if(abs(score) > MAX_INT - 100 && !this->timeout){
-            if(pv_print_turn == Team::blue)
+            if(pv_print_turn == Player::blue)
                 std::cout << COLOR_RED << "red can force win" << COLOR_RESET << ", ";
             else 
                 std::cout << COLOR_BLUE << "blue can force win" << COLOR_RESET << ", ";

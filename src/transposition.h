@@ -25,7 +25,7 @@ class TranspositionTable{
         
         ~TranspositionTable();
 
-        uint64_t zobrist_piece_pos[10][100][3]; //100 position for 10 pieces
+        uint64_t zobrist_piece_pos[5][2][100][3]; //100 position for 10 pieces
         uint64_t zobrist_blue_turn;
 
         uint64_t get_rand_64();

@@ -6,19 +6,11 @@
 
 
 #include "eval.h"
+#include "positioning.h"
 #include "search.h"
 //#include "positioning.h"
 
-enum Player{
-    red = 1,
-    blue = -1,
-    none = 0
-};
 
-struct ColoredMove{
-    Player player;
-    positioning::move move;
-};
 
 class Game{
 
@@ -43,9 +35,7 @@ class Game{
 
     bool set_fen(std::string fen);
 
-    Player get_winner();
-
-    Player get_turn();
+    positioning::Player get_turn();
 
     positioning::move search();
     
@@ -69,9 +59,7 @@ class Game{
 
     bool graphics_enabled = false; //Graphics window enabled flag
 
-    Player winner = Player::none;
-
-    std::vector<ColoredMove> move_history;
+    std::vector<positioning::move> move_history;
     std::vector<positioning::game_state> game_state_history;
 
     bool valid_game;

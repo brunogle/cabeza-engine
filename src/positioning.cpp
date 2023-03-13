@@ -2,12 +2,20 @@
 #include <cmath>
 #include <algorithm>
 #include <string.h>
-#include "util.h"
 
+#include "util.h"
 #include "positioning.h"
 
 
 namespace positioning{
+
+
+    /////////////////////////////////////////
+    //                                     //
+    //       PREDEFINED GAME STATES        //
+    //                                     //
+    /////////////////////////////////////////
+
     /*
     Returns starting game state
     */
@@ -15,121 +23,42 @@ namespace positioning{
  
         game_state state;
 
-        using enum PieceIndex;
+        using enum Player;
+        using enum PieceType;
         using enum Orientation;
 
-        state.pieces[red_cabeza_idx].bitboard = generate_bitboard_for_piece(red_cabeza_idx, flat, 5, 0);
-        state.pieces[red_mini_idx].bitboard  =  generate_bitboard_for_piece(red_mini_idx, flat, 4, 0);
-        state.pieces[red_flaco_idx].bitboard =  generate_bitboard_for_piece(red_flaco_idx, vertical, 3, 0);
-        state.pieces[red_chato_idx].bitboard =  generate_bitboard_for_piece(red_chato_idx, vertical, 6, 0);
-        state.pieces[red_gordo_idx].bitboard =  generate_bitboard_for_piece(red_gordo_idx, flat, 4, 1);
+        state.pieces[cabeza_idx][red].bitboard = generate_bitboard_for_piece(cabeza_idx, flat, 5, 0);
+        state.pieces[mini_idx][red].bitboard  =  generate_bitboard_for_piece(mini_idx, flat, 4, 0);
+        state.pieces[flaco_idx][red].bitboard =  generate_bitboard_for_piece(flaco_idx, vertical, 3, 0);
+        state.pieces[chato_idx][red].bitboard =  generate_bitboard_for_piece(chato_idx, vertical, 6, 0);
+        state.pieces[gordo_idx][red].bitboard =  generate_bitboard_for_piece(gordo_idx, flat, 4, 1);
 
-        state.pieces[blue_cabeza_idx].bitboard = generate_bitboard_for_piece(blue_cabeza_idx, flat, 4, 9);
-        state.pieces[blue_mini_idx].bitboard  =  generate_bitboard_for_piece(blue_mini_idx, flat, 5, 9);
-        state.pieces[blue_flaco_idx].bitboard =  generate_bitboard_for_piece(blue_flaco_idx, vertical, 6, 8);
-        state.pieces[blue_chato_idx].bitboard =  generate_bitboard_for_piece(blue_chato_idx, vertical, 3, 8);
-        state.pieces[blue_gordo_idx].bitboard =  generate_bitboard_for_piece(blue_gordo_idx, flat, 4, 7);
+        state.pieces[cabeza_idx][blue].bitboard = generate_bitboard_for_piece(cabeza_idx, flat, 4, 9);
+        state.pieces[mini_idx][blue].bitboard  =  generate_bitboard_for_piece(mini_idx, flat, 5, 9);
+        state.pieces[flaco_idx][blue].bitboard =  generate_bitboard_for_piece(flaco_idx, vertical, 6, 8);
+        state.pieces[chato_idx][blue].bitboard =  generate_bitboard_for_piece(chato_idx, vertical, 3, 8);
+        state.pieces[gordo_idx][blue].bitboard =  generate_bitboard_for_piece(gordo_idx, flat, 4, 7);
 
-        state.pieces[red_cabeza_idx].o = flat;
-        state.pieces[red_mini_idx].o = flat;
-        state.pieces[red_flaco_idx].o = vertical;
-        state.pieces[red_chato_idx].o = vertical;
-        state.pieces[red_gordo_idx].o = flat;
-        state.pieces[blue_cabeza_idx].o = flat;
-        state.pieces[blue_mini_idx].o = flat;
-        state.pieces[blue_flaco_idx].o = vertical;
-        state.pieces[blue_chato_idx].o = vertical;
-        state.pieces[blue_gordo_idx].o = flat;
+        state.pieces[cabeza_idx][red].o = flat;
+        state.pieces[mini_idx][red].o = flat;
+        state.pieces[flaco_idx][red].o = vertical;
+        state.pieces[chato_idx][red].o = vertical;
+        state.pieces[gordo_idx][red].o = flat;
+        state.pieces[cabeza_idx][blue].o = flat;
+        state.pieces[mini_idx][blue].o = flat;
+        state.pieces[flaco_idx][blue].o = vertical;
+        state.pieces[chato_idx][blue].o = vertical;
+        state.pieces[gordo_idx][blue].o = flat;
         
-        state.turn = Team::red;
+        state.turn = red;
 
         return state;
-    }
-
-    /*
-    Returns a randomly arranged game. It's a slow function
-    */
-    game_state random_game_state(){
-        game_state state;
-
-        state.turn = Team(5*(rand()%2)); //Generate random team
-
-        //Initialize to 0
-        for(int i = 0; i < 10; i++){
-            state.pieces[i] = {0,0,Orientation::flat,0};
-        }
-
-        int piece_num = 0; //Piece number couter
-        
-        while(piece_num < 10){
-
-            bitboard_t test_bitboard; //To store a randomly generated piece.
-            int test_x;
-            int test_y;
-            Orientation test_o;
-
-            if(piece_num == red_cabeza_idx || piece_num == red_mini_idx || piece_num == blue_cabeza_idx || piece_num == blue_mini_idx){//If piece is cabeza or mini
-                test_x = rand() % 10;
-                test_y = rand() % 10;
-
-                test_o = Orientation::flat;
-            }
-
-            else if(piece_num == red_flaco_idx || piece_num == blue_flaco_idx){//If piece is flaco
-
-                test_o = Orientation(rand()%3);
-
-                test_x = rand() % (test_o == Orientation::horizontal ? 9 : 10);
-                test_y = rand() % (test_o == Orientation::vertical ? 9 : 10);
-
-            }
-            else if(piece_num == red_chato_idx || piece_num == blue_chato_idx){//If piece is chato 
-
-                test_o = Orientation(rand()%3);
-
-                test_x = rand() % (test_o == Orientation::vertical ? 10 : 9);
-                test_y = rand() % (test_o == Orientation::horizontal ? 10 : 9);
-            }
-
-            else{ //If piece is gordo
-                test_x = rand() % 9;
-                test_y = rand() % 9;
-
-                test_o = Orientation::flat;
-            }
-            
-            test_bitboard = generate_bitboard_for_piece(piece_num, test_o, test_x, test_y);
-
-            bitboard_t occupancy = get_occupancy(state, false);
-
-            if(!(occupancy & test_bitboard)){
-                state.pieces[piece_num].bitboard = test_bitboard;
-                state.pieces[piece_num].x = test_x;
-                state.pieces[piece_num].y = test_y;
-                state.pieces[piece_num].o = test_o;
-                
-                piece_num ++;
-            }
-        }
-
-        return state;
-    }
-
-    /*
-    Returns a game generated by a specific portable game notation string
-    */
-    game_state pgn_game_state(std::string pgn_str){
-
-        game_state state = initial_game_state();
-
-        return apply_pgn(state, pgn_str);
-
     }
 
     /*
     Generates occupancy bitboard for a specific piece
     */
-    bitboard_t generate_bitboard_for_piece(int piece_num, Orientation o, int x, int y){
+    bitboard_t generate_bitboard_for_piece(PieceType piece_type, Orientation o, int x, int y){
 
         bitboard_t bitboard;
 
@@ -138,21 +67,21 @@ namespace positioning{
         bitboard_t chato_template[] = {0xC03, 0x3, 0x401}; //Flat, horizontal, vertical
         
         //If piece type is a cabeza or a mini
-        if(piece_num == red_cabeza_idx || piece_num == red_mini_idx || piece_num == blue_cabeza_idx || piece_num == blue_mini_idx){
+        if(piece_type == cabeza_idx || piece_type == mini_idx){
             bitboard = (bitboard_t)1 << (y*10 + x);
         }
 
         //If piece type is a flaco
-        else if(piece_num == red_flaco_idx || piece_num == blue_flaco_idx){
+        else if(piece_type == flaco_idx){
             bitboard = flaco_template[o] << (y*10 + x);
         }
 
-        //If piece type is a flaco
-        else if(piece_num == red_chato_idx || piece_num == blue_chato_idx){
+        //If piece type is a chato
+        else if(piece_type == chato_idx){
             bitboard = chato_template[o] << (y*10 + x);
         }
 
-        //If piece type is a chato
+        //If piece type is a gordo
         else{
             bitboard = (bitboard_t)0xC03 << (y*10 + x);
         }
@@ -160,29 +89,13 @@ namespace positioning{
         return bitboard;
     }
 
-    /*
-    Calculates occupancy bitboard for the board of the given game state
-    If opponent_cabeza_free is true, the function will consider the cabeza of the non moving player as free,
-    thus it permits a capture if true
-    */
-    bitboard_t get_occupancy(game_state state, bool opponent_cabeza_free){
-        bitboard_t occupancy = (bitboard_t)0;
 
-        for(int i = 0; i < 10; i++){
-            occupancy |= state.pieces[i].bitboard;
-        }
+    /////////////////////////////////////////
+    //                                     //
+    //     MOVEGEN LOOKUP ARRAYS           //
+    //                                     //
+    /////////////////////////////////////////
 
-        if(opponent_cabeza_free){
-            if(state.turn == Team::red){
-                occupancy &= ~state.pieces[PieceIndex::blue_cabeza_idx].bitboard;
-            }
-            else{
-                occupancy &= ~state.pieces[PieceIndex::red_cabeza_idx].bitboard;
-            }
-        }
-
-        return occupancy;
-    }
 
     /*
     Bitboards used for masking out the specific "zones" needed to analyze a piece.
@@ -207,6 +120,22 @@ namespace positioning{
     possible_moves_t movement_lookup_fh[16];
 
 
+
+
+    /////////////////////////////////////////
+    //                                     //
+    //     LOOKUP ARRAY INITIALIZATION     //
+    //                                     //
+    /////////////////////////////////////////
+
+    /*
+    Initializes lookup arrays
+    */
+    int init(){
+        init_zone_masks();
+        init_movement_lookups();
+        return 0;
+    }
 
     /*
     Converts one of the zone_mask_drawings to a bitboard mask for a specific position, rotation and zone.
@@ -450,18 +379,20 @@ namespace positioning{
         return 0;
     }
     
+
+
+
+    /////////////////////////////////////////
+    //                                     //
+    //     MOVE GENERATION FUNCTIONS       //
+    //                                     //
+    /////////////////////////////////////////
+
     /*
-    Initializes lookup arrays
+    Receives occupancy and piece position.
+    Returns possible_moves_t, bit-coded possible moves the piece can move.
     */
-    int init(){
-        init_zone_masks();
-        init_movement_lookups();
-        return 0;
-    }
-
-
-
-    possible_moves_t get_cabeza_moves(bitboard_t occupancy, int pos){
+    possible_moves_t get_cabeza_moves(bitboard_t occupancy, int piece_pos){
 
         possible_moves_t moves = 0;
 
@@ -474,7 +405,7 @@ namespace positioning{
             zone_occupancy = 0;
 
             for(int zone = 0; zone < 8; zone++){
-                zone_occupancy |= ((zone_mask_cabeza[pos][rot][zone] & occupancy) != 0) << zone;
+                zone_occupancy |= ((zone_mask_cabeza[piece_pos][rot][zone] & occupancy) != 0) << zone;
             }
             unshifted_moves = movement_lookup_c[zone_occupancy];
             moves |= (unshifted_moves << rot*7)|(unshifted_moves >> (28 - rot*7));
@@ -482,7 +413,11 @@ namespace positioning{
         return moves;
     }
 
-    possible_moves_t get_mini_moves(bitboard_t occupancy, int pos){
+    /*
+    Receives occupancy and piece position.
+    Returns possible_moves_t, bit-coded possible moves the piece can move.
+    */
+    possible_moves_t get_mini_moves(bitboard_t occupancy, int piece_pos){
 
         possible_moves_t moves = 0;
 
@@ -495,7 +430,7 @@ namespace positioning{
             zone_occupancy = 0;
 
             for(int zone = 0; zone < 4; zone++){
-                zone_occupancy |= ((zone_mask_mini[pos][rot][zone] & occupancy) != 0) << zone;
+                zone_occupancy |= ((zone_mask_mini[piece_pos][rot][zone] & occupancy) != 0) << zone;
             }
             unshifted_moves = movement_lookup_m[zone_occupancy];
 
@@ -504,7 +439,11 @@ namespace positioning{
         return moves;
     }
 
-    possible_moves_t get_flaco_moves(bitboard_t occupancy, int pos, Orientation o){
+    /*
+    Receives occupancy and piece position.
+    Returns possible_moves_t, bit-coded possible moves the piece can move.
+    */
+    possible_moves_t get_flaco_moves(bitboard_t occupancy, int piece_pos, Orientation o){
 
         possible_moves_t moves = 0;
 
@@ -517,7 +456,7 @@ namespace positioning{
             zone_occupancy = 0;
 
             for(int zone = 0; zone < 4; zone++){
-                zone_occupancy |= ((zone_mask_flaco[pos][rot][zone][o] & occupancy) != 0) << zone;
+                zone_occupancy |= ((zone_mask_flaco[piece_pos][rot][zone][o] & occupancy) != 0) << zone;
             }
             unshifted_moves = movement_lookup_fh[zone_occupancy];
             moves |= (unshifted_moves << rot*7)|(unshifted_moves >> (28 - rot*7));;
@@ -525,7 +464,11 @@ namespace positioning{
         return moves;
     }
 
-    possible_moves_t get_chato_moves(bitboard_t occupancy, int pos, Orientation o){
+    /*
+    Receives occupancy and piece position.
+    Returns possible_moves_t, bit-coded possible moves the piece can move.
+    */
+    possible_moves_t get_chato_moves(bitboard_t occupancy, int piece_pos, Orientation o){
 
         possible_moves_t moves = 0;
 
@@ -536,14 +479,18 @@ namespace positioning{
             zone_occupancy = 0;
 
             for(int zone = 0; zone < 4; zone++){
-                zone_occupancy |= ((zone_mask_chato[pos][rot][zone][o] & occupancy) != 0) << zone;
+                zone_occupancy |= ((zone_mask_chato[piece_pos][rot][zone][o] & occupancy) != 0) << zone;
             }
             moves |= (movement_lookup_fh[zone_occupancy] << rot*7)|(movement_lookup_fh[zone_occupancy] >> (28 - rot*7));
         }
         return moves;
     }
 
-    possible_moves_t get_gordo_moves(bitboard_t occupancy, int pos){
+    /*
+    Receives occupancy and piece position.
+    Returns possible_moves_t, bit-coded possible moves the piece can move.
+    */
+    possible_moves_t get_gordo_moves(bitboard_t occupancy, int piece_pos){
 
         possible_moves_t moves = 0;
 
@@ -553,11 +500,60 @@ namespace positioning{
             
             zone_occupancy = 0;
 
-            zone_occupancy |= ((zone_mask_gordo[pos][rot] & occupancy) == 0);
+            zone_occupancy |= ((zone_mask_gordo[piece_pos][rot] & occupancy) == 0);
     
             moves |= zone_occupancy << rot*7;
         }
         return moves;
+    }
+
+    /*
+    Finds all movements for a given game state
+    */
+    all_possible_moves_t get_moves(game_state state){
+
+        using enum Player;
+        using enum PieceType;
+
+        all_possible_moves_t all_possible_movements_; //Struct to return movements
+
+        bitboard_t occupancy_normal = (bitboard_t)0;     //Ocupancy as seen for block pieces
+        bitboard_t occupancy_for_cabeza = (bitboard_t)0; //Occupancy as seen for cabeza piece (cabeza cant eat another cabeza)
+
+
+        occupancy_normal |= state.pieces[mini_idx][red].bitboard;
+        occupancy_normal |= state.pieces[flaco_idx][red].bitboard;
+        occupancy_normal |= state.pieces[chato_idx][red].bitboard;
+        occupancy_normal |= state.pieces[gordo_idx][red].bitboard;
+        occupancy_normal |= state.pieces[mini_idx][blue].bitboard;
+        occupancy_normal |= state.pieces[flaco_idx][blue].bitboard;
+        occupancy_normal |= state.pieces[chato_idx][blue].bitboard;
+        occupancy_normal |= state.pieces[gordo_idx][blue].bitboard;
+
+        if(state.turn == Player::red){
+            occupancy_normal |= state.pieces[cabeza_idx][red].bitboard;
+            occupancy_for_cabeza = occupancy_normal | state.pieces[cabeza_idx][blue].bitboard;
+        }
+        else{
+            occupancy_normal |= state.pieces[cabeza_idx][blue].bitboard;
+            occupancy_for_cabeza = occupancy_normal | state.pieces[cabeza_idx][red].bitboard;
+        }
+
+
+        all_possible_movements_.cabeza = get_cabeza_moves(occupancy_for_cabeza, get_pos_from_bitboard(state.pieces[cabeza_idx][state.turn].bitboard));
+        all_possible_movements_.mini = get_mini_moves(occupancy_normal, get_pos_from_bitboard(state.pieces[mini_idx][state.turn].bitboard));
+        all_possible_movements_.flaco = get_flaco_moves(occupancy_normal, get_pos_from_bitboard(state.pieces[flaco_idx][state.turn].bitboard), state.pieces[flaco_idx][state.turn].o);
+        all_possible_movements_.chato = get_chato_moves(occupancy_normal, get_pos_from_bitboard(state.pieces[chato_idx][state.turn].bitboard), state.pieces[chato_idx][state.turn].o);
+        all_possible_movements_.gordo = get_gordo_moves(occupancy_normal, get_pos_from_bitboard(state.pieces[gordo_idx][state.turn].bitboard));
+
+        all_possible_movements_.cabeza |= (all_possible_movements_.cabeza & (MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN)) << 1;
+        all_possible_movements_.cabeza &= ~(MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN);
+        all_possible_movements_.mini |= (all_possible_movements_.mini & (MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN)) << 1;
+        all_possible_movements_.mini &= ~(MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN);
+        
+        all_possible_movements_.player = state.turn;
+
+        return all_possible_movements_;
     }
 
     /*
@@ -597,6 +593,8 @@ namespace positioning{
                 movements[move_count].piece = gordo_idx;
                 move_count++;
             }
+
+            movements[move_count].player = state.turn;
         }
 
 
@@ -604,182 +602,12 @@ namespace positioning{
 
     }
 
-    /*
-    Finds all movements for a given game state
-    */
-    all_possible_moves_t get_moves(game_state state){
 
-        using enum PieceIndex;
-
-        all_possible_moves_t all_possible_movements_; //Struct to return movements
-
-        bitboard_t occupancy_normal = (bitboard_t)0;     //Ocupancy as seen for block pieces
-        bitboard_t occupancy_for_cabeza = (bitboard_t)0; //Occupancy as seen for cabeza piece (cabeza cant eat another cabeza)
-
-        int piece_index_offset = 0; //Used to select team (0=red, 5=blue)
-
-        occupancy_normal |= state.pieces[1].bitboard;
-        occupancy_normal |= state.pieces[2].bitboard;
-        occupancy_normal |= state.pieces[3].bitboard;
-        occupancy_normal |= state.pieces[4].bitboard;
-        occupancy_normal |= state.pieces[6].bitboard;
-        occupancy_normal |= state.pieces[7].bitboard;
-        occupancy_normal |= state.pieces[8].bitboard;
-        occupancy_normal |= state.pieces[9].bitboard;
-        
-        if(state.turn == Team::red){
-            occupancy_normal |= state.pieces[0].bitboard;
-            occupancy_for_cabeza = occupancy_normal | state.pieces[5].bitboard;
-        }
-        else{
-            occupancy_normal |= state.pieces[5].bitboard;
-            occupancy_for_cabeza = occupancy_normal | state.pieces[0].bitboard;
-            piece_index_offset = 5;
-        }
-
-
-        all_possible_movements_.cabeza = get_cabeza_moves(occupancy_for_cabeza, get_pos_from_bitboard(state.pieces[piece_index_offset].bitboard));
-        all_possible_movements_.mini = get_mini_moves(occupancy_normal, get_pos_from_bitboard(state.pieces[piece_index_offset + 1].bitboard));
-        all_possible_movements_.flaco = get_flaco_moves(occupancy_normal, get_pos_from_bitboard(state.pieces[piece_index_offset + 2].bitboard), state.pieces[piece_index_offset + 2].o);
-        all_possible_movements_.chato = get_chato_moves(occupancy_normal, get_pos_from_bitboard(state.pieces[piece_index_offset + 3].bitboard), state.pieces[piece_index_offset + 3].o);
-        all_possible_movements_.gordo = get_gordo_moves(occupancy_normal, get_pos_from_bitboard(state.pieces[piece_index_offset + 4].bitboard));
-
-        all_possible_movements_.cabeza |= (all_possible_movements_.cabeza & (MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN)) << 1;
-        all_possible_movements_.cabeza &= ~(MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN);
-        all_possible_movements_.mini |= (all_possible_movements_.mini & (MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN)) << 1;
-        all_possible_movements_.mini &= ~(MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN);
-        
-        return all_possible_movements_;
-    }
-
-    std::map<std::string, move_bitarray_t> movement_str_dict = {{"N",MOVEMENT_N}, {"NN",MOVEMENT_NN}, {"NE",MOVEMENT_NE}, {"EN",MOVEMENT_EN},
-                                                            {"NNE",MOVEMENT_NNE}, {"NNEE",MOVEMENT_NNEE}, {"NEE",MOVEMENT_NEE}, {"E",MOVEMENT_E},
-                                                            {"EE",MOVEMENT_EE}, {"ES",MOVEMENT_ES}, {"SE",MOVEMENT_SE}, {"SEE",MOVEMENT_SEE},
-                                                            {"SSEE",MOVEMENT_SSEE}, {"SSE",MOVEMENT_SSE}, {"S",MOVEMENT_S}, {"SS",MOVEMENT_SS},
-                                                            {"SW",MOVEMENT_SW}, {"WS",MOVEMENT_WS}, {"SSW",MOVEMENT_SSW}, {"SSWW",MOVEMENT_SSWW},
-                                                            {"SWW",MOVEMENT_SWW}, {"W",MOVEMENT_W}, {"WW",MOVEMENT_WW}, {"WN",MOVEMENT_WN},
-                                                            {"NW",MOVEMENT_NW}, {"NWW",MOVEMENT_NWW}, {"NNWW",MOVEMENT_NNWW}, {"NNW",MOVEMENT_NNW}};
-                                                            
-    move parse_movement_str(std::string str){
-        
-        if(str.length() < 2){
-            move ret = {};
-            return ret;
-        }
-
-        using namespace std;
-
-        transform(str.begin(), str.end(), str.begin(), ::toupper); //Convert to upper case
- 
-        move move = {0, PieceType::cabeza_idx};
-    
-        char piece_char = str.at(0);
-
-        switch (piece_char)
-        {
-        case 'C':
-            move.piece = PieceType::cabeza_idx;
-            break;
-        
-        case 'M':
-            move.piece = PieceType::mini_idx;
-            break;
-
-        case 'F':
-            move.piece = PieceType::flaco_idx;
-            break;
-
-        case 'H':
-            move.piece = PieceType::chato_idx;
-            break;
-
-        case 'O':
-            move.piece = PieceType::gordo_idx;
-            break;
-
-        default:
-            return move; //Return null move
-        }
-
-        str.erase(0,1);
-
-        //If movement command is longer that 2 char, it is a cabeza move
-        if(str.length() > 2){
-
-            string final_str;
-
-            //Count how many N/S/E/W characters
-
-            int num_north = count(str.begin(), str.end(), 'N');
-            int num_south = count(str.begin(), str.end(), 'S');
-            int num_east = count(str.begin(), str.end(), 'E');
-            int num_west = count(str.begin(), str.end(), 'W');
-
-            //Total movement
-            int total_north = num_north - num_south; 
-            int total_east = num_east - num_west; 
-
-            if(total_north > 0){
-                final_str.append(total_north, 'N');
-            }
-            if(total_north < 0){
-                final_str.append(-total_north, 'S');
-            }
-            if(total_east > 0){
-                final_str.append(total_east, 'E');
-            }
-            if(total_east < 0){
-                final_str.append(-total_east, 'W');
-            }
-
-            move.move = movement_str_dict[final_str];
-        }
-
-        //If its a simple cabeza move or another piece move
-        else{
-            move.move = movement_str_dict[str];
-        }
-
-        
-        return move;
-        
-    }
-
-
-    std::string get_move_str(move move_to_translate){
-
-        std::string ret = "";
-
-        switch(move_to_translate.piece){
-            case PieceType::cabeza_idx:
-                ret += "c";
-                break;
-            
-            case PieceType::mini_idx:
-                ret += "m";
-                break;
-
-            case PieceType::flaco_idx:
-                ret += "f";
-                break;
-            
-            case PieceType::chato_idx:
-                ret += "h";
-                break;    
-
-            case PieceType::gordo_idx:
-                ret += "o";
-                break;
-        }
-
-        for(int i = 0; i < 28; i++){
-            if(move_to_translate.move & (1<<i)){
-                ret += kMovementBitName[i];
-            }
-        }
-
-        return ret;
-    }
+    /////////////////////////////////////////
+    //                                     //
+    //     MOVE APPLICATION FUNCTIONS      //
+    //                                     //
+    /////////////////////////////////////////
 
     /*
     Applies a movement to a cabeza piece.
@@ -1166,30 +994,28 @@ namespace positioning{
         switch (move.piece)
         {
         case PieceType::cabeza_idx:
-            state.pieces[(int)state.turn + (int)move.piece] = apply_move_cabeza(state.pieces[(int)state.turn + (int)move.piece], move.move);
+            state.pieces[move.piece][state.turn] = apply_move_cabeza(state.pieces[move.piece][state.turn], move.move);
             break;
         
         case PieceType::mini_idx:
-            state.pieces[(int)state.turn + (int)move.piece] = apply_move_mini(state.pieces[(int)state.turn + (int)move.piece], move.move);
+            state.pieces[move.piece][state.turn] = apply_move_mini(state.pieces[move.piece][state.turn], move.move);
             break;
 
         case PieceType::flaco_idx:
-            state.pieces[(int)state.turn + (int)move.piece] = apply_move_flaco(state.pieces[(int)state.turn + (int)move.piece], move.move);
+            state.pieces[move.piece][state.turn] = apply_move_flaco(state.pieces[move.piece][state.turn], move.move);
             break;
 
         case PieceType::chato_idx:
-            state.pieces[(int)state.turn + (int)move.piece] = apply_move_chato(state.pieces[(int)state.turn + (int)move.piece], move.move);
+            state.pieces[move.piece][state.turn] = apply_move_chato(state.pieces[move.piece][state.turn], move.move);
             break;
 
         case PieceType::gordo_idx:
-            state.pieces[(int)state.turn + (int)move.piece] = apply_move_gordo(state.pieces[(int)state.turn + (int)move.piece], move.move);
+            state.pieces[move.piece][state.turn] = apply_move_gordo(state.pieces[move.piece][state.turn], move.move);
             break;
         
         default:
             return state;
         }
-
-        state.turn = (Team)(5 - (int)state.turn);
 
         return state;
     
@@ -1235,7 +1061,7 @@ namespace positioning{
     }
 
     /*
-    Applies a movement to a board
+    Applies a movement to a board. Checks if move succeeds
     */
     game_state apply_move_safe(game_state state, move move, bool * success){
         if(check_move_valid(state, move)){
@@ -1251,35 +1077,13 @@ namespace positioning{
 
     }
 
-    /*
-    Apply PGN string
-    */
-    game_state apply_pgn(game_state state, std::string pgn_str, bool * success){
 
-        char * move_token = strtok(pgn_str.data(), ",");
+    /////////////////////////////////////////
+    //                                     //
+    //          GAME FUNCTIONS             //
+    //                                     //
+    /////////////////////////////////////////
 
-        bool ok = true;
-
-        game_state new_state = state;
-
-        while(move_token != NULL){
-
-            move move = parse_movement_str(move_token);
-
-            new_state = apply_move_safe(new_state, move, &ok);
-
-            if(!ok){
-                *success = false;
-                return state;
-            }
-
-            move_token = strtok(NULL, ",");
-            
-        }
-        *success = true;
-        return new_state;
-
-    }
 
     /*
     Checks if a player won in last semimove.
@@ -1289,37 +1093,40 @@ namespace positioning{
 
         using namespace positioning;
 
+        using enum Player;
+        using enum PieceType;
+
         bool win = false;
 
         bitboard_t idle_player_non_cabeza_occupancy;
 
         switch (state.turn)
         {
-        case Team::red:
-            if(state.pieces[PieceIndex::blue_cabeza_idx].bitboard & ((bitboard_t) 0x3ff)){
+        case red:
+            if(state.pieces[cabeza_idx][blue].bitboard & ((bitboard_t) 0x3ff)){
                 win = true;
                 break;
             }
-            idle_player_non_cabeza_occupancy = state.pieces[6].bitboard;
-            idle_player_non_cabeza_occupancy |= state.pieces[7].bitboard;
-            idle_player_non_cabeza_occupancy |= state.pieces[8].bitboard;
-            idle_player_non_cabeza_occupancy |= state.pieces[9].bitboard;   
+            idle_player_non_cabeza_occupancy = state.pieces[cabeza_idx][blue].bitboard;
+            idle_player_non_cabeza_occupancy |= state.pieces[mini_idx][blue].bitboard;
+            idle_player_non_cabeza_occupancy |= state.pieces[flaco_idx][blue].bitboard;
+            idle_player_non_cabeza_occupancy |= state.pieces[chato_idx][blue].bitboard;   
 
-            win = state.pieces[PieceIndex::red_cabeza_idx].bitboard & idle_player_non_cabeza_occupancy;
+            win = state.pieces[cabeza_idx][red].bitboard & idle_player_non_cabeza_occupancy;
 
             break;
 
-        case positioning::Team::blue:
-            if(state.pieces[PieceIndex::red_cabeza_idx].bitboard & ((bitboard_t) 0x3ff << 90)){
+        case positioning::Player::blue:
+            if(state.pieces[cabeza_idx][red].bitboard & ((bitboard_t) 0x3ff << 90)){
                 win = true;
                 break;
             }
-            idle_player_non_cabeza_occupancy = state.pieces[1].bitboard;
-            idle_player_non_cabeza_occupancy |= state.pieces[2].bitboard;
-            idle_player_non_cabeza_occupancy |= state.pieces[3].bitboard;
-            idle_player_non_cabeza_occupancy |= state.pieces[4].bitboard;   
+            idle_player_non_cabeza_occupancy = state.pieces[cabeza_idx][red].bitboard;
+            idle_player_non_cabeza_occupancy |= state.pieces[mini_idx][red].bitboard;
+            idle_player_non_cabeza_occupancy |= state.pieces[flaco_idx][red].bitboard;
+            idle_player_non_cabeza_occupancy |= state.pieces[chato_idx][red].bitboard;  
 
-            win = state.pieces[PieceIndex::blue_cabeza_idx].bitboard & idle_player_non_cabeza_occupancy;
+            win = state.pieces[cabeza_idx][blue].bitboard & idle_player_non_cabeza_occupancy;
             break;
 
         default:
@@ -1331,5 +1138,10 @@ namespace positioning{
 
 
     }
+
+    void switch_team(game_state & state){
+        state.turn = (state.turn == Player::red) ? Player::blue : Player::red;
+    }
+
 
 }

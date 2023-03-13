@@ -1,17 +1,24 @@
 #include "transposition.h"
+#include "positioning.h"
 #include <random>
 #include <string.h>
 
 TranspositionTable::TranspositionTable(int size){
     
-    for(int piece_num = 0; piece_num < 10; piece_num++){
+    for(int piece_num = 0; piece_num < 5; piece_num++){
         for(int pos = 0; pos < 100; pos++){
             for(int orientation = 0; orientation < 3; orientation++){
-                this->zobrist_piece_pos[piece_num][pos][orientation] = this->get_rand_64();
+                this->zobrist_piece_pos[piece_num][positioning::red][pos][orientation] = this->get_rand_64();
             }
         }
     }
-
+    for(int piece_num = 0; piece_num < 5; piece_num++){
+        for(int pos = 0; pos < 100; pos++){
+            for(int orientation = 0; orientation < 3; orientation++){
+                this->zobrist_piece_pos[piece_num][positioning::blue][pos][orientation] = this->get_rand_64();
+            }
+        }
+    }
     this->zobrist_blue_turn = this->get_rand_64();
 
     
@@ -42,13 +49,16 @@ uint64_t TranspositionTable::get_rand_64(){
 
 uint64_t TranspositionTable::get_hash(positioning::game_state state){
 
+    using enum positioning::Player;
+
     uint64_t hash = 0ULL;
 
-    for(int piece_num = 0; piece_num < 10; piece_num++){
-        hash ^= this->zobrist_piece_pos[piece_num][positioning::get_pos_from_bitboard(state.pieces[piece_num].bitboard)][state.pieces[piece_num].o];
+    for(int piece_num = 0; piece_num < 5; piece_num++){
+        hash ^= this->zobrist_piece_pos[piece_num][red][positioning::get_pos_from_bitboard(state.pieces[piece_num][red].bitboard)][state.pieces[piece_num][red].o];
+        hash ^= this->zobrist_piece_pos[piece_num][blue][positioning::get_pos_from_bitboard(state.pieces[piece_num][blue].bitboard)][state.pieces[piece_num][blue].o];
     }
 
-    if(state.turn == positioning::Team::blue)
+    if(state.turn == positioning::Player::blue)
         hash ^= this->zobrist_blue_turn;
 
     return hash;

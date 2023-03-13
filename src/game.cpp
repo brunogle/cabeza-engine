@@ -1,5 +1,6 @@
 #include "game.h"
 #include "positioning.h"
+#include "parsing.h"
 #include <sstream>
 #include <string.h>
 #include <iostream>
@@ -48,29 +49,21 @@ int Game::apply_pgn(std::string move_string){
 }
 
 bool Game::apply_move(positioning::move move){
-    if(this->winner == Player::none){
 
-        bool success;
+    bool success;
 
-        positioning::Team color_moved = this->current_game_state.turn;
+    this->current_game_state = positioning::apply_move_safe(this->current_game_state, move, &success);
 
-        this->current_game_state = positioning::apply_move_safe(this->current_game_state, move, &success);
+    if(success){
 
-        if(success){
-
-            ColoredMove performed_move = {(color_moved == positioning::Team::red) ? Player::red : Player::blue, move};
-
-            this->move_history.push_back(performed_move);
-            this->game_state_history.push_back(current_game_state);
-        }
-
-
-        this->update_win_flag();
-        
-        this->update_graphics();
-
-        return success;
+        this->move_history.push_back(move);
+        this->game_state_history.push_back(current_game_state);
     }
+
+    
+    this->update_graphics();
+
+    return success;
 
     return 0;
 }
@@ -79,36 +72,32 @@ bool Game::apply_move_str(std::string move_str){
 
     bool success;
 
-    positioning::Team move_color = positioning::Team::red;
+    positioning::Player move_color = positioning::Player::red;
 
     if(move_str[0] == 'c' || move_str[0] == 'm' || move_str[0] == 'f' || move_str[0] == 'h' || move_str[0] == 'o'){
-        move_color = positioning::Team::blue;
+        move_color = positioning::Player::blue;
     }
     else if(move_str[0] == 'C' || move_str[0] == 'M' || move_str[0] == 'F' || move_str[0] == 'H' || move_str[0] == 'O'){
-        move_color = positioning::Team::red;
+        move_color = positioning::Player::red;
     }
 
-    positioning::move move = positioning::parse_movement_str(move_str);
+    positioning::move move = parsing::parse_movement_str(move_str);
 
-    positioning::Team inital_turn = this->current_game_state.turn;
+    positioning::Player inital_turn = this->current_game_state.turn;
 
     this->current_game_state.turn = move_color;
 
     this->current_game_state = positioning::apply_move_safe(this->current_game_state, move, &success);
-    
+
     if(move_color != inital_turn)
         this->current_game_state.turn = inital_turn; 
 
     if(success){
         
-        ColoredMove performed_move = {(move_color == positioning::Team::red) ? Player::red : Player::blue, move};
-
-        this->move_history.push_back(performed_move);
+        this->move_history.push_back(move);
         this->game_state_history.push_back(current_game_state);
     }
 
-
-    this->update_win_flag();
     
     this->update_graphics();
 
@@ -122,6 +111,7 @@ bool Game::apply_move_str(std::string move_str){
 bool Game::set_fen(std::string fen){
 
     using namespace std;
+    using namespace positioning;
 
     stringstream fen_ss(fen);
     vector<string> fen_split;
@@ -141,9 +131,11 @@ bool Game::set_fen(std::string fen){
 
     positioning::game_state new_state;
 
-    for(int i = 0; i < 10; i++){
-        new_state.pieces[i].bitboard = (positioning::bitboard_t)0;
-        new_state.pieces[i].o = positioning::Orientation::flat;
+    for(int i = 0; i < 5; i++){
+        new_state.pieces[i][red].bitboard = (positioning::bitboard_t)0;
+        new_state.pieces[i][blue].bitboard = (positioning::bitboard_t)0;
+        new_state.pieces[i][red].o = positioning::Orientation::flat;
+        new_state.pieces[i][blue].o = positioning::Orientation::flat;
     }
 
     struct coord{
@@ -157,7 +149,7 @@ bool Game::set_fen(std::string fen){
     coord blue_flaco_first_square = {-1,-1};
     coord blue_chato_first_square = {-1,-1};
 
-    int character_count[10] = {0,0,0,0,0,0,0,0,0,0};
+    int character_count[5][2] = {{0,0},{0,0},{0,0},{0,0},{0,0}};
 
 
     for(int row = 9; row >= 0; row--){
@@ -172,94 +164,94 @@ bool Game::set_fen(std::string fen){
                 col += fen_board_char - '0' - 1;
             }
             else if(fen_board_char == 'C'){
-                new_state.pieces[0].bitboard = (positioning::bitboard_t)1 << (row*10 + col);
-                character_count[0]++;
+                new_state.pieces[cabeza_idx][red].bitboard = (positioning::bitboard_t)1 << (row*10 + col);
+                character_count[cabeza_idx][red]++;
             }
             else if(fen_board_char == 'M'){
-                new_state.pieces[1].bitboard = (positioning::bitboard_t)1 << (row*10 + col);
-                character_count[1]++;
+                new_state.pieces[mini_idx][red].bitboard = (positioning::bitboard_t)1 << (row*10 + col);
+                character_count[mini_idx][red]++;
             }
             else if(fen_board_char == 'F'){
-                new_state.pieces[2].bitboard |= (positioning::bitboard_t)1 << (row*10 + col);
+                new_state.pieces[flaco_idx][red].bitboard |= (positioning::bitboard_t)1 << (row*10 + col);
                 if(red_flaco_first_square.row == -1){
                     red_flaco_first_square = {row,col};
                 }
                 else{
                     if(red_flaco_first_square.row == row){
-                        new_state.pieces[2].o = positioning::Orientation::horizontal;
+                        new_state.pieces[flaco_idx][red].o = positioning::Orientation::horizontal;
                     }
                     if(red_flaco_first_square.col == col){
-                        new_state.pieces[2].o = positioning::Orientation::vertical;
+                        new_state.pieces[flaco_idx][red].o = positioning::Orientation::vertical;
                     }
                 }
-                character_count[2]++;
+                character_count[flaco_idx][red]++;
             }
             else if(fen_board_char == 'H'){
-                new_state.pieces[3].bitboard |= (positioning::bitboard_t)1 << (row*10 + col);
+                new_state.pieces[chato_idx][red].bitboard |= (positioning::bitboard_t)1 << (row*10 + col);
                 if(red_chato_first_square.row == -1){
                     red_chato_first_square = {row,col};
                 }
                 else{
                     if(red_chato_first_square.row == row){
-                        new_state.pieces[3].o = positioning::Orientation::horizontal;
+                        new_state.pieces[chato_idx][red].o = positioning::Orientation::horizontal;
                     }
-                    else if(red_chato_first_square.col == col && new_state.pieces[3].o == positioning::Orientation::flat){
-                        new_state.pieces[3].o = positioning::Orientation::vertical;
+                    else if(red_chato_first_square.col == col && new_state.pieces[chato_idx][red].o == positioning::Orientation::flat){
+                        new_state.pieces[chato_idx][red].o = positioning::Orientation::vertical;
                     }
-                    else if(red_chato_first_square.col == col && new_state.pieces[3].o == positioning::Orientation::horizontal){
-                        new_state.pieces[3].o = positioning::Orientation::flat;
+                    else if(red_chato_first_square.col == col && new_state.pieces[chato_idx][red].o == positioning::Orientation::horizontal){
+                        new_state.pieces[chato_idx][red].o = positioning::Orientation::flat;
                     }
                 }
-                character_count[3]++;
+                character_count[chato_idx][red]++;
             }
             else if(fen_board_char == 'O'){
-                new_state.pieces[4].bitboard |= (positioning::bitboard_t)1 << (row*10 + col);
-                character_count[4]++;
+                new_state.pieces[gordo_idx][red].bitboard |= (positioning::bitboard_t)1 << (row*10 + col);
+                character_count[gordo_idx][red]++;
             }
             else if(fen_board_char == 'c'){
-                new_state.pieces[5].bitboard = (positioning::bitboard_t)1 << (row*10 + col);
-                character_count[5]++;
+                new_state.pieces[cabeza_idx][blue].bitboard = (positioning::bitboard_t)1 << (row*10 + col);
+                character_count[cabeza_idx][blue]++;
             }
             else if(fen_board_char == 'm'){
-                new_state.pieces[6].bitboard = (positioning::bitboard_t)1 << (row*10 + col);
-                character_count[6]++;
+                new_state.pieces[mini_idx][blue].bitboard = (positioning::bitboard_t)1 << (row*10 + col);
+                character_count[mini_idx][blue]++;
             }
             else if(fen_board_char == 'f'){
-                new_state.pieces[7].bitboard |= (positioning::bitboard_t)1 << (row*10 + col);
+                new_state.pieces[flaco_idx][blue].bitboard |= (positioning::bitboard_t)1 << (row*10 + col);
                 if(blue_flaco_first_square.row == -1){
                     blue_flaco_first_square = {row,col};
                 }
                 else{
                     if(blue_flaco_first_square.row == row){
-                        new_state.pieces[7].o = positioning::Orientation::horizontal;
+                        new_state.pieces[flaco_idx][blue].o = positioning::Orientation::horizontal;
                     }
                     if(blue_flaco_first_square.col == col){
-                        new_state.pieces[7].o = positioning::Orientation::vertical;
+                        new_state.pieces[flaco_idx][blue].o = positioning::Orientation::vertical;
                     }
                 }
-                character_count[7]++;
+                character_count[flaco_idx][blue]++;
             }
             else if(fen_board_char == 'h'){
-                new_state.pieces[8].bitboard |= (positioning::bitboard_t)1 << (row*10 + col);
+                new_state.pieces[chato_idx][blue].bitboard |= (positioning::bitboard_t)1 << (row*10 + col);
                 if(blue_chato_first_square.row == -1){
                     blue_chato_first_square = {row,col};
                 }
                 else{
                     if(blue_chato_first_square.row == row){
-                        new_state.pieces[8].o = positioning::Orientation::horizontal;
+                        new_state.pieces[chato_idx][blue].o = positioning::Orientation::horizontal;
                     }
-                    else if(blue_chato_first_square.col == col && new_state.pieces[8].o == positioning::Orientation::flat){
-                        new_state.pieces[8].o = positioning::Orientation::vertical;
+                    else if(blue_chato_first_square.col == col && new_state.pieces[chato_idx][blue].o == positioning::Orientation::flat){
+                        new_state.pieces[chato_idx][blue].o = positioning::Orientation::vertical;
                     }
-                    else if(blue_chato_first_square.col == col && new_state.pieces[8].o == positioning::Orientation::horizontal){
-                        new_state.pieces[8].o = positioning::Orientation::flat;
+                    else if(blue_chato_first_square.col == col && new_state.pieces[chato_idx][blue].o == positioning::Orientation::horizontal){
+                        new_state.pieces[chato_idx][blue].o = positioning::Orientation::flat;
                     }
                 }
-                character_count[8]++;
+                character_count[chato_idx][blue]++;
             }
             else if(fen_board_char == 'o'){
-                new_state.pieces[9].bitboard |= (positioning::bitboard_t)1 << (row*10 + col);
-                character_count[9]++;
+                new_state.pieces[gordo_idx][blue].bitboard |= (positioning::bitboard_t)1 << (row*10 + col);
+                character_count[gordo_idx][blue]++;
             }
             
             col_char_pos++;
@@ -268,22 +260,22 @@ bool Game::set_fen(std::string fen){
     }
 
     if(fen_split[1] == "r"){
-        new_state.turn = positioning::Team::red;
+        new_state.turn = positioning::Player::red;
     }
     else if(fen_split[1] == "b"){
-        new_state.turn = positioning::Team::blue;
+        new_state.turn = positioning::Player::blue;
     }
 
-    if( character_count[0] == 1 &&
-        character_count[1] == 1 &&
-        (character_count[2] == 1 || character_count[2] == 2)&&
-        (character_count[3] == 2 || character_count[3] == 4) &&
-        character_count[4] == 4 &&
-        character_count[5] == 1 &&
-        character_count[6] == 1 &&
-        (character_count[7] == 1 || character_count[7] == 2)&&
-        (character_count[8] == 2 || character_count[8] == 4) &&
-        character_count[9] == 4){
+    if( character_count[cabeza_idx][red] == 1 &&
+        character_count[mini_idx][red] == 1 &&
+        (character_count[flaco_idx][red] == 1 || character_count[flaco_idx][red] == 2)&&
+        (character_count[chato_idx][red] == 2 || character_count[chato_idx][red] == 4) &&
+        character_count[gordo_idx][red] == 4 &&
+        character_count[cabeza_idx][blue] == 1 &&
+        character_count[mini_idx][blue] == 1 &&
+        (character_count[flaco_idx][blue] == 1 || character_count[flaco_idx][blue] == 2)&&
+        (character_count[chato_idx][blue] == 2 || character_count[chato_idx][blue] == 4) &&
+        character_count[gordo_idx][blue] == 4){
 
         this->current_game_state = new_state;
         this->update_graphics();
@@ -307,7 +299,6 @@ int Game::undo_moves(int semimoves_to_undo){
         this->current_game_state = this->game_state_history.back();
 
         this->update_graphics();
-        this->update_win_flag();
 
         return 1;
 
@@ -326,47 +317,22 @@ int Game::reset_game_state(){
     return 1;
 }
 
-void Game::update_win_flag(){
-    if(positioning::check_for_win(this->current_game_state)){
-        if(this->current_game_state.turn == positioning::Team::red){
-            this->winner = Player::blue;
-        }
-        else{
-            this->winner = Player::red;
-        }
-    }
-    else{
-        this->winner = Player::none;
-    }
-}
 
-Player Game::get_winner(){
-    return this->winner;
-}
 
-Player Game::get_turn(){
-    if(this->winner != Player::none){
-        return Player::none;
-    }
-
-    if(this->current_game_state.turn == positioning::Team::red){
-        return Player::red;
-    }
-    else{
-        return Player::blue;
-    }
+positioning::Player Game::get_turn(){
+    return this->current_game_state.turn;
 }
 
 std::string Game::get_game_pgn(){
 
     std::string ret = "";
 
-    for(ColoredMove m : this->move_history){
+    for(positioning::move m : this->move_history){
 
-        std::string uncolored_move_str = positioning::get_move_str(m.move);
+        std::string uncolored_move_str = parsing::get_move_str(m);
 
         std::string colored_move;
-        if(m.player == Player::red)
+        if(m.player == positioning::Player::red)
             colored_move += std::toupper(uncolored_move_str[0]);
         else
             colored_move += uncolored_move_str[0];
@@ -391,34 +357,34 @@ std::string Game::get_game_drawing(){
 
             bitboard_t current_square_bitboard = (bitboard_t)1 << (j + i*10);
 
-            if(this->current_game_state.pieces[red_cabeza_idx].bitboard & current_square_bitboard){
+            if(this->current_game_state.pieces[cabeza_idx][red].bitboard & current_square_bitboard){
                 std::cout << COLOR_RED << "C" << COLOR_RESET;
             }
-            else if(this->current_game_state.pieces[red_mini_idx].bitboard & current_square_bitboard){
+            else if(this->current_game_state.pieces[mini_idx][red].bitboard & current_square_bitboard){
                 std::cout << COLOR_RED << "M" << COLOR_RESET;
             }
-            else if(this->current_game_state.pieces[red_flaco_idx].bitboard & current_square_bitboard){
+            else if(this->current_game_state.pieces[flaco_idx][red].bitboard & current_square_bitboard){
                 std::cout << COLOR_RED << "F" << COLOR_RESET;
             }
-            else if(this->current_game_state.pieces[red_chato_idx].bitboard & current_square_bitboard){
+            else if(this->current_game_state.pieces[chato_idx][red].bitboard & current_square_bitboard){
                 std::cout << COLOR_RED << "H" << COLOR_RESET;
             }
-            else if(this->current_game_state.pieces[red_gordo_idx].bitboard & current_square_bitboard){
+            else if(this->current_game_state.pieces[gordo_idx][red].bitboard & current_square_bitboard){
                 std::cout << COLOR_RED << "O" << COLOR_RESET;
             }
-            else if(this->current_game_state.pieces[blue_cabeza_idx].bitboard & current_square_bitboard){
+            else if(this->current_game_state.pieces[cabeza_idx][blue].bitboard & current_square_bitboard){
                 std::cout << COLOR_BLUE << "c" << COLOR_RESET;
             }
-            else if(this->current_game_state.pieces[blue_mini_idx].bitboard & current_square_bitboard){
+            else if(this->current_game_state.pieces[mini_idx][blue].bitboard & current_square_bitboard){
                 std::cout << COLOR_BLUE << "m" << COLOR_RESET;
             }
-            else if(this->current_game_state.pieces[blue_flaco_idx].bitboard & current_square_bitboard){
+            else if(this->current_game_state.pieces[flaco_idx][blue].bitboard & current_square_bitboard){
                 std::cout << COLOR_BLUE << "f" << COLOR_RESET;
             }
-            else if(this->current_game_state.pieces[blue_chato_idx].bitboard & current_square_bitboard){
+            else if(this->current_game_state.pieces[chato_idx][blue].bitboard & current_square_bitboard){
                 std::cout << COLOR_BLUE << "h" << COLOR_RESET;
             }
-            else if(this->current_game_state.pieces[blue_gordo_idx].bitboard & current_square_bitboard){
+            else if(this->current_game_state.pieces[gordo_idx][blue].bitboard & current_square_bitboard){
                 std::cout << COLOR_BLUE << "o" << COLOR_RESET;
             }
             else{

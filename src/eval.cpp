@@ -5,35 +5,37 @@
 
 namespace DistanceEval{
 
-    int eval_cabeza_distance_to_pieces(positioning::game_state state, positioning::Team cabeza_team, positioning::Team pieces_team){
+    int eval_cabeza_distance_to_pieces(positioning::game_state state, positioning::Player cabeza_team, positioning::Player pieces_team){
 
         using namespace positioning;
 
-        int piece_pos[10];
+        int piece_pos[5][2];
         
         int distance_sum = 0;
 
-        for(int i = 0; i < 10; i++)
-            piece_pos[i] = get_pos_from_bitboard(state.pieces[i].bitboard);
+        for(int i = 0; i < 5; i++){
+            piece_pos[i][red] = get_pos_from_bitboard(state.pieces[i][red].bitboard);
+            piece_pos[i][blue] = get_pos_from_bitboard(state.pieces[i][blue].bitboard);
+        }
 
         int x_diff, y_diff;
 
-        int cabeza_x = piece_pos[(int)cabeza_team]%10;
-        int cabeza_y = piece_pos[(int)cabeza_team]/10;
+        int cabeza_x = piece_pos[0][cabeza_team]%10;
+        int cabeza_y = piece_pos[0][cabeza_team]/10;
 
         //Distance to mini
-        x_diff = (cabeza_x - piece_pos[(int)pieces_team + 1]%10);
-        y_diff = (cabeza_y - piece_pos[(int)pieces_team + 1]/10);
+        x_diff = (cabeza_x - piece_pos[1][pieces_team]%10);
+        y_diff = (cabeza_y - piece_pos[1][pieces_team]/10);
 
         distance_sum += 2*(abs(x_diff) + abs(y_diff));
 
         //Distance to flaco
-        x_diff = (cabeza_x - piece_pos[(int)pieces_team + 2]%10);
-        y_diff = (cabeza_y - piece_pos[(int)pieces_team + 2]/10);
+        x_diff = (cabeza_x - piece_pos[2][pieces_team]%10);
+        y_diff = (cabeza_y - piece_pos[2][pieces_team]/10);
 
         distance_sum += 2*(abs(x_diff) + abs(y_diff));
 
-        switch (state.pieces[(int)pieces_team + 2].o){
+        switch (state.pieces[3][pieces_team].o){
         case Orientation::horizontal:
             distance_sum += (x_diff > 0) ? -1 : 1;
             break;
@@ -46,12 +48,12 @@ namespace DistanceEval{
         }
 
         //Distance to chato
-        x_diff = (cabeza_x - piece_pos[(int)pieces_team + 3]%10);
-        y_diff = (cabeza_y - piece_pos[(int)pieces_team + 3]/10);
+        x_diff = (cabeza_x - piece_pos[3][pieces_team]%10);
+        y_diff = (cabeza_y - piece_pos[3][pieces_team]/10);
 
         distance_sum += 2*(abs(x_diff) + abs(y_diff));
 
-        switch (state.pieces[(int)pieces_team + 3].o){
+        switch (state.pieces[3][pieces_team ].o){
         case Orientation::horizontal:
             distance_sum += (x_diff > 0) ? -1 : 1;
             break;
@@ -64,8 +66,8 @@ namespace DistanceEval{
         }
 
         //Distance to gordo
-        x_diff = (cabeza_x - piece_pos[(int)pieces_team + 4]%10);
-        y_diff = (cabeza_y - piece_pos[(int)pieces_team + 4]/10);
+        x_diff = (cabeza_x - piece_pos[4][pieces_team]%10);
+        y_diff = (cabeza_y - piece_pos[4][pieces_team]/10);
 
         distance_sum += 2*(abs(x_diff) + abs(y_diff)) + ((x_diff > 0) ? -1 : 1) + ((y_diff > 0) ? -1 : 1);
 
@@ -73,16 +75,16 @@ namespace DistanceEval{
         
     }
 
-    int eval_cabeza_distance_to_win(positioning::game_state state, positioning::Team team){
+    int eval_cabeza_distance_to_win(positioning::game_state state, positioning::Player team){
         using namespace positioning;
 
         switch (team){
-        case Team::red:
-            return get_pos_from_bitboard(state.pieces[red_cabeza_idx].bitboard)/10;
+        case Player::red:
+            return get_pos_from_bitboard(state.pieces[0][red].bitboard)/10;
             break;
         
-        case Team::blue:
-            return 9 - get_pos_from_bitboard(state.pieces[blue_cabeza_idx].bitboard)/10;
+        case Player::blue:
+            return 9 - get_pos_from_bitboard(state.pieces[0][blue].bitboard)/10;
             break;
 
         default:
@@ -104,17 +106,17 @@ namespace DistanceEval{
             return -MAX_INT;
         }
         //Distance from cabezas to end
-        eval += 16.0*(eval_cabeza_distance_to_win(state, Team::red) - eval_cabeza_distance_to_win(state, Team::blue));
+        eval += 16.0*(eval_cabeza_distance_to_win(state, Player::red) - eval_cabeza_distance_to_win(state, Player::blue));
 
         //Distance from cabezas to enemies
 
-        eval += 1*(eval_cabeza_distance_to_pieces(state, Team::red, Team::blue) - eval_cabeza_distance_to_pieces(state, Team::blue, Team::red));
+        eval += 1*(eval_cabeza_distance_to_pieces(state, Player::red, Player::blue) - eval_cabeza_distance_to_pieces(state, Player::blue, Player::red));
 
         //Distance from cabezas to friendly pieces
 
-        eval += 1*(eval_cabeza_distance_to_pieces(state, Team::blue, Team::blue) - eval_cabeza_distance_to_pieces(state, Team::red, Team::red));
+        eval += 1*(eval_cabeza_distance_to_pieces(state, Player::blue, Player::blue) - eval_cabeza_distance_to_pieces(state, Player::red, Player::red));
 
-        if(state.turn == Team::blue)
+        if(state.turn == Player::blue)
             return -eval;
         else
             return eval;

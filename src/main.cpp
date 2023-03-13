@@ -79,10 +79,6 @@ int main(){
 		else if(command_token == "reset"){
 			game.reset();
 		}
-		else if(command_token == "rand"){
-			game.current_game_state = positioning::random_game_state();
-			game.update_graphics();
-		}
 		else if(command_token == "time"){
 			std::string time_token;
 			getline(input_ss, time_token, ' ');
