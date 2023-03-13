@@ -1,7 +1,6 @@
 #include <iostream>
 #include <chrono>
 #include "positioning.h"
-#include "graphics.h"
 #include "performance.h"
 
 using namespace std;

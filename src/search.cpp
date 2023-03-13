@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iomanip>
 #include <assert.h>     /* assert */
+#include <string.h>
 
 #include "color.hpp"
 #include "transposition.h"
@@ -62,6 +63,16 @@ AllSearch::~AllSearch(){
     delete[] this->killer_moves;
 
 }
+
+
+void AllSearch::set_depth(int depth){
+    this->max_search_depth = depth;
+}
+
+void AllSearch::set_timeout(int timeout){
+    this->max_seconds = timeout;
+}
+
 
 
 void AllSearch::update_pv_table(move new_best_move, int ply, bool is_leaf_node){
@@ -144,7 +155,7 @@ int AllSearch::pv_search(game_state node, int alpha, int beta, int depth, bool i
     }
 
     //get_ms() is slow, so check timeout condition every ~33k nodes analyzed.
-    if((this->nodes_searched & 0x7fff) == 0){
+    if((this->nodes_searched & 0xfff) == 0){
         
         if(get_ms() > this->search_start_time + this->max_seconds){
             this->timeout = true;
@@ -403,17 +414,17 @@ move AllSearch::search(game_state state){
             }
             else{
                 if(pv_print_turn == Team::red){
-                    std::cout << hue::light_red;
+                    std::cout << COLOR_RED;
                     pv_print_turn = Team::blue;
                 }
                 else{
-                    std::cout << hue::light_blue;
+                    std::cout << COLOR_BLUE;
                     pv_print_turn = Team::red;
                 }
                 
                 std::cout << get_move_str(pv_table[0][i]) << " ";
 
-                std::cout << hue::reset;
+                std::cout << COLOR_RESET;
             }
         }
 
@@ -421,9 +432,9 @@ move AllSearch::search(game_state state){
 
         if(abs(score) > MAX_INT - 100 && !this->timeout){
             if(pv_print_turn == Team::blue)
-                std::cout << hue::light_red << "red can force win" << hue::reset << ", ";
+                std::cout << COLOR_RED << "red can force win" << COLOR_RESET << ", ";
             else 
-                std::cout << hue::light_blue << "blue can force win" << hue::reset << ", ";
+                std::cout << COLOR_BLUE << "blue can force win" << COLOR_RESET << ", ";
         }
         
 

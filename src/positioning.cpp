@@ -2,6 +2,7 @@
 #include <cmath>
 #include <algorithm>
 #include <string.h>
+#include "util.h"
 
 #include "positioning.h"
 
@@ -205,42 +206,58 @@ namespace positioning{
     possible_moves_t movement_lookup_m[16];
     possible_moves_t movement_lookup_fh[16];
 
-    /*
-    Converts one of the zone_mask_drawings to a bitboard mask for a specific position, rotation and zone
-    */
-    bitboard_t generate_zone_mask_from_string(std::string mask_drawing, int pos, int zone){
 
-        int str_length = sqrt(mask_drawing.length());
+
+    /*
+    Converts one of the zone_mask_drawings to a bitboard mask for a specific position, rotation and zone.
+    Zone mask drawings are specified for squares of sides n, as n^2 sized strings, starting from upper left to bottom right.
+    A P in a string represents the bottom left square of the corresponding piece. Numbers represent the mask number. Periods
+    represent no mask assigned for that square.
+    */
+    bitboard_t generate_zone_mask_from_string(std::string mask_drawing, int piece_pos, int zone_num){
+
+
+        int zone_side_size = sqrt(mask_drawing.length());
+
+        //mask_drawing length must be a square number
+        REL_ASSERT(zone_side_size*zone_side_size == (int)mask_drawing.length(), "Non square zone mask drawing");
 
         int piece_position_in_string = mask_drawing.find('P');
 
-        int piece_x_in_drawing = piece_position_in_string%str_length;
-        int piece_y_in_drawing = piece_position_in_string/str_length;
+        int piece_x_in_drawing = piece_position_in_string%zone_side_size;
+        int piece_y_in_drawing = piece_position_in_string/zone_side_size;
 
-            
         bitboard_t mask = (bitboard_t)0;
 
-        int zone_num_found_pos = mask_drawing.find(zone + '0');
+
+        //Scan string for number characters matching "zone"
+
+        int zone_num_found_pos = mask_drawing.find(zone_num + '0'); //Convert char to int
 
         while((unsigned long long)zone_num_found_pos != std::string::npos){
             
-            int piece_x = pos%10;
-            int piece_y = pos/10;
+            int piece_pos_x = piece_pos%10; //Lower left piece pos
+            int piece_pos_y = piece_pos/10;
 
-            int zone_x_rel_to_piece = zone_num_found_pos%str_length - piece_x_in_drawing;
-            int zone_y_rel_to_piece = - zone_num_found_pos/str_length + piece_y_in_drawing;
+            int zone_x_rel_to_piece = zone_num_found_pos%zone_side_size - piece_x_in_drawing;
+            int zone_y_rel_to_piece = - zone_num_found_pos/zone_side_size + piece_y_in_drawing;
 
-            int zone_x = piece_x + zone_x_rel_to_piece;
-            int zone_y = piece_y + zone_y_rel_to_piece;
+            int zone_square_x = piece_pos_x + zone_x_rel_to_piece;
+            int zone_square_y = piece_pos_y + zone_y_rel_to_piece;
 
-            if(zone_x < 0 || zone_y < 0 || zone_x > 9 || zone_y > 9){
+            //If zone square is outside board area, set a fully set bitmask.
+            //Any OR operation with a "-1" bitmask will always return non-null with the occupancy grid.
+            //This is necesary because if a zone lies outside the board, that zone is unaccessible by the piece.
+            if(zone_square_x < 0 || zone_square_y < 0 || zone_square_x > 9 || zone_square_y > 9){
                 mask = (bitboard_t)-1;
             }
+
+            //If zone square lies inside board, set corresponding bit
             else{
-                mask |= (bitboard_t)1 << (zone_x + zone_y*10);
+                mask |= (bitboard_t)1 << (zone_square_x + zone_square_y*10);
             }
 
-            zone_num_found_pos = mask_drawing.find(zone + '0', zone_num_found_pos + 1);
+            zone_num_found_pos = mask_drawing.find(zone_num + '0', zone_num_found_pos + 1); //Find next zone
 
         }
 
@@ -248,39 +265,51 @@ namespace positioning{
 
     }
 
-
+    /*
+    Initialize zone masks used for movement generation.
+    Uses generate_zone_mask_from_string() to generate masks from zone_mask_drawaing_xxx strings.
+    */
     int init_zone_masks(){
 
-        for(int pos = 0; pos < 100; pos++){
-            for(int rot = 0; rot < 4; rot++){
-                for(int zone = 0; zone < 8; zone++)
-                    zone_mask_cabeza[pos][rot][zone] = generate_zone_mask_from_string(zone_mask_drawing_cabeza[rot], pos, zone);
+        for(int piece_pos = 0; piece_pos < 100; piece_pos++){ //Loop though all 100 board positions
+            for(int piece_rot = 0; piece_rot < 4; piece_rot++){ //Loop through all 4 piece rotation states
 
-                for(int zone = 0; zone < 4; zone++){
+                for(int zone_num = 0; zone_num < 8; zone_num++) //Cabeza has 8 different zone masks for each rotation
+                    zone_mask_cabeza[piece_pos][piece_rot][zone_num] = generate_zone_mask_from_string(zone_mask_drawing_cabeza[piece_rot], piece_pos, zone_num);
+
+                for(int zone_num = 0; zone_num < 4; zone_num++){ // Mini, flaco and chato have four
                     
-                    zone_mask_mini[pos][rot][zone] = generate_zone_mask_from_string(zone_mask_drawing_mini[rot], pos, zone);
-                    zone_mask_flaco[pos][rot][zone][0] = generate_zone_mask_from_string(zone_mask_drawing_flaco_flat[rot], pos, zone);
-                    zone_mask_flaco[pos][rot][zone][1] = generate_zone_mask_from_string(zone_mask_drawing_flaco_horizontal[rot], pos, zone);
-                    zone_mask_flaco[pos][rot][zone][2] = generate_zone_mask_from_string(zone_mask_drawing_flaco_vertical[rot], pos, zone);
-                    zone_mask_chato[pos][rot][zone][0] = generate_zone_mask_from_string(zone_mask_drawing_chato_flat[rot], pos, zone);
-                    zone_mask_chato[pos][rot][zone][1] = generate_zone_mask_from_string(zone_mask_drawing_chato_horizontal[rot], pos, zone);
-                    zone_mask_chato[pos][rot][zone][2] = generate_zone_mask_from_string(zone_mask_drawing_chato_vertical[rot], pos, zone);
+                    zone_mask_mini[piece_pos][piece_rot][zone_num] = generate_zone_mask_from_string(zone_mask_drawing_mini[piece_rot], piece_pos, zone_num);
+
+                    zone_mask_flaco[piece_pos][piece_rot][zone_num][0] = generate_zone_mask_from_string(zone_mask_drawing_flaco_flat[piece_rot], piece_pos, zone_num);
+                    zone_mask_flaco[piece_pos][piece_rot][zone_num][1] = generate_zone_mask_from_string(zone_mask_drawing_flaco_horizontal[piece_rot], piece_pos, zone_num);
+                    zone_mask_flaco[piece_pos][piece_rot][zone_num][2] = generate_zone_mask_from_string(zone_mask_drawing_flaco_vertical[piece_rot], piece_pos, zone_num);
+
+                    zone_mask_chato[piece_pos][piece_rot][zone_num][0] = generate_zone_mask_from_string(zone_mask_drawing_chato_flat[piece_rot], piece_pos, zone_num);
+                    zone_mask_chato[piece_pos][piece_rot][zone_num][1] = generate_zone_mask_from_string(zone_mask_drawing_chato_horizontal[piece_rot], piece_pos, zone_num);
+                    zone_mask_chato[piece_pos][piece_rot][zone_num][2] = generate_zone_mask_from_string(zone_mask_drawing_chato_vertical[piece_rot], piece_pos, zone_num);
 
                 }
 
-                zone_mask_gordo[pos][rot] =  generate_zone_mask_from_string(zone_mask_drawing_gordo[rot], pos, 0);
+                zone_mask_gordo[piece_pos][piece_rot] =  generate_zone_mask_from_string(zone_mask_drawing_gordo[piece_rot], piece_pos, 0); //Gordo piece has 1 zone mask per rotation
             }
         }
 
         return 0;
     }
 
+
+    /*
+    Initialize movement_lookup arrays used for move generation
+    */
     int init_movement_lookups(){
 
 
         //Generate cabeza move lookup
 
-        char occupancy[3][3]; //3x3 sorounding of cabeza (C) piece.
+
+        //Temporary array
+        //3x3 sorounding of cabeza (C) piece.
         //'x'=not accessbile, ' '=not analyzed, '0'=piece, 'a'=accessible
         
         /*
@@ -289,8 +318,17 @@ namespace positioning{
         1 3 6  = 01 11 21
         C 4 7    XX 10 20
         */
+        char occupancy[3][3];
 
+
+
+
+        //Loop through all 256 possible zone occupancies.
+        //TODO: Consider other initialization forms
         for(int addr = 0; addr <= 0xFF; addr++){
+
+
+            //Manually initialize occupancy[][]
             occupancy[0][2] = addr&0x01 ? 'x' : ' '; //This associates each bit of the array adress with a specific zone
             occupancy[0][1] = addr&0x02 ? 'x' : ' ';
             occupancy[1][2] = addr&0x04 ? 'x' : ' ';
@@ -302,14 +340,18 @@ namespace positioning{
             occupancy[0][0] = '0';
 
             //This code is NOT scalable to larger move numbers
+            //move=1 for single move cabeza movement, move=2 for 2 move movement
+            //Each pass the function checks what pieces the cabeza piece can reach
             for(int move = 1; move <= 2; move++){
 
-                
                 //Only pass through inner zones
                 for(int x = 1; x >= 0; x--){
                     for(int y = 1; y >= 0; y--){
-
-                        if(occupancy[x][y] != 'x' && occupancy[x][y] != ' '){ //If piece can be accessed by a move (including move #0) i.e. starting square
+                        
+                        //If piece can be accessed by a move (including move #0) i.e. starting square
+                        if(occupancy[x][y] == 'a' || occupancy[x][y] == '0'){
+                            
+                            //Test soroundings and identify with 'a' accessible squares
                             if(occupancy[x][y+1] == ' '){
                                 occupancy[x][y+1] = 'a';
                             }
@@ -350,6 +392,8 @@ namespace positioning{
                 }
             }
 
+            //Find possible movements based on completed occupancy[][] array
+
             possible_moves_t possible_movements_ = 0;
 
             possible_movements_ |= (occupancy[0][1] == 'a') ? MOVEMENT_N : 0;
@@ -365,7 +409,7 @@ namespace positioning{
 
         }
 
-        //Generate mini move lookups
+        //Manually fill mini move lookups
 
         movement_lookup_m[0b0000] = MOVEMENT_N | MOVEMENT_NN | MOVEMENT_NE | MOVEMENT_EN | MOVEMENT_WN | MOVEMENT_NW;
         movement_lookup_m[0b0001] = MOVEMENT_N | MOVEMENT_NE | MOVEMENT_EN | MOVEMENT_WN | MOVEMENT_NW;
@@ -384,7 +428,7 @@ namespace positioning{
         movement_lookup_m[0b1110] = (possible_moves_t) 0;
         movement_lookup_m[0b1111] = (possible_moves_t) 0;
 
-        //Generate falco and chato move lookups
+        //Manually fill falco and chato move lookups
 
         movement_lookup_fh[0b0000] = MOVEMENT_N | MOVEMENT_NN | MOVEMENT_NE | MOVEMENT_NW;
         movement_lookup_fh[0b0001] = MOVEMENT_N | MOVEMENT_NE | MOVEMENT_NW;
@@ -517,7 +561,7 @@ namespace positioning{
     }
 
     /*
-    List all possible movements as an array of move for use in seach. Returns number of possible moves.
+    List all possible movements as an array of moves for use in seach. Returns number of possible moves.
     */
     int get_moves_as_list(game_state state, move movements[MAX_POSSIBLE_MOVEMENTS]){
         all_possible_moves_t moves = get_moves(state);

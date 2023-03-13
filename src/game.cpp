@@ -1,41 +1,29 @@
 #include "game.h"
-#include "graphics.h"
 #include "positioning.h"
 #include <sstream>
+#include <string.h>
+#include <iostream>
+#include "color.hpp"
 
 
 Game::Game(eval_func_t evaluator_function, Search * search_engine){
     this->current_game_state = positioning::initial_game_state();
     this->evaluator_function = evaluator_function;
-    this->graphics_window.set_evaluator_function(evaluator_function);
     this->search_engine = search_engine;
     this->game_state_history.push_back(this->current_game_state);
     this->valid_game = true;
 }
 
 int Game::create_graphics_window(){
-    if(this->graphics_window.init_graphics_console()){
-        this->graphics_enabled = true;
-        this->update_graphics();
-        return 1;
-    }
-    else{
-        this->graphics_enabled = false;
-        return false;
-    }
+    return 0;
 }
 
 int Game::terminate_graphics_window(){
-    return this->graphics_window.stop_graphics_console();
+    return 0;
 }
 
 int Game::update_graphics(){
-    if(this->graphics_enabled){
-        return this->graphics_window.draw_on_console(this->current_game_state);
-    }
-    else{
-        return 0;
-    }
+    return 0;
 }
 
 int Game::apply_pgn(std::string move_string){
@@ -392,6 +380,56 @@ std::string Game::get_game_pgn(){
     ret.pop_back();
 
     return ret;
+}
+
+std::string Game::get_game_drawing(){
+
+    using namespace positioning;
+
+    for(int i = 9; i >= 0; i--){//row
+        for(int j = 0; j < 10; j++){//col
+
+            bitboard_t current_square_bitboard = (bitboard_t)1 << (j + i*10);
+
+            if(this->current_game_state.pieces[red_cabeza_idx].bitboard & current_square_bitboard){
+                std::cout << COLOR_RED << "C" << COLOR_RESET;
+            }
+            else if(this->current_game_state.pieces[red_mini_idx].bitboard & current_square_bitboard){
+                std::cout << COLOR_RED << "M" << COLOR_RESET;
+            }
+            else if(this->current_game_state.pieces[red_flaco_idx].bitboard & current_square_bitboard){
+                std::cout << COLOR_RED << "F" << COLOR_RESET;
+            }
+            else if(this->current_game_state.pieces[red_chato_idx].bitboard & current_square_bitboard){
+                std::cout << COLOR_RED << "H" << COLOR_RESET;
+            }
+            else if(this->current_game_state.pieces[red_gordo_idx].bitboard & current_square_bitboard){
+                std::cout << COLOR_RED << "O" << COLOR_RESET;
+            }
+            else if(this->current_game_state.pieces[blue_cabeza_idx].bitboard & current_square_bitboard){
+                std::cout << COLOR_BLUE << "c" << COLOR_RESET;
+            }
+            else if(this->current_game_state.pieces[blue_mini_idx].bitboard & current_square_bitboard){
+                std::cout << COLOR_BLUE << "m" << COLOR_RESET;
+            }
+            else if(this->current_game_state.pieces[blue_flaco_idx].bitboard & current_square_bitboard){
+                std::cout << COLOR_BLUE << "f" << COLOR_RESET;
+            }
+            else if(this->current_game_state.pieces[blue_chato_idx].bitboard & current_square_bitboard){
+                std::cout << COLOR_BLUE << "h" << COLOR_RESET;
+            }
+            else if(this->current_game_state.pieces[blue_gordo_idx].bitboard & current_square_bitboard){
+                std::cout << COLOR_BLUE << "o" << COLOR_RESET;
+            }
+            else{
+                std::cout << ".";
+            }
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+
+    return "";
 }
 
 void Game::reset(){

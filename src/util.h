@@ -1,9 +1,12 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#define REL_ASSERT(x, m) {if(!(x)){std::cout<<m<<std::flush;std::abort();}}
+
+
 #include <time.h>
 
-long get_ms(){
+inline long get_ms(){
     timespec ts;
 
     clock_gettime(CLOCK_MONOTONIC, &ts);

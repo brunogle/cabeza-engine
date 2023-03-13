@@ -2,31 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "by-gdb",
+            "type": "lldb",
             "request": "launch",
-            "name": "(gdb) Launch Beyond Debugger",
-            "program": "${command:cmake.launchTargetPath}",
-            "cwd": "${workspaceFolder}\\build\\bin"
-        },
-        {
-            "name": "(gdb) Launch MS C/C++ Extension",
-            "type": "cppdbg",
-            "request": "launch",
-            // Resolved by CMake Tools:
+            "name": "Launch",
             "program": "${command:cmake.launchTargetPath}",
             "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}\\build\\bin",
-            "externalConsole": true,
-            "MIMode": "gdb",
-            "logging": { "engineLogging": true },
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ]
+            "cwd": "${workspaceFolder}",
+            "terminal": "external"
         }
+
     ]
 }

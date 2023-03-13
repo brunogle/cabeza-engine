@@ -7,8 +7,7 @@
 
 #include "eval.h"
 #include "search.h"
-#include "positioning.h"
-#include "graphics.h"
+//#include "positioning.h"
 
 enum Player{
     red = 1,
@@ -55,6 +54,7 @@ class Game{
     positioning::game_state current_game_state; //Current game state (piece possitions and turn)
     int update_graphics(); //Updates graphics window with current game state
 
+    std::string get_game_drawing();
 
     private:
 
@@ -68,8 +68,6 @@ class Game{
 
 
     bool graphics_enabled = false; //Graphics window enabled flag
-
-    GraphicsWindow graphics_window; //Graphics window class
 
     Player winner = Player::none;
 

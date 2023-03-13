@@ -1,7 +1,7 @@
 #ifndef SEARCH_H
 #define SEARCH_H
 
-#include "positioning.h"
+//#include "positioning.h"
 #include "eval.h"
 #include "transposition.h"
 
@@ -63,6 +63,10 @@ class AllSearch : public Search{
         ~AllSearch();
 
         positioning::move search(positioning::game_state state);
+
+        void set_timeout(int timeout);
+
+        void set_depth(int depth);
 
 };
 
