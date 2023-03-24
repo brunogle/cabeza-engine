@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <string.h>
 
+#include "parsing.h"
 #include "util.h"
 #include "positioning.h"
 
@@ -16,44 +17,6 @@ namespace positioning{
     //                                     //
     /////////////////////////////////////////
 
-    /*
-    Returns starting game state
-    */
-    game_state initial_game_state(){
- 
-        game_state state;
-
-        using enum Player;
-        using enum PieceType;
-        using enum Orientation;
-
-        state.pieces[cabeza_idx][red].bitboard = generate_bitboard_for_piece(cabeza_idx, flat, 5, 0);
-        state.pieces[mini_idx][red].bitboard  =  generate_bitboard_for_piece(mini_idx, flat, 4, 0);
-        state.pieces[flaco_idx][red].bitboard =  generate_bitboard_for_piece(flaco_idx, vertical, 3, 0);
-        state.pieces[chato_idx][red].bitboard =  generate_bitboard_for_piece(chato_idx, vertical, 6, 0);
-        state.pieces[gordo_idx][red].bitboard =  generate_bitboard_for_piece(gordo_idx, flat, 4, 1);
-
-        state.pieces[cabeza_idx][blue].bitboard = generate_bitboard_for_piece(cabeza_idx, flat, 4, 9);
-        state.pieces[mini_idx][blue].bitboard  =  generate_bitboard_for_piece(mini_idx, flat, 5, 9);
-        state.pieces[flaco_idx][blue].bitboard =  generate_bitboard_for_piece(flaco_idx, vertical, 6, 8);
-        state.pieces[chato_idx][blue].bitboard =  generate_bitboard_for_piece(chato_idx, vertical, 3, 8);
-        state.pieces[gordo_idx][blue].bitboard =  generate_bitboard_for_piece(gordo_idx, flat, 4, 7);
-
-        state.pieces[cabeza_idx][red].o = flat;
-        state.pieces[mini_idx][red].o = flat;
-        state.pieces[flaco_idx][red].o = vertical;
-        state.pieces[chato_idx][red].o = vertical;
-        state.pieces[gordo_idx][red].o = flat;
-        state.pieces[cabeza_idx][blue].o = flat;
-        state.pieces[mini_idx][blue].o = flat;
-        state.pieces[flaco_idx][blue].o = vertical;
-        state.pieces[chato_idx][blue].o = vertical;
-        state.pieces[gordo_idx][blue].o = flat;
-        
-        state.turn = red;
-
-        return state;
-    }
 
     /*
     Generates occupancy bitboard for a specific piece
@@ -545,11 +508,6 @@ namespace positioning{
         all_possible_movements_.flaco = get_flaco_moves(occupancy_normal, get_pos_from_bitboard(state.pieces[flaco_idx][state.turn].bitboard), state.pieces[flaco_idx][state.turn].o);
         all_possible_movements_.chato = get_chato_moves(occupancy_normal, get_pos_from_bitboard(state.pieces[chato_idx][state.turn].bitboard), state.pieces[chato_idx][state.turn].o);
         all_possible_movements_.gordo = get_gordo_moves(occupancy_normal, get_pos_from_bitboard(state.pieces[gordo_idx][state.turn].bitboard));
-
-        all_possible_movements_.cabeza |= (all_possible_movements_.cabeza & (MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN)) << 1;
-        all_possible_movements_.cabeza &= ~(MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN);
-        all_possible_movements_.mini |= (all_possible_movements_.mini & (MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN)) << 1;
-        all_possible_movements_.mini &= ~(MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN);
         
         all_possible_movements_.player = state.turn;
 
@@ -563,6 +521,11 @@ namespace positioning{
         all_possible_moves_t moves = get_moves(state);
 
         int move_count = 0;
+
+        moves.cabeza |= (moves.cabeza & (MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN)) << 1;
+        moves.cabeza &= ~(MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN);
+        moves.mini |= (moves.mini & (MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN)) << 1;
+        moves.mini &= ~(MOVEMENT_NE | MOVEMENT_ES | MOVEMENT_SW | MOVEMENT_WN);
 
         for(int i = 0; i < 28; i++){
 
@@ -1063,16 +1026,14 @@ namespace positioning{
     /*
     Applies a movement to a board. Checks if move succeeds
     */
-    game_state apply_move_safe(game_state state, move move, bool * success){
-        if(check_move_valid(state, move)){
-            if(success != NULL)
-                *success = true;
-            return apply_move(state, move);
+    bool apply_move_safe(move move, game_state state_in, game_state & state_out){
+
+        if(check_move_valid(state_in, move)){
+            state_out = apply_move(state_in, move);
+            return true;
         }
         else{
-            if(success != NULL)
-                *success = false;
-            return state;
+            return false;
         }
 
     }

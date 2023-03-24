@@ -11,13 +11,6 @@
 
 #define MAX_POSSIBLE_MOVEMENTS 72
 
-#define PIECE_CABEZA_MASK 0b00000001
-#define PIECE_MINI_MASK   0b00000010
-#define PIECE_FLACO_MASK  0b00000100
-#define PIECE_CHATO_MASK  0b00001000
-#define PIECE_GORDO_MASK  0b00010000
-#define PIECE_PLAYER_MASK 0b10000000
-
 //Movement bits
 #define MOVEMENT_N      0x0000001
 #define MOVEMENT_NN     0x0000002
@@ -47,7 +40,6 @@
 #define MOVEMENT_NWW    0x2000000
 #define MOVEMENT_NNWW   0x4000000
 #define MOVEMENT_NNW    0x8000000
-#define MOVEMENT_T
 
 
 namespace positioning{
@@ -63,7 +55,6 @@ namespace positioning{
     */
     typedef uint32_t possible_moves_t; //Used for Cabeza
     const std::string kMovementBitName[] = {"n","nn","ne","en","nne","nnee","nee","e","ee","es","se","see","ssee","sse","s","ss","sw","ws","ssw","ssww","sww","w","ww","wn","nw","nww","nnww","nnw"};
-
 
     /*
     Specifies a specific movement. Should only take one value of MOVEMENT_XXX (i.e. only ONE bit should be set)
@@ -97,8 +88,6 @@ namespace positioning{
 
     struct piece
     {
-        int x;
-        int y;
         Orientation o;
         bitboard_t bitboard;
     };
@@ -126,7 +115,7 @@ namespace positioning{
 
     /*
     Drawings of zone masks arrays. 'P' Represents piece position. Non negative integers represent mask associated with that possition. '.' represents no mask.
-    '\n' for defining new row. Strings must be a square of characters.
+    Strings must be a square of characters.
     Index represents rotation number.
     */
 
@@ -288,7 +277,7 @@ namespace positioning{
     /*
     Applies a movement to a board. Checks if move succeeds
     */
-    game_state apply_move_safe(game_state, move move, bool * success);
+    bool apply_move_safe(move move, game_state state_in, game_state & state_out);
 
 
     /////////////////////////////////////////
@@ -313,13 +302,13 @@ namespace positioning{
     inline int get_pos_from_bitboard (bitboard_t u) {
         uint64_t hi = u>>64;
         uint64_t lo = u;
-        int retval[3]={ 
-            __builtin_ctzll(lo),
-            __builtin_ctzll(hi)+64,
-            128
-        };
-        int idx = !lo + ((!lo)&(!hi));
-        return retval[idx];
+
+        if(hi){
+            return __builtin_ctzll(hi)+64;
+        }
+        else{
+            return __builtin_ctzll(lo);
+        }
     }
 
 

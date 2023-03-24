@@ -15,6 +15,12 @@
 using namespace positioning;
 
 
+/////////////////////////////////////////
+//                                     //
+//    PARENT CLASS DEFINITION          //
+//                                     //
+/////////////////////////////////////////
+
 Search::Search(eval_func_t eval_func_){
     this->eval_func = eval_func_;
 }
@@ -29,7 +35,17 @@ move Search::search(game_state state){
     return ret;
 }
 
-AllSearch::AllSearch(eval_func_t eval_func, int max_seconds, int max_search_depth) : Search(eval_func), transposition_table(32*1024*1024){
+/////////////////////////////////////////
+//                                     //
+//       PV SEARCH with PV table,      //
+// Killer moves, transposition table   //
+//                                     //
+/////////////////////////////////////////
+
+/*
+Search class requires an evaluation function, a time limit and a max seach depth
+*/
+PVSearch::PVSearch(eval_func_t eval_func, int max_seconds, int max_search_depth) : Search(eval_func), transposition_table(32*1024*1024){
     this->max_search_depth = max_search_depth;
     this->max_seconds = max_seconds;
 
@@ -42,8 +58,8 @@ AllSearch::AllSearch(eval_func_t eval_func, int max_seconds, int max_search_dept
     this->killer_moves = new move[max_search_depth][2];
 
     for(int i = 0; i < max_search_depth; i++){
-        this->killer_moves[i][0].move = - 1;
-        this->killer_moves[i][1].move = - 1;
+        this->killer_moves[i][0].move = -1;
+        this->killer_moves[i][1].move = -1;
     }
     
     for(int i = 0; i < max_search_depth + 1; i++){
@@ -55,29 +71,42 @@ AllSearch::AllSearch(eval_func_t eval_func, int max_seconds, int max_search_dept
 
 }
 
-
-AllSearch::~AllSearch(){
+/*
+Destructor method
+*/
+PVSearch::~PVSearch(){
     
     for(int i = 0; i < max_search_depth; i++)
         delete[] this->pv_table[i];
     delete[] this->pv_table;
     
     delete[] this->killer_moves;
-
 }
 
 
-void AllSearch::set_depth(int depth){
+
+/*
+Configuration method
+*/
+void PVSearch::set_depth(int depth){
     this->max_search_depth = depth;
 }
 
-void AllSearch::set_timeout(int timeout){
+void PVSearch::set_timeout(int timeout){
     this->max_seconds = timeout;
 }
 
+int PVSearch::get_timeout(){
+    return this->max_seconds;
+}
 
-
-void AllSearch::update_pv_table(move new_best_move, int ply, bool is_leaf_node){
+int PVSearch::get_depth(){
+    return this->max_search_depth;
+}
+/*
+Updates PV table when a new move was found
+*/
+void PVSearch::update_pv_table(move new_best_move, int ply, bool is_leaf_node){
 
     this->pv_table[ply][ply] = new_best_move;
     if(ply + 1 == this->iter_search_depth){
@@ -95,7 +124,26 @@ void AllSearch::update_pv_table(move new_best_move, int ply, bool is_leaf_node){
     }
 }
 
-void AllSearch::score_moves(int move_scores[MAX_POSSIBLE_MOVEMENTS], move possible_moves[MAX_POSSIBLE_MOVEMENTS], int num_moves, int ply, move best_move_tt){
+
+/*
+Updates killer move table when a cuttoff occurs
+*/
+void PVSearch::set_killer_move(move m, int ply) {
+    /* make sure killer moves will be different
+    before saving secondary killer move */
+    if (m.move != this->killer_moves[ply][0].move || m.piece != this->killer_moves[ply][0].piece)
+        this->killer_moves[ply][1] = this->killer_moves[ply][0];
+
+    /* save primary killer move */
+    this->killer_moves[ply][0] = m;
+
+}
+
+
+/*
+Receives possible moves and returns scores for each move based on pv table, killer moves, and tt best move. 
+*/
+void PVSearch::score_moves(int move_scores[MAX_POSSIBLE_MOVEMENTS], move possible_moves[MAX_POSSIBLE_MOVEMENTS], int num_moves, int ply, move best_move_tt){
 
     memset(move_scores, 0, MAX_POSSIBLE_MOVEMENTS * sizeof(int));
 
@@ -120,22 +168,112 @@ void AllSearch::score_moves(int move_scores[MAX_POSSIBLE_MOVEMENTS], move possib
     }
 }
 
-void AllSearch::set_killer_move(move m, int ply) {
+
+/*
+Search root node to a specified depth
+*/
+int PVSearch::root_search(game_state node, int depth) {
+
+    int ply = 0; //Root node has ply=0
+
+    int alpha = -MAX_INT; //Initial alpha beta parameters
+    int beta = MAX_INT;
+
+    uint64_t node_hash = this->transposition_table.get_hash(node);
+
+    move best_move_tt;
+    int val_tt;
+
+    if(this->transposition_table.probe(node_hash, depth, alpha, beta, &best_move_tt, &val_tt)){
+        if((val_tt > alpha && val_tt < beta)){
+            this->tt_cutoffs++;
+            return val_tt;
+        }
+    }
 
 
-    /* make sure killer moves will be different
-    before saving secondary killer move */
-    if (m.move != this->killer_moves[ply][0].move || m.piece != this->killer_moves[ply][0].piece)
-        this->killer_moves[ply][1] = this->killer_moves[ply][0];
 
-    /* save primary killer move */
-    this->killer_moves[ply][0] = m;
+    //Generate moves
+    move possible_moves[MAX_POSSIBLE_MOVEMENTS];
+    int num_moves = get_moves_as_list(node, possible_moves);
+
+    //Score moves
+    int move_scores[MAX_POSSIBLE_MOVEMENTS];
+    this->score_moves(move_scores, possible_moves, num_moves, ply, best_move_tt);
+
+    bool evaluated_moves[MAX_POSSIBLE_MOVEMENTS];
+    memset(evaluated_moves, 0, MAX_POSSIBLE_MOVEMENTS * sizeof(bool));
+    
+
+    bool search_pv = true; //Used for PVS
+
+        
+    for(int i = 0; i < num_moves; i++){
+        //Get a node to analyze
+
+        int best_move_score = 0;
+        move testing_move = possible_moves[0];
+        int move_idx = 0;
+        for(int j = 0; j < num_moves; j++){
+            if(move_scores[j] >= best_move_score && !evaluated_moves[j]){
+                testing_move = possible_moves[j];
+                best_move_score = move_scores[j];
+                move_idx = j;
+            }
+        }
+        evaluated_moves[move_idx] = true;
+
+        game_state next_node = apply_move(node, testing_move); //Apply movement
+        switch_team(next_node);
+        
+        //Principal-variation search.
+        
+        int score;
+
+        if(search_pv)
+            score = -this->pv_search(next_node, -beta, -alpha, depth - 1, true);
+        else{
+            score = -this->pv_search(next_node, -alpha - 1, - alpha, depth - 1, false);
+            if(score > alpha)
+                score = -this->pv_search(next_node, -beta, -alpha, depth - 1, true);
+        }
+
+        //If timeout, return 0
+        if(this->timeout)
+            break;
+
+        //If better child node has been found
+        if(score > alpha){
+            alpha = score;//Update alpha
+
+            search_pv = false;
+
+            //Because a better move as been found at this ply, update pv table.
+            this->update_pv_table(testing_move, ply, score == MAX_INT);
+
+            //If condition is met, this node is garanteed to have a score smaller than
+            //another previously searched sibling node
+            if(score >= beta){
+                //If condition is met, this node is garanteed to have a score smaller than
+                //another previously searched sibling node
+
+                this->transposition_table.save(node_hash, beta, beta_node, depth, this->pv_table[ply][ply]);
+
+                return beta;
+            }
+
+            this->transposition_table.save(node_hash, score, alpha_node, depth, this->pv_table[ply][ply]);
+        }
+    }
+
+    this->transposition_table.save(node_hash, alpha, exact_node, depth, this->pv_table[ply][ply]);
+
+    return alpha;
 
 }
 
 
-
-int AllSearch::pv_search(game_state node, int alpha, int beta, int depth, bool is_pv_node) {
+int PVSearch::pv_search(game_state node, int alpha, int beta, int depth, bool is_pv_node) {
 
     this->nodes_searched++;
     uint64_t node_hash = this->transposition_table.get_hash(node);
@@ -271,108 +409,8 @@ int AllSearch::pv_search(game_state node, int alpha, int beta, int depth, bool i
 
 }
 
-int AllSearch::root_search(game_state node, int depth) {
 
-    int ply = 0; //Root node has ply=0
-
-    int alpha = -MAX_INT; //Initial alpha beta parameters
-    int beta = MAX_INT;
-
-    uint64_t node_hash = this->transposition_table.get_hash(node);
-
-    move best_move_tt;
-    int val_tt;
-
-    if(this->transposition_table.probe(node_hash, depth, alpha, beta, &best_move_tt, &val_tt)){
-        if((val_tt > alpha && val_tt < beta)){
-            this->tt_cutoffs++;
-            return val_tt;
-        }
-    }
-
-
-
-    //Generate moves
-    move possible_moves[MAX_POSSIBLE_MOVEMENTS];
-    int num_moves = get_moves_as_list(node, possible_moves);
-
-    //Score moves
-    int move_scores[MAX_POSSIBLE_MOVEMENTS];
-    this->score_moves(move_scores, possible_moves, num_moves, ply, best_move_tt);
-
-    bool evaluated_moves[MAX_POSSIBLE_MOVEMENTS];
-    memset(evaluated_moves, 0, MAX_POSSIBLE_MOVEMENTS * sizeof(bool));
-    
-
-
-    bool search_pv = true; //Used for PVS
-
-        
-    for(int i = 0; i < num_moves; i++){
-        //Get a node to analyze
-
-        int best_move_score = 0;
-        move testing_move = possible_moves[0];
-        int move_idx = 0;
-        for(int j = 0; j < num_moves; j++){
-            if(move_scores[j] >= best_move_score && !evaluated_moves[j]){
-                testing_move = possible_moves[j];
-                best_move_score = move_scores[j];
-                move_idx = j;
-            }
-        }
-        evaluated_moves[move_idx] = true;
-
-        game_state next_node = apply_move(node, testing_move); //Apply movement
-        switch_team(next_node);
-        
-        //Principal-variation search.
-        
-        int score;
-
-        if(search_pv)
-            score = -this->pv_search(next_node, -beta, -alpha, depth - 1, true);
-        else{
-            score = -this->pv_search(next_node, -alpha - 1, - alpha, depth - 1, false);
-            if(score > alpha)
-                score = -this->pv_search(next_node, -beta, -alpha, depth - 1, true);
-        }
-
-        //If timeout, return 0
-        if(this->timeout)
-            break;
-
-        //If better child node has been found
-        if(score > alpha){
-            alpha = score;//Update alpha
-
-            search_pv = false;
-
-            //Because a better move as been found at this ply, update pv table.
-            this->update_pv_table(testing_move, ply, score == MAX_INT);
-
-            //If condition is met, this node is garanteed to have a score smaller than
-            //another previously searched sibling node
-            if(score >= beta){
-                //If condition is met, this node is garanteed to have a score smaller than
-                //another previously searched sibling node
-
-                this->transposition_table.save(node_hash, beta, beta_node, depth, this->pv_table[ply][ply]);
-
-                return beta;
-            }
-
-            this->transposition_table.save(node_hash, score, alpha_node, depth, this->pv_table[ply][ply]);
-        }
-    }
-
-    this->transposition_table.save(node_hash, alpha, exact_node, depth, this->pv_table[ply][ply]);
-
-    return alpha;
-
-}
-
-move AllSearch::search(game_state state){
+move PVSearch::search(game_state state){
 
     std::cout << "Searching hash " << std::setfill('0') << std::setw(16) << std::right << std::hex << this->transposition_table.get_hash(state) << std::endl;
     std::cout << std::dec;

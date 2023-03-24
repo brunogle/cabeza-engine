@@ -16,48 +16,37 @@ class Game{
 
     public:
 
-    Game(eval_func_t evaluator_function, Search * search_engine);
+    Game(Search * search_engine);
 
-    int create_graphics_window();     //Creates a graphics window to display game
-    int terminate_graphics_window();  //Terminates graphics window associated to the game
+    Game();
 
-    int undo_moves(int semimoves_to_undo);
-
-    int reset_game_state();//Sets game state to initial configuration
-
-    int apply_pgn(std::string move_string); //Applies the movement string to the current board
-
-    bool apply_move(positioning::move move);
-
-    bool apply_move_str(std::string move);
+    void set_search_engine(Search * search_engine);
 
     void reset();
 
     bool set_fen(std::string fen);
 
-    positioning::Player get_turn();
 
     positioning::move search();
     
-    std::string get_game_pgn();
+    bool apply_move(positioning::move move);
 
-    positioning::game_state current_game_state; //Current game state (piece possitions and turn)
-    int update_graphics(); //Updates graphics window with current game state
+    bool undo_moves(int semimoves_to_undo);
 
-    std::string get_game_drawing();
+    void switch_turn();
+
+    void set_turn(positioning::Player player);
+
+    std::string get_game_drawing(bool color);
+    positioning::Player get_turn();
+
 
     private:
 
-    void update_win_flag();
- 
-
-    void check_if_win();
+    positioning::game_state current_game_state;
 
     eval_func_t evaluator_function;
     Search * search_engine;
-
-
-    bool graphics_enabled = false; //Graphics window enabled flag
 
     std::vector<positioning::move> move_history;
     std::vector<positioning::game_state> game_state_history;

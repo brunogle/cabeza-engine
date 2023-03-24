@@ -1,5 +1,8 @@
 #include <algorithm>
 #include <string.h>
+#include <sstream>
+#include <sys/types.h>
+#include <vector>
 
 #include "positioning.h"
 #include "parsing.h"
@@ -7,6 +10,8 @@
 
 namespace parsing{
 
+
+    //Map used for parsing move string to move
     std::map<std::string, positioning::move_bitarray_t> movement_str_dict = {{"N",MOVEMENT_N}, {"NN",MOVEMENT_NN}, {"NE",MOVEMENT_NE}, {"EN",MOVEMENT_EN},
                                                         {"NNE",MOVEMENT_NNE}, {"NNEE",MOVEMENT_NNEE}, {"NEE",MOVEMENT_NEE}, {"E",MOVEMENT_E},
                                                         {"EE",MOVEMENT_EE}, {"ES",MOVEMENT_ES}, {"SE",MOVEMENT_SE}, {"SEE",MOVEMENT_SEE},
@@ -18,12 +23,13 @@ namespace parsing{
 
 
 
-                                                            
+    //Parse a single move string to a move                                 
     positioning::move parse_movement_str(std::string str){
         
         using namespace std;
 
         positioning::move move;
+        move.move = 0;
 
         if(str.length() < 2 || str.length() > 5){
             positioning::move ret = {};
@@ -37,7 +43,7 @@ namespace parsing{
             move.player = positioning::blue;
         }
         else{
-            return {};
+            return move; //Return null move
         }
 
         transform(str.begin(), str.end(), str.begin(), ::toupper); //Convert to upper case
@@ -68,7 +74,7 @@ namespace parsing{
             break;
 
         default:
-            return move; //Return null move
+            return move; //Return move with no direction or piece
         }
 
         str.erase(0,1);
@@ -85,6 +91,11 @@ namespace parsing{
         //Total movement
         int total_north = num_north - num_south; 
         int total_east = num_east - num_west; 
+
+        if(abs(total_east) + abs(total_north) != (int)str.length()){
+            //String contained other non identified charaters. Return move with no direction
+            return move;
+        }
 
         if(total_north > 0){
             ordered_move_str.append(total_north, 'N');
@@ -105,12 +116,10 @@ namespace parsing{
         
     }
 
-
+    //Convert move to move string
     std::string get_move_str(positioning::move move_to_translate){
 
         std::string ret = "";
-
-
 
         switch(move_to_translate.piece){
             case positioning::cabeza_idx:
@@ -144,34 +153,250 @@ namespace parsing{
     }
 
 
-    /*
-    Apply PGN string
-    */
-    positioning::game_state apply_pgn(positioning::game_state state, std::string pgn_str, bool * success){
+    bool parse_fen(std::string fen_str, positioning::game_state & game_state_out){
 
-        char * move_token = strtok(pgn_str.data(), ",");
+        using namespace std;
+        using namespace positioning;
 
-        bool ok = true;
+        stringstream fen_ss(fen_str);
 
-        positioning::game_state new_state = state;
+        vector<string> fen_split;
 
-        while(move_token != NULL){
+        string tmp;
 
-            positioning::move move = parse_movement_str(move_token);
+        //Split string by commas
 
-            new_state = apply_move_safe(new_state, move, &ok);
+        
+        while(getline(fen_ss, tmp, ',')){
+            fen_split.push_back(tmp);
+        }
 
-            if(!ok){
-                *success = false;
-                return state;
+        //Check if string was seperated in two parts
+        if(fen_split.size() != 2){
+            return false;
+        }
+
+        //Split first part of fen (board piece positions seperated by /)
+
+        stringstream board_rows_ss(fen_split[0]);
+        vector<string> board_rows_split;
+
+        while(getline(board_rows_ss, tmp, '/')){
+            board_rows_split.push_back(tmp);
+        }
+
+
+        //Check if string was seperated in 10 parts (10 rows)
+        if(board_rows_split.size() != 10){
+            return false;
+        }    
+
+        
+
+        game_state new_state;
+
+        for (const auto player : { Player::red, Player::blue }){
+            for (const auto piece : {0,1,2,3,4}){
+                new_state.pieces[piece][player].bitboard = (bitboard_t)0;
+                new_state.pieces[piece][player].o = flat;
+            }
+        }
+
+        //Load piece bits in state bitboards
+                        
+        for(int row = 0; row < 10; row++){
+            
+            string row_fen_str = board_rows_split[9-row];
+            
+            //Empty row
+            if(row_fen_str == "10"){
+                continue;
             }
 
-            move_token = strtok(NULL, ",");
-            
-        }
-        *success = true;
-        return new_state;
+            int col = 0;
+            int string_pos = 0;
 
+            while(string_pos < (int)row_fen_str.length()){
+                char row_string_char = row_fen_str[string_pos];
+
+                if(row_string_char <= '9' && row_string_char >= '0'){
+                    col += row_string_char - '0';
+                }
+
+                else{
+                    switch (row_string_char) {
+                        case 'C':
+                            new_state.pieces[cabeza_idx][red].bitboard |= (bitboard_t)0x1 << (row*10 + col);
+                            break;
+                        
+                        case 'M':
+                            new_state.pieces[mini_idx][red].bitboard |= (bitboard_t)0x1 << (row*10 + col);
+                            break;
+
+                        case 'F':
+                            new_state.pieces[flaco_idx][red].bitboard |= (bitboard_t)0x1 << (row*10 + col);
+                            break;
+                        
+                        case 'H':
+                            new_state.pieces[chato_idx][red].bitboard |= (bitboard_t)0x1 << (row*10 + col);
+                            break;
+
+                        case 'O':
+                            new_state.pieces[gordo_idx][red].bitboard |= (bitboard_t)0x1 << (row*10 + col);
+                            break;
+
+                        case 'c':
+                            new_state.pieces[cabeza_idx][blue].bitboard |= (bitboard_t)0x1 << (row*10 + col);
+                            break;
+                        
+                        case 'm':
+                            new_state.pieces[mini_idx][blue].bitboard |= (bitboard_t)0x1 << (row*10 + col);
+                            break;
+
+                        case 'f':
+                            new_state.pieces[flaco_idx][blue].bitboard |= (bitboard_t)0x1 << (row*10 + col);
+                            break;
+                        
+                        case 'h':
+                            new_state.pieces[chato_idx][blue].bitboard |= (bitboard_t)0x1 << (row*10 + col);
+                            break;
+
+                        case 'o':
+                            new_state.pieces[gordo_idx][blue].bitboard |= (bitboard_t)0x1 << (row*10 + col);
+                            break;
+
+                        default:
+                            return false;
+                    }
+                    col++;
+                }
+
+                string_pos++;
+            }
+            
+            if(col != 10){
+                return false;
+            }
+
+        }            
+
+        //Check piece validity and piece orientation
+
+        //Check if pieces match a possible piece bitboards
+   
+        bool red_cabeza_ok = false;
+        bool red_mini_ok = false;
+        bool blue_cabeza_ok = false;
+        bool blue_mini_ok = false;
+        bool red_flaco_ok = false;
+        bool blue_flaco_ok = false;
+        bool red_chato_ok = false;
+        bool blue_chato_ok = false;
+        bool red_gordo_ok = false;
+        bool blue_gordo_ok = false;
+
+
+        for(int pos_test = 0; pos_test < 100; pos_test++){
+            int row_test = pos_test%10;
+            int col_test = pos_test/10;
+
+
+            bitboard_t bitboard_test_1x1 = (bitboard_t)0x1 << (row_test*10 + col_test);
+
+            if(new_state.pieces[cabeza_idx][red].bitboard == bitboard_test_1x1){
+                red_cabeza_ok = true;
+            }
+            if(new_state.pieces[mini_idx][red].bitboard == bitboard_test_1x1){
+                red_mini_ok = true;
+            }
+            if(new_state.pieces[cabeza_idx][blue].bitboard == bitboard_test_1x1){
+                blue_cabeza_ok = true;
+            }
+            if(new_state.pieces[mini_idx][blue].bitboard == bitboard_test_1x1){
+                blue_mini_ok = true;
+            }
+            if(new_state.pieces[flaco_idx][red].bitboard == bitboard_test_1x1){
+                red_flaco_ok = true;
+                new_state.pieces[flaco_idx][red].o = flat;
+            }
+            if(new_state.pieces[flaco_idx][blue].bitboard == bitboard_test_1x1){
+                blue_flaco_ok = true;
+                new_state.pieces[flaco_idx][blue].o = flat;
+            }
+
+
+            if(row_test < 9){
+                bitboard_t bitboard_test_1x2 = (bitboard_t)0x3 << (row_test*10 + col_test);
+                if(new_state.pieces[flaco_idx][red].bitboard == bitboard_test_1x2){
+                    red_flaco_ok = true;
+                    new_state.pieces[flaco_idx][red].o = horizontal;
+                }
+                if(new_state.pieces[flaco_idx][blue].bitboard == bitboard_test_1x2){
+                    blue_flaco_ok = true;
+                    new_state.pieces[flaco_idx][blue].o = horizontal;
+                }
+                if(new_state.pieces[chato_idx][red].bitboard == bitboard_test_1x2){
+                    red_chato_ok = true;
+                    new_state.pieces[chato_idx][red].o = horizontal;
+                }
+                if(new_state.pieces[chato_idx][blue].bitboard == bitboard_test_1x2){
+                    blue_chato_ok = true;
+                    new_state.pieces[chato_idx][blue].o = horizontal;
+                }
+            }
+
+            if(col_test < 9){
+                bitboard_t bitboard_test_2x1 = (bitboard_t)0x401 << (row_test*10 + col_test);
+                if(new_state.pieces[flaco_idx][red].bitboard == bitboard_test_2x1){
+                    red_flaco_ok = true;
+                    new_state.pieces[flaco_idx][red].o = vertical;
+                }
+                if(new_state.pieces[flaco_idx][blue].bitboard == bitboard_test_2x1){
+                    blue_flaco_ok = true;
+                    new_state.pieces[flaco_idx][blue].o = vertical;
+                }
+                if(new_state.pieces[chato_idx][red].bitboard == bitboard_test_2x1){
+                    red_chato_ok = true;
+                    new_state.pieces[chato_idx][red].o = vertical;
+                }
+                if(new_state.pieces[chato_idx][blue].bitboard == bitboard_test_2x1){
+                    blue_chato_ok = true;
+                    new_state.pieces[chato_idx][blue].o = vertical;
+                }
+            }
+
+            if(row_test < 9 && col_test < 9){
+                bitboard_t bitboard_test_2x2 = (bitboard_t)0xC03 << (row_test*10 + col_test);
+                if(new_state.pieces[chato_idx][red].bitboard == bitboard_test_2x2){
+                    red_chato_ok = true;
+                    new_state.pieces[chato_idx][red].o = flat;
+                }
+                if(new_state.pieces[chato_idx][blue].bitboard == bitboard_test_2x2){
+                    blue_chato_ok = true;
+                    new_state.pieces[chato_idx][blue].o = flat;
+                }
+                if(new_state.pieces[gordo_idx][red].bitboard == bitboard_test_2x2){
+                    red_gordo_ok = true;
+                }
+                if(new_state.pieces[gordo_idx][blue].bitboard == bitboard_test_2x2){
+                    blue_gordo_ok = true;
+                }
+            }
+        }
+
+        
+        if(!(red_cabeza_ok && red_mini_ok && red_flaco_ok && red_chato_ok && red_gordo_ok && 
+             blue_cabeza_ok && blue_mini_ok && blue_flaco_ok && blue_chato_ok && blue_gordo_ok)){
+
+            return false;
+        }
+
+        game_state_out = new_state;
+
+        return true;
     }
 
+    
+
 }
+
