@@ -1,4 +1,5 @@
 #include "cui.h"
+#include "color.hpp"
 #include "parsing.h"
 #include "positioning.h"
 #include "search.h"
@@ -77,30 +78,82 @@ bool Cui::start(){
                 std::cout << "move error" << std::endl;
             }
         }
-        else if((operation == "turn" || operation == "t") && args_count == 1){
-            if(args.at(0) == "red" || args.at(0) == "r"){
-                this->game.set_turn(positioning::red);
+        else if((operation == "turn" || operation == "t")){
+            if(args.size() == 1){
+                if(args.at(0) == "red" || args.at(0) == "r"){
+                    this->game.set_turn(positioning::red);
+                    std::cout << "turn is now: " << COLOR_RED << "red" << COLOR_RESET << std::endl;
+                }
+                else if(args.at(0) == "blue" || args.at(0) == "b"){
+                    this->game.set_turn(positioning::blue);
+                    std::cout << "turn is now: " << COLOR_BLUE << "blue" << COLOR_RESET << std::endl;
+                }
             }
-            else if(args.at(0) == "blue" || args.at(0) == "b"){
-                this->game.set_turn(positioning::blue);
+            else if(args.size() == 0){
+                if(this->game.get_turn() == positioning::Player::red){
+                    this->game.set_turn(positioning::Player::blue);
+                    std::cout << "turn is now: " << COLOR_BLUE << "blue" << COLOR_RESET << std::endl;
+                }
+                else{
+                    this->game.set_turn(positioning::Player::red);
+                    std::cout << "turn is now: " << COLOR_RED << "red" << COLOR_RESET << std::endl;
+                }
             }
             else{
                 std::cout << "player error" << std::endl;
             }
         }
-        else if(operation == "undo" || operation == "i"){
+        else if(operation == "undo" || operation == "u"){
             this->game.undo_moves(1);
         }
         else if(operation == "search" || operation == "s"){
             this->game.search();
+        }
+        else if(operation == "reset"){
+            this->game.reset();
         }
         else if(operation == "play" || operation == "p"){
             positioning::move best_move = this->game.search();
 
             this->game.apply_move(best_move);
         }
+        else if(operation == "timeout"){
+            int timeout;
+            try{
+                timeout = std::stoi(args.at(0), NULL, 10);
+                if(timeout <= 0){
+                    std::cout << "timeout set error" << std::endl;
+                }
+                else{
+                    search_engine.set_timeout(timeout);
+                    std::cout << "timeout set to " << timeout << "ms" << std::endl;
+                }
+            }
+            catch(std::exception const & e){
+                std::cout << "timeout set error" << std::endl;
+            }
+        }
+        else if(operation == "depth"){
+            int depth;
+            try{
+                depth = std::stoi(args.at(0), NULL, 10);
+                if(depth <= 0){
+                    std::cout << "depth set error" << std::endl;
+                }
+                else{
+                    search_engine.set_depth(depth);
+                    std::cout << "depth set to " << depth  << std::endl;
+                }
+            }
+            catch(std::exception const & e){
+                std::cout << "depth set error" << std::endl;
+            }
+        }
         else if(operation == "quit" || operation == "q"){
             return true;
+        }
+        else if(operation == ""){
+
         }
         else{
             std::cout << "Invalid command" << std::endl;
