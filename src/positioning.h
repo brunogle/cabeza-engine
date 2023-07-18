@@ -303,7 +303,7 @@ namespace positioning{
         uint64_t hi = u>>64;
         uint64_t lo = u;
 
-        if(hi){
+        if(hi && !lo){
             return __builtin_ctzll(hi)+64;
         }
         else{
