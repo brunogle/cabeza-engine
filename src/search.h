@@ -48,12 +48,12 @@ class PVSearch : public Search{
 
         //Statistics variables
         int nodes_searched;    //Times seach() function was called
-        int search_start_time; //Search start time, to peform timeouts
+        long search_start_time; //Search start time, to peform timeouts
         int tt_cutoffs;
 
         //Configuration variables
         int max_search_depth; //Maximum search depth. Set before calling search()
-        int max_seconds;  //Maximum time to search for. Set before calling serch()
+        long max_seconds;  //Maximum time to search for. Set before calling serch()
 
         //Variables used for a search shared between iterations
         int iter_search_depth; //Maximum search depth for a specific iteration of the iterative deepening framework.
@@ -75,14 +75,14 @@ class PVSearch : public Search{
 
     public:
 
-        PVSearch(eval_func_t eval_func, int max_seconds, int max_depth);
+        PVSearch(eval_func_t eval_func, long max_seconds, int max_depth);
         ~PVSearch();
 
         //Perform search, returns best move
         positioning::move search(positioning::game_state state);
 
         //Used for configuring seach
-        void set_timeout(int timeout);
+        void set_timeout(long timeout);
         void set_depth(int depth);
 
         int get_timeout();

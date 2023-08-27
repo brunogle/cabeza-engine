@@ -73,6 +73,7 @@ bool Cui::start(){
         else if((operation == "move" || operation == "m") && args_count == 1){
             if(this->game.apply_move(parsing::parse_movement_str(args.at(0)))){
                 std::cout << "move ok" << std::endl;
+                this->game.switch_turn();
             }
             else{
                 std::cout << "move error" << std::endl;
@@ -116,6 +117,8 @@ bool Cui::start(){
             positioning::move best_move = this->game.search();
 
             this->game.apply_move(best_move);
+
+            this->game.switch_turn();
         }
         else if(operation == "timeout"){
             int timeout;

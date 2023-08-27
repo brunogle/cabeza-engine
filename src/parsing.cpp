@@ -79,38 +79,9 @@ namespace parsing{
 
         str.erase(0,1);
 
-        string ordered_move_str;
-
-        //Count how many N/S/E/W characters
-
-        int num_north = count(str.begin(), str.end(), 'N');
-        int num_south = count(str.begin(), str.end(), 'S');
-        int num_east = count(str.begin(), str.end(), 'E');
-        int num_west = count(str.begin(), str.end(), 'W');
-
-        //Total movement
-        int total_north = num_north - num_south; 
-        int total_east = num_east - num_west; 
-
-        if(abs(total_east) + abs(total_north) != (int)str.length()){
-            //String contained other non identified charaters. Return move with no direction
-            return move;
+        if(movement_str_dict.count(str)){
+            move.move = movement_str_dict[str];
         }
-
-        if(total_north > 0){
-            ordered_move_str.append(total_north, 'N');
-        }
-        if(total_north < 0){
-            ordered_move_str.append(-total_north, 'S');
-        }
-        if(total_east > 0){
-            ordered_move_str.append(total_east, 'E');
-        }
-        if(total_east < 0){
-            ordered_move_str.append(-total_east, 'W');
-        }
-
-        move.move = movement_str_dict[ordered_move_str];
 
         return move;
         

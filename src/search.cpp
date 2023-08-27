@@ -45,7 +45,7 @@ move Search::search(game_state state){
 /*
 Search class requires an evaluation function, a time limit and a max seach depth
 */
-PVSearch::PVSearch(eval_func_t eval_func, int max_seconds, int max_search_depth) : Search(eval_func), transposition_table(32*1024*1024){
+PVSearch::PVSearch(eval_func_t eval_func, long max_seconds, int max_search_depth) : Search(eval_func), transposition_table(32*1024*1024){
     this->max_search_depth = max_search_depth;
     this->max_seconds = max_seconds;
 
@@ -92,7 +92,7 @@ void PVSearch::set_depth(int depth){
     this->max_search_depth = depth;
 }
 
-void PVSearch::set_timeout(int timeout){
+void PVSearch::set_timeout(long timeout){
     this->max_seconds = timeout;
 }
 
