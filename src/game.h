@@ -26,6 +26,7 @@ class Game{
 
     bool set_fen(std::string fen);
 
+    std::string get_fen();
 
     positioning::move search();
     

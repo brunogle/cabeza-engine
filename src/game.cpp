@@ -35,6 +35,9 @@ bool Game::set_fen(std::string fen){
     return parsing::parse_fen(fen, this->current_game_state);
 }
 
+std::string Game::get_fen(){
+    return parsing::generate_fen(this->current_game_state);
+}
 
 positioning::move Game::search(){
     return search_engine->search(this->current_game_state);

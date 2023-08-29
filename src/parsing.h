@@ -16,6 +16,8 @@ namespace parsing{
 
     bool parse_fen(std::string fen_str, positioning::game_state & game_state_out);
 
+    std::string generate_fen(positioning::game_state game_state);
+
 }
 
 #endif

@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <string.h>
 #include <sstream>
+#include <string>
 #include <sys/types.h>
 #include <vector>
 
@@ -365,6 +366,78 @@ namespace parsing{
         game_state_out = new_state;
 
         return true;
+    }
+
+
+    std::string generate_fen(positioning::game_state game_state){
+
+
+        using namespace positioning;
+
+        std::string fen;
+
+        for(int row = 9; row >= 0; row--){
+            int blank_spaces = 0;
+            for(int col = 0; col < 10; col++){
+
+                bool piece_appended = true;
+
+                if(game_state.pieces[cabeza_idx][red].bitboard & ((bitboard_t)0x1 << (row*10 + col))){
+                    fen.append("C");
+                }
+                else if(game_state.pieces[cabeza_idx][blue].bitboard & ((bitboard_t)0x1 << (row*10 + col))){
+                    fen.append("c");
+                }
+                else if(game_state.pieces[mini_idx][red].bitboard & ((bitboard_t)0x1 << (row*10 + col))){
+                    fen.append("M");
+                }
+                else if(game_state.pieces[mini_idx][blue].bitboard & ((bitboard_t)0x1 << (row*10 + col))){
+                    fen.append("m");
+                }
+                else if(game_state.pieces[flaco_idx][red].bitboard & ((bitboard_t)0x1 << (row*10 + col))){
+                    fen.append("F");
+                }
+                else if(game_state.pieces[flaco_idx][blue].bitboard & ((bitboard_t)0x1 << (row*10 + col))){
+                    fen.append("f");
+                }     
+                else if(game_state.pieces[chato_idx][red].bitboard & ((bitboard_t)0x1 << (row*10 + col))){
+                    fen.append("H");
+                }
+                else if(game_state.pieces[chato_idx][blue].bitboard & ((bitboard_t)0x1 << (row*10 + col))){
+                    fen.append("h");
+                }
+                else if(game_state.pieces[gordo_idx][red].bitboard & ((bitboard_t)0x1 << (row*10 + col))){
+                    fen.append("O");
+                }
+                else if(game_state.pieces[gordo_idx][blue].bitboard & ((bitboard_t)0x1 << (row*10 + col))){
+                    fen.append("o");
+                }
+                else{
+                    piece_appended = false;
+                    blank_spaces++;
+                }
+
+                if(piece_appended && blank_spaces > 0){
+                    fen.insert(fen.length() - 1, std::to_string(blank_spaces), 0);
+                    blank_spaces = 0;
+                }
+            }
+            if(blank_spaces > 0){
+                fen.append(std::to_string(blank_spaces));
+            }
+            fen.append("/");
+        }
+
+        fen.append(",");
+        
+        if(game_state.turn == red){
+            fen.append("r");
+        }
+        else{
+            fen.append("b");
+        }
+        
+        return fen;
     }
 
     

@@ -67,6 +67,9 @@ bool Cui::start(){
                 std::cout << "FEN error" << std::endl;
             }
         }
+        else if(operation == "fen" && args_count == 0){
+            std::cout << this->game.get_fen() << std::endl;
+        }
         else if(operation == "draw" || operation == "d"){
             std::cout << this->game.get_game_drawing(true) << std::endl;
         }
