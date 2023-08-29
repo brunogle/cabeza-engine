@@ -363,6 +363,18 @@ namespace parsing{
             return false;
         }
 
+
+        if(fen_split[1] == "r"){
+            new_state.turn = red;
+        }
+        else if(fen_split[1] == "b"){
+            new_state.turn = blue;
+        }
+        else{
+            return false;
+        }
+        
+
         game_state_out = new_state;
 
         return true;
@@ -425,7 +437,9 @@ namespace parsing{
             if(blank_spaces > 0){
                 fen.append(std::to_string(blank_spaces));
             }
-            fen.append("/");
+
+            if(row > 0)
+                fen.append("/");
         }
 
         fen.append(",");
