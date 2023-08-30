@@ -11,7 +11,6 @@
 
 
 #include "parsing.h"
-#include "performance.h"
 #include "positioning.h"
 #include "eval.h"
 #include "search.h"
