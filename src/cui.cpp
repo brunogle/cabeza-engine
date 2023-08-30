@@ -39,7 +39,7 @@ bool Cui::start(){
 
     bool running = true;
 
-    PVSearch search_engine(DistanceEval::eval, 30000, 12);
+    PVSearch search_engine(DistanceEval::eval, 30000, 12, true);
 
     this->game.set_search_engine(&search_engine);
 

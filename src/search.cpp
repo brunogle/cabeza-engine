@@ -45,9 +45,11 @@ move Search::search(game_state state){
 /*
 Search class requires an evaluation function, a time limit and a max seach depth
 */
-PVSearch::PVSearch(eval_func_t eval_func, long max_seconds, int max_search_depth) : Search(eval_func), transposition_table(32*1024*1024){
+PVSearch::PVSearch(eval_func_t eval_func, long max_seconds, int max_search_depth, bool print_to_stdout) : Search(eval_func), transposition_table(32*1024*1024){
     this->max_search_depth = max_search_depth;
     this->max_seconds = max_seconds;
+
+    this->print_to_stdout = print_to_stdout;
 
     //Initialize caches
     
@@ -412,8 +414,9 @@ int PVSearch::pv_search(game_state node, int alpha, int beta, int depth, bool is
 
 move PVSearch::search(game_state state){
 
-    std::cout << "Searching hash " << std::setfill('0') << std::setw(16) << std::right << std::hex << this->transposition_table.get_hash(state) << std::endl;
-    std::cout << std::dec;
+    if(print_to_stdout){
+        std::cout << "Searching FEN: " << parsing::generate_fen(state) << std::endl;
+    }
 
     //Reset pv table and killer moves between searches.
     this->search_start_time = get_ms();
@@ -436,7 +439,9 @@ move PVSearch::search(game_state state){
 
     //Iterative deepening loop
     for(int depth = 1; depth <= max_search_depth; depth++){
-        std::cout << "depth " << depth << " ";
+
+        if(print_to_stdout)
+            std::cout << "depth " << depth << " ";
 
         this->iter_search_depth = depth;
 
@@ -445,46 +450,52 @@ move PVSearch::search(game_state state){
 
         //Print principal variation and additional data.
 
-        std::cout << "pv: ";
-
         Player pv_print_turn = state.turn;
 
-        for(int i = 0; i < max_search_depth; i++){
-            if(pv_table[0][i].move == -1u){
-                break;
-            }
-            else{
-                if(pv_print_turn == Player::red){
-                    std::cout << COLOR_RED;
-                    pv_print_turn = Player::blue;
+
+        if(print_to_stdout){
+
+            std::cout << "pv: ";
+
+
+            for(int i = 0; i < max_search_depth; i++){
+                if(pv_table[0][i].move == -1u){
+                    break;
                 }
                 else{
-                    std::cout << COLOR_BLUE;
-                    pv_print_turn = Player::red;
-                }
-                
-                std::cout << parsing::get_move_str(pv_table[0][i]) << " ";
+                    if(pv_print_turn == Player::red){
+                        std::cout << COLOR_RED;
+                        pv_print_turn = Player::blue;
+                    }
+                    else{
+                        std::cout << COLOR_BLUE;
+                        pv_print_turn = Player::red;
+                    }
+                    
+                    std::cout << parsing::get_move_str(pv_table[0][i]) << " ";
 
-                std::cout << COLOR_RESET;
+                    std::cout << COLOR_RESET;
+                }
             }
         }
 
-        std::cout << "(" << nodes_searched << " nodes, ";
+        if(print_to_stdout){
+            std::cout << "(" << nodes_searched << " nodes, ";
 
-        if(abs(score) > MAX_INT - 100 && !this->timeout){
-            if(pv_print_turn == Player::blue)
-                std::cout << COLOR_RED << "red can force win" << COLOR_RESET << ", ";
-            else 
-                std::cout << COLOR_BLUE << "blue can force win" << COLOR_RESET << ", ";
+            if(abs(score) > MAX_INT - 100 && !this->timeout){
+                if(pv_print_turn == Player::blue)
+                    std::cout << COLOR_RED << "red can force win" << COLOR_RESET << ", ";
+                else 
+                    std::cout << COLOR_BLUE << "blue can force win" << COLOR_RESET << ", ";
+            }
+            
+
+            if(this->timeout){
+                std::cout << "timeout, ";
+            }
+
+            std::cout << "\b\b) " << std::endl;
         }
-        
-
-        if(this->timeout){
-            std::cout << "timeout, ";
-        }
-
-        std::cout << "\b\b) " << std::endl;
-
 
         if(this->timeout){
             break; //Stop search if timeout
@@ -497,9 +508,18 @@ move PVSearch::search(game_state state){
     }
     
 
-    std::cout << "time: " << get_ms() - this->search_start_time << std::endl;
 
     move best_move = pv_table[0][0];
+
+    if(state.turn == red){
+        std::cout << "best move: " << BACKGROUND_RED << COLOR_BOLDWHITE <<  parsing::get_move_str(best_move) << BACKGROUND_RESET << std::endl;
+    }
+    else{
+        std::cout << "best move: " << BACKGROUND_BLUE << COLOR_BOLDBLACK << parsing::get_move_str(best_move) << BACKGROUND_RESET << std::endl;
+    }
+
+    std::cout << "time: " << get_ms() - this->search_start_time << std::endl;
+
 
     return best_move;
 

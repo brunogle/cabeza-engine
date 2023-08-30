@@ -24,7 +24,7 @@ void Game::reset(){
     parsing::parse_fen("3hcmf3/3hoof3/4oo4/10/10/10/10/4OO4/3FOOH3/3FMCH3,r", this->current_game_state);
 
     this->game_state_history.clear();
-    this->game_state_history.push_back(this->current_game_state);
+    //this->game_state_history.push_back(this->current_game_state);
 
     this->move_history.clear();
 
@@ -44,12 +44,18 @@ positioning::move Game::search(){
 }
 
 
+
 bool Game::apply_move(positioning::move move){
 
+    positioning::game_state new_game_state;
 
-    if(positioning::apply_move_safe(move, this->current_game_state, this->current_game_state)){
+    if(positioning::apply_move_safe(move, this->current_game_state, new_game_state)){
+
         this->move_history.push_back(move);
-        this->game_state_history.push_back(current_game_state);
+        this->game_state_history.push_back(this->current_game_state);
+
+        this->current_game_state = new_game_state;
+
         return true;
     }
     else{
@@ -61,14 +67,15 @@ bool Game::apply_move(positioning::move move){
 
 bool Game::undo_moves(int semimoves_to_undo){
 
-    if(this->game_state_history.size() > (uint64_t)semimoves_to_undo){
+    if(this->game_state_history.size() >= (uint64_t)semimoves_to_undo){
 
-        for(int i = 0; i < semimoves_to_undo; i++){
+        for(int i = 0; i < semimoves_to_undo - 1; i++){
             this->move_history.pop_back();
             this->game_state_history.pop_back();
         }
 
         this->current_game_state = this->game_state_history.back();
+        this->game_state_history.pop_back();
 
         return true;
 

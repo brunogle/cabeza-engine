@@ -60,6 +60,8 @@ class PVSearch : public Search{
         bool timeout; //Timeout flag
 
 
+        bool print_to_stdout;
+
         //Functions for appending data tables.
         void update_pv_table(positioning::move new_best_move, int ply, bool is_leaf_node);
         void set_killer_move(positioning::move m, int ply);
@@ -75,7 +77,7 @@ class PVSearch : public Search{
 
     public:
 
-        PVSearch(eval_func_t eval_func, long max_seconds, int max_depth);
+        PVSearch(eval_func_t eval_func, long max_seconds, int max_depth, bool print_to_stdout);
         ~PVSearch();
 
         //Perform search, returns best move

@@ -33,7 +33,6 @@ target_sources(cabeza
         src/main.cpp
         src/positioning.cpp
         src/eval.cpp
-        src/performance.cpp
         src/game.cpp
         src/search.cpp
         src/transposition.cpp
