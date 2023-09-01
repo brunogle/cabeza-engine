@@ -76,6 +76,16 @@ bool Cui::start(){
         else if((operation == "move" || operation == "m") && args_count == 1){
             if(this->game.apply_move(parsing::parse_movement_str(args.at(0)))){
                 std::cout << "move ok" << std::endl;
+
+                if(game.check_win()){
+                    if(game.get_turn() == positioning::Player::red){
+                        std::cout << "Player " << COLOR_RED << "red" << COLOR_RESET << " won" << std::endl;
+                    }
+                    else{
+                        std::cout << "Player " << COLOR_BLUE << "blue" << COLOR_RESET << " won" << std::endl;
+                    }
+                }
+
                 this->game.switch_turn();
             }
             else{
@@ -121,7 +131,18 @@ bool Cui::start(){
 
             this->game.apply_move(best_move);
 
+
+            if(game.check_win()){
+                if(game.get_turn() == positioning::Player::red){
+                    std::cout << "Player " << COLOR_RED << "red" << COLOR_RESET << " won" << std::endl;
+                }
+                else{
+                    std::cout << "Player " << COLOR_BLUE << "blue" << COLOR_RESET << " won" << std::endl;
+                }
+            }
+
             this->game.switch_turn();
+
         }
         else if(operation == "timeout"){
             int timeout;

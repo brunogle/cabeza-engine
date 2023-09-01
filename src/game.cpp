@@ -43,6 +43,18 @@ positioning::move Game::search(){
     return search_engine->search(this->current_game_state);
 }
 
+bool Game::check_win(){
+    bool win;
+    if(positioning::check_for_win(this->current_game_state)){
+        return true;
+    }
+    else{
+        switch_turn();
+        win = positioning::check_for_win(this->current_game_state);
+        switch_turn();
+    }
+    return win;
+}
 
 
 bool Game::apply_move(positioning::move move){

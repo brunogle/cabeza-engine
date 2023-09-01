@@ -38,7 +38,10 @@ class Game{
 
     void set_turn(positioning::Player player);
 
+    bool check_win();
+    
     std::string get_game_drawing(bool color);
+
     positioning::Player get_turn();
 
 
