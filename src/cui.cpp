@@ -176,7 +176,7 @@ bool Cui::start(){
                 std::cout << "depth set error" << std::endl;
             }
         }
-        else if(operation == "quit" || operation == "q"){
+        else if(operation == "quit"){
             return true;
         }
         else if(operation == ""){

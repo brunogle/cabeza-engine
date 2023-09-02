@@ -414,11 +414,11 @@ int PVSearch::pv_search(game_state node, int alpha, int beta, int depth, bool is
 
 move PVSearch::search(game_state state){
 
-    if(print_to_stdout){
+    if(this->print_to_stdout){
         std::cout << "Searching FEN: " << parsing::generate_fen(state) << std::endl;
     }
 
-    //Reset pv table and killer moves between searches.
+    //Reset pv table, killer moves and transposition table between searches.
     this->search_start_time = get_ms();
     this->nodes_searched = 0;
     this->timeout = false;
@@ -443,7 +443,8 @@ move PVSearch::search(game_state state){
         if(print_to_stdout)
             std::cout << "depth " << depth << " ";
 
-        this->iter_search_depth = depth;
+
+        this->iter_search_depth = depth; //Variable used for 
 
         int score = root_search(state, depth); //Search root
 
