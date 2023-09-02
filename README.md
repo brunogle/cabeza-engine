@@ -104,6 +104,14 @@ Commands:
   
     Resets game to starting position
 
+- "timeout" [time]
+
+   Sets time limit for search in milliseconds
+
+- "depth" [depth]
+
+   Sets maximum search depth
+
 - "quit"
   
     Exits program
