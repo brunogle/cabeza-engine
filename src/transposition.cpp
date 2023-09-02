@@ -129,4 +129,5 @@ bool TranspositionTable::probe(uint64_t hash, uint8_t depth, int alpha, int beta
 
 void TranspositionTable::clear(){
     memset(this->transposition_table, 0, sizeof(tt_entry)*this->transposition_table_size);
+    
 }
