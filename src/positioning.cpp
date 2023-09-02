@@ -1068,7 +1068,7 @@ namespace positioning{
                 win = true;
                 break;
             }
-            idle_player_non_cabeza_occupancy = state.pieces[cabeza_idx][blue].bitboard;
+            idle_player_non_cabeza_occupancy = state.pieces[gordo_idx][blue].bitboard;
             idle_player_non_cabeza_occupancy |= state.pieces[mini_idx][blue].bitboard;
             idle_player_non_cabeza_occupancy |= state.pieces[flaco_idx][blue].bitboard;
             idle_player_non_cabeza_occupancy |= state.pieces[chato_idx][blue].bitboard;   
@@ -1082,7 +1082,7 @@ namespace positioning{
                 win = true;
                 break;
             }
-            idle_player_non_cabeza_occupancy = state.pieces[cabeza_idx][red].bitboard;
+            idle_player_non_cabeza_occupancy = state.pieces[gordo_idx][red].bitboard;
             idle_player_non_cabeza_occupancy |= state.pieces[mini_idx][red].bitboard;
             idle_player_non_cabeza_occupancy |= state.pieces[flaco_idx][red].bitboard;
             idle_player_non_cabeza_occupancy |= state.pieces[chato_idx][red].bitboard;  
